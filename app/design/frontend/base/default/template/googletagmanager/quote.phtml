@@ -1,0 +1,22 @@
+<?php
+/**
+ * GoogleTagManager plugin for Magento 
+ *
+ * @package     Yireo_GoogleTagManager
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright (c) 2016 Yireo (https://www.yireo.com/)
+ * @license     Open Software License
+ */
+
+if($this->isEnabled()) {
+    $quote = $this->getQuote(); 
+    if(!empty($quote) && $quote->getId() > 0) { 
+        $this->addAttribute('transactionEntity', 'QUOTE'); 
+        $this->addAttribute('transactionId', $quote->getId()); 
+        $this->addAttribute('transactionId', $quote->getId()); 
+        $this->addAttribute('transactionAffiliation', Mage::app()->getWebsite()->getName()); 
+        $this->addAttribute('transactionTotal', (float)$quote->getGrandTotal()); 
+        $this->addAttribute('transactionTax', $quote->getGrandTotal() - $quote->getSubtotal()); 
+        $this->addAttribute('transactionProducts', $this->getItemsAsJson()); 
+    } 
+} 

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mas_Mascnotes extension by Makarovsoft.com
+ * 
+ * @category   	Mas
+ * @package		Mas_Mascnotes
+ * @copyright  	Copyright (c) 2014
+ * @license		http://makarovsoft.com/license.txt
+ * @author		makarovsoft.com
+ */
+--> 
+<layout>
+	<!-- Notes grid action -->
+	<adminhtml_mascnotes_note_index>
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>mascnotes/note</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="mascnotes/adminhtml_note" name="note" />
+		</reference>
+	</adminhtml_mascnotes_note_index>
+	<adminhtml_mascnotes_note_grid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="mascnotes/adminhtml_note_grid" name="note_grid"/>
+		</block>
+	</adminhtml_mascnotes_note_grid>
+	<!-- Note add/edit action -->
+	<adminhtml_mascnotes_note_edit>
+		<update handle="editor"/>
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>mascnotes/note</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="mascnotes/adminhtml_note_edit" name="note_edit"></block>
+		</reference>
+		<reference name="left">
+			<block type="mascnotes/adminhtml_note_edit_tabs" name="note_tabs"></block>
+		</reference> 
+	</adminhtml_mascnotes_note_edit>
+	<adminhtml_mascnotes_note_customer_notes>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="mascnotes/adminhtml_customer_edit_tab_note" name="customer.edit.tab.note"/>			
+		</block>
+	</adminhtml_mascnotes_note_customer_notes>	
+	<adminhtml_mascnotes_note_customers>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="mascnotes/adminhtml_note_edit_tab_customer" name="note.edit.tab.customer"/>
+			<block type="adminhtml/widget_grid_serializer" name="product_grid_serializer">
+				<reference name="product_grid_serializer">
+					<action method="initSerializerBlock">
+						<grid_block_name>note.edit.tab.customer</grid_block_name>
+							<data_callback>getSelectedProducts</data_callback>
+							<hidden_input_name>customers</hidden_input_name>
+							<reload_param_name>note_customers</reload_param_name>
+					</action>					
+				</reference>
+			</block>
+		</block>
+	</adminhtml_mascnotes_note_customers>
+	<adminhtml_mascnotes_note_customersgrid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="mascnotes/adminhtml_note_edit_tab_customer" name="note.edit.tab.customer"/>
+		</block>
+	</adminhtml_mascnotes_note_customersgrid>
+</layout>

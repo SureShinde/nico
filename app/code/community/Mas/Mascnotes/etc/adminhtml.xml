@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mas_Mascnotes extension by Makarovsoft.com
+ * 
+ * @category   	Mas
+ * @package		Mas_Mascnotes
+ * @copyright  	Copyright (c) 2014
+ * @license		http://makarovsoft.com/license.txt
+ * @author		makarovsoft.com
+ */
+-->
+<config>
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<mascnotes translate="title" module="mascnotes">
+										<title>Notes On Customers</title>
+									</mascnotes>
+								</children>
+							</config>
+						</children>
+					</system>
+					<customer>
+                        <children>
+                            <mascnotes translate="title" module="mascnotes">
+                                <title>Notes on Customers</title>
+                            </mascnotes>
+                        </children>
+                    </customer>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+	<menu>
+        <customer>
+            <children>
+                <mascnotes translate="title" module="mascnotes">
+                    <title>Notes on Customers</title>
+                    <sort_order>700</sort_order>
+                    <action>adminhtml/mascnotes_note</action>
+                </mascnotes>
+            </children>
+        </customer>
+	</menu>
+</config>

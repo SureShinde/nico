@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/emjainteractive/shippingoption.js</name>
+            </action>
+        </reference>
+    </checkout_onepage_index>
+
+    <checkout_onepage_index>
+        <reference name="available">
+            <action method="setTemplate"><template>emjainteractive/shippingoption/checkout/onepage/shipping_method/available.phtml</template></action>
+        </reference>
+    </checkout_onepage_index>
+
+    <checkout_onepage_shippingmethod>
+        <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="emjainteractive/shippingoption/checkout/onepage/shipping_method/available.phtml"/>
+    </checkout_onepage_shippingmethod>
+
+    <sales_order_view>
+        <reference name="sales.order.info">
+            <action method="setTemplate"><template>emjainteractive/shippingoption/sales/order/info.phtml</template></action>
+        </reference>
+    </sales_order_view>
+
+    <sales_order_invoice>
+        <reference name="sales.order.info">
+            <action method="setTemplate"><template>emjainteractive/shippingoption/sales/order/info.phtml</template></action>
+        </reference>
+    </sales_order_invoice>
+
+    <sales_order_shipment>
+        <reference name="sales.order.info">
+            <action method="setTemplate"><template>emjainteractive/shippingoption/sales/order/info.phtml</template></action>
+        </reference>
+    </sales_order_shipment>
+
+    <sales_order_creditmemo>
+        <reference name="sales.order.info">
+            <action method="setTemplate"><template>emjainteractive/shippingoption/sales/order/info.phtml</template></action>
+        </reference>
+    </sales_order_creditmemo>
+
+    
+</layout>

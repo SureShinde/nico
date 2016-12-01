@@ -1,0 +1,132 @@
+<?php $storeId = Mage::app()->getStore()->getId(); ?>
+
+<form action="<?php echo $this->getUrl('helpdesk/account/sent') ?>" method="post" id="form-ticket" enctype="multipart/form-data">
+    <?php if (Mage::getStoreConfig('helpdesk/client_config/default_department')): ?>
+        <div class="fieldset">
+            <ul class="form-list">
+                <li class="fields">
+
+                    <label for="department_id"><?php echo $this->__('Please Select A Support Department') ?></label>
+                    <div class="input-box">
+                        <select id="department_id" name="department_id" class="validate-select">
+                            <option value="" selected="selected">-- <?php echo $this->__('Please select')?> --</option>
+
+                            <?php foreach (Mage::getModel('helpdesk/department')->getCollection()->addFieldToFilter('active', array('eq' => 1)) as $department): ?>
+                                <?php if ($department->getRequiredLogin() == 2): ?>
+                                    <?php
+                                    $stores = explode(",", $department->getStores());
+                                    foreach ($stores as $store) {
+                                        if ($store == $storeId || $store == 0) {
+                                            ?>
+                                            <option value="<?php echo $department->getId() ?>"><?php echo $department->getName() ?></option>
+                                            <?php
+                                            break;
+                                        }
+                                    }
+                                    ?>
+                                <?php endif; ?>
+                            <?php endforeach ?>
+
+                            <?php if(!Mage::getSingleton('customer/session')->isLoggedIn()):?>
+                                <option value="" disabled="disabled" style="color: gray">-- <?php echo $this->__('Login Required');?> --</option>
+                            <?php endif; ?>
+                            <?php foreach (Mage::getModel('helpdesk/department')->getCollection()->addFieldToFilter('active', array('eq' => 1)) as $department): ?>
+                                <?php if ($department->getRequiredLogin() == 1): ?>
+                                    <?php
+                                    $stores = explode(",", $department->getStores());
+                                    foreach ($stores as $store) {
+                                        if ($store == $storeId || $store == 0) {
+                                            ?>
+                                            <option value="<?php echo $department->getId() ?>"><?php echo $department->getName() ?></option>
+                                            <?php
+                                            break;
+                                        }
+                                    }
+                                    ?>
+                                <?php endif; ?>
+                            <?php endforeach ?>
+
+                        </select>
+                    </div>
+                </li>
+
+            </ul>
+            <div id="hintArea">
+            </div>
+        </div>
+    <?php endif; ?> 
+    <div id="form_render">
+
+    </div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-ticket', true);
+    var loadUrlForm = '<?php echo $this->getUrl('helpdesk/account/renderForm',array('_secure'=>Mage::app()->getFrontController()->getRequest()->isSecure())) ?>';
+</script>
+<?php 
+if (Mage::getStoreConfig('helpdesk/client_config/department')): 
+//if (Mage::getStoreConfig('helpdesk/client_config/default_department')): 
+?>
+    <script type="text/javascript">
+        //<![CDATA[
+	    function myFunction()
+	    {
+	    	var id = $F('department_id');
+                
+                if(id=='')
+                {
+                    id=4;
+                    jQuery('#department_id').val(id);
+                }
+                
+            if(id != ''){
+                Effect.Appear('form_render');
+                Effect.Appear('hintArea');
+             	
+                var loadUrlDescription = '<?php echo $this->getUrl('helpdesk/account/renderDescription') ?>';
+                var url = 'contact';
+                var ajax_load = "<div style='text-align:center;'><img class='loading' src='<?php echo $this->getSkinUrl(); ?>/mw_helpdesk/load.gif' alt='loading...' /></div>";
+                $('form_render').update(ajax_load);
+                new Ajax.Updater('hintArea',loadUrlDescription, {
+                    method: 'get',
+                    parameters: {id:id},
+                	onComplete: function(){
+                           
+                		var el = document.getElementById("hintArea");
+                		var text_description = el.textContent || el.innerText;
+                		if(text_description == "Description:")$('hintArea').hide();
+                		else $('hintArea').setStyle({backgroundColor:'#F3F3F3'});
+                                 $('button#mw_helpdesk_add_uploader_button').find('span').html('ATTACH FILE');
+                	}
+                });
+                new Ajax.Updater('form_render', loadUrlForm, {
+                    method: 'get',
+                    parameters: {id:id},
+                    evalScripts : true
+                });
+            }else{
+                Effect.Fade('form_render');
+                Effect.Fade('hintArea');
+            }
+	    }
+	    
+    	Event.observe(window, 'load', function() {
+    		myFunction();
+    	});
+
+    	Event.observe('department_id', 'change', function(){
+        	myFunction();
+        });
+        
+        //]]>
+    </script>
+<?php else: ?>
+    <script type="text/javascript">
+        //<![CDATA[
+        var url = '<?php echo $this->getUrl('customer/account/login') ?>';
+        new Ajax.Updater('form_render', loadUrlForm, {
+            method: 'get',
+            evalScripts : true
+        });
+    </script>
+<?php endif; ?> <?php echo $this->getMessagesBlock()->getGroupedHtml();?>

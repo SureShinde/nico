@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+* @category   Halox
+* @package    Halox_Taxexcisereport
+* @author     Anuj Singh
+*/
+-->
+<config>
+    <modules>
+        <Halox_Taxexcisereport>
+            <version>0.1.0</version>
+        </Halox_Taxexcisereport>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Halox_Taxexcisereport before="Mage_Adminhtml">Halox_Taxexcisereport_Adminhtml</Halox_Taxexcisereport>
+                    </modules>
+                </args>
+            </adminhtml>    
+        </routers>
+    </admin>
+    
+    <adminhtml>
+        <menu>
+            <report>
+                <children>
+                    <halox_taxexcisereport>
+                        <title>Excise Tax Report</title>
+                        <sort_order>0</sort_order>
+                        <action>adminhtml/taxexcisereport</action>
+                    </halox_taxexcisereport>
+                </children>
+            </report>
+        </menu>
+        
+        <layout>
+            <updates>
+                <taxexcisereport>
+                    <file>taxexcisereport.xml</file>
+                </taxexcisereport>
+            </updates>
+        </layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <taxexcisereport>
+                <class>Halox_Taxexcisereport_Model</class>
+                <resourceModel>taxexcisereport_mysql4</resourceModel>
+            </taxexcisereport>
+            <taxexcisereport_mysql4>
+                <class>Halox_Taxexcisereport_Model_Mysql4</class>
+                <entities>
+                    <taxexcisereport>
+                        <table>taxexcisereport</table>
+                    </taxexcisereport>
+                </entities>
+            </taxexcisereport_mysql4>
+        </models>
+        <resources>
+            <taxexcisereport_setup>
+                <setup>
+                    <module>Halox_Taxexcisereport</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </taxexcisereport_setup>
+            <taxexcisereport_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </taxexcisereport_write>
+            <taxexcisereport_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </taxexcisereport_read>
+        </resources>
+        <blocks>
+            <taxexcisereport>
+                <class>Halox_Taxexcisereport_Block</class>
+            </taxexcisereport>
+        </blocks>
+        <helpers>
+            <taxexcisereport>
+                <class>Halox_Taxexcisereport_Helper</class>
+            </taxexcisereport>
+        </helpers>
+    </global>
+</config>

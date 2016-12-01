@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <all>
+                    <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <customer> 
+                        <children>                        
+                            <halox_salesagent>
+                                <title>Sales Agent Management </title>
+                                <sort_order>5001</sort_order>
+                                <action>adminhtml/salesagent_salesagent</action>
+                            </halox_salesagent>
+                        </children>
+                    </customer>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <salesagent translate="title">
+                                        <title>Sales Agent Settings</title>
+                                        <sort_order>98</sort_order>
+                                    </salesagent>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>    
+</config>

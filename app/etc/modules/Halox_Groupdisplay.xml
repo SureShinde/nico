@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Halox_Groupdisplay>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends/>
+        </Halox_Groupdisplay>
+    </modules>
+</config>

@@ -1,0 +1,5 @@
+tables:
+  customer_entity:
+    - entity_id: 1
+    - group_id: 78
+

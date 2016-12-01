@@ -1,0 +1,273 @@
+<?php
+/**
+ * @see Magestore_Storelocator_Block_Storelocator
+ */
+?>
+<?php
+$storeViewId = Mage::app()->getStore()->getStoreId();
+$countries = $this->getListCountry();
+$search_config = $this->getSearchConfig();
+$unit = $this->getUnitRadius();
+$deaultRadius = $this->chekRadiusDefault();
+$mapStyles = Mage::getModel('storelocator/gmap')->getMapStyle();
+if (Mage::getStoreConfig('storelocator/style_config/use_available_style', $storeViewId)) {
+    $mapStyles = Mage::getModel('storelocator/gmap')->getMapStyle();
+    $mapStyle = $mapStyles[Mage::getStoreConfig('storelocator/style_config/map_style', $storeViewId)];
+} else {
+    $mapStyle = Mage::getStoreConfig('storelocator/style_config/map_custom_style', $storeViewId);
+}
+
+?>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=<?php echo $this->getGoogleApiKey(); ?>&sensor=false&libraries=geometry,places"></script>
+<div class="storelocator-page">
+    <h2 class="text-left"><?php echo $this->__('Store locators') ?></h2>
+    <div class="search-button">
+        <a class="search search-distance active" id="search-distance" onclick="showDistance()"><span><?php echo $this->__('Search by distance') ?></span></a>
+        <?php if (($search_config != NULL) && (count($search_config)) && (!in_array(5, $search_config))): ?>
+            <a class="search search-area" id="search-area" onclick="showArea()"><span><?php echo $this->__('Search by area') ?></span></a>
+        <?php endif; ?>
+    </div>
+    <div class="search-content">
+        <div class="container-search">
+            <div class="row search-by-distance" id="form-search-distance" style="margin: 0;">
+                <div class="col-md-5 input-location">
+                    <input type="text" class="form-control" placeholder="<?php echo $this->__('Please enter a location') ?>"/>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-3 hidden-sm hidden-xs label-radius"><label><?php echo $this->__('Radius') ?></label></div>
+
+                        <div id="track1" class="track col-md-7 col-sm-8 col-xs-9">
+                            <div id="handle1" class="handle" style="width: 0.5em;" ></div>
+                        </div>
+                        <div class="" style="padding: 0px"><span class="range-slider-label" id="range-slider-label"><?php echo $deaultRadius ?> <?php echo $unit ?></span></div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 search-type">
+                    <div class="">
+                        <button class="button reset"><span><span><?php echo $this->__('Reset') ?></span></span></button>
+                        <button class="button search-distance"><span><span><?php echo $this->__('Search') ?></span></span></button>
+                    </div>
+                </div>
+            </div>
+            <?php if (($search_config != NULL) && (count($search_config)) && (!in_array(5, $search_config))): ?>
+                <div class="hide" id="form-search-area">
+                    <div class="seach-by-area col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-input">
+                            <?php if (in_array(1, $search_config)): ?>
+                                <div class="col col-sm-6 col-xs-12">
+                                    <select class="form-control" searchType="country">
+                                        <option><?php echo $this->__('Select country') ?></option>
+                                        <?php foreach ($countries as $country): ?>
+                                            <option <?php if ($selectCountry == $country['value']) echo 'selected ="selected"' ?> value="<?php echo $country['value'] ?>"><?php echo $country['label'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (in_array(2, $search_config)): ?>
+                                <div class="col col-sm-6 col-xs-12">
+                                    <input type="text" class="form-control input-text" searchType="state" placeholder="<?php echo $this->__('State/Province') ?>"/>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (in_array(3, $search_config)): ?>
+                                <div class="col col-sm-6 col-xs-12">
+                                    <input type="text" class="form-control input-text" searchType="city" placeholder="<?php echo $this->__('City') ?>"/>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (in_array(4, $search_config)): ?>
+                                <div class="col col-sm-6 col-xs-12">
+                                    <input type="text" class="form-control input-text" searchType="zipcode" placeholder="<?php echo $this->__('Zip code') ?>"/>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 search-type-area search-type">
+                        <div class="">
+                            <button class="button reset"><span><span><?php echo $this->__('Reset') ?></span></span></button>
+                            <button class="button search-area"><span><span><?php echo $this->__('Search') ?></span></span></button>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <?php $taglist = $this->getTagList(); ?>
+        <?php if (count($taglist)): ?>
+            <div class="search-filter">
+                <ul class="list-inline list-tag-ul" id="list-tag-ul">
+                    <li> <label><?php echo $this->__('Filter: ') ?></label></li>
+                    <?php $i = 1; ?>
+                    <?php foreach ($taglist as $tag): ?>
+                        <li><label id="<?php echo 'storelocator_tag_' . $i; ?>"><input type="checkbox" value="<?php echo $tag['ids'] ?>" /><?php echo $tag['value']; ?></label> </li>
+                        <?php $i++;
+                    endforeach; ?>
+                    <li style="float:right">
+                        <label><button  id="storelocator_tag_0" class="tag_active btn-show" /><?php echo $this->__('Check all') ?></label>
+                    </li>
+                </ul>
+            </div>
+<?php endif; ?>
+    </div>
+    <div class="locator-content">
+        <div class="container-locator">
+            <div class="col-xs-12 col-md-8 col-sm-8 " id="map" style="float: right"></div>
+
+            <div class="col-md-4 col-sm-4 col-xs-12 info-locator">
+                <div class="box">
+                    <div class="title-list">
+                        <h2><?php echo $this->__('Store List') ?><p><span></span></p></h2>
+                    </div>
+                    <p style="display:none; text-align: center" id="result-search"><?php echo $this->__('No store is found!') ?></p>
+                    <ul id="list-store-detail">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul id="content-list" style="display: none">
+    <li class="el-content" onmouseover="hoverStart(this)"  onmouseup="hoverStart(this)" onmouseout="hoverStop(this)">
+        <div class="top-box col-xs-12" style="padding: 0;">
+            <div class="col-sm-3 col-xs-3 tag-store"><a href="{url}"><img src="{src}"/></a><span></span></div>
+            <div class="col-sm-9 col-xs-9 tag-content" id="tab_content">
+                <h4><a href="{url}" class="view-detail"></a></h4>
+                <p class="address-store"></p>
+                <p class="phone-store"></p>
+                <a href="javascript:void(0)" onclick="storeStreetView(this)"class="street-view"><?php echo $this->__('Street View') ?></a>
+                <a href="javascript:void(0)" onclick="storeOpenDerection(this.up('.el-content'))" class="derection"><?php echo $this->__('Derection') ?></a>
+            </div>
+        </div>
+        <div class="custom-popup col-xs-12" id="option-direction" style="padding: 0; display: none">
+            <ul class="vertical">
+                <li class="car active" onclick="changeSelectMode(this);
+                        storeGetDirection(this.up('.el-content'))" value="DRIVING"><span>A</span></li>
+                <li class="bus" onclick="changeSelectMode(this);
+                        storeGetDirection(this.up('.el-content'))" value="TRANSIT"><span>A</span></li>
+                <li class="walk" onclick="changeSelectMode(this);
+                        storeGetDirection(this.up('.el-content'))" value="WALKING"><span>A</span></li>
+                <li class="bicycle" onclick="changeSelectMode(this);
+                        storeGetDirection(this.up('.el-content'))" value="BICYCLING"><span>A</span></li>
+            </ul>
+            <div id="directions-el" class="col-xs-12">
+                <div class="widget-directions-searchbox-handle">
+                    <div class="widget-directions-icon waypoint-handle"><label for="origin">A</label></div>
+                    <div class="widget-directions-icon waypoint-to"><label for="origin">C</label></div>
+                    <div class="widget-directions-icon waypoint-bullet"><label for="origin">B</label></div>
+                </div>
+                <div class="form-inputs">
+                    <input class="form-control originA" type="text" name="originA" isStart="true" autocomplete="off">
+                    <input class="form-control originB" readonly="true" type="text" name="originB" autocomplete="off" value="">
+                </div>
+                <div class="widget-directions-right-overlay">
+                    <button type="button" onclick="addChangeAddress(this.up('.el-content'))" class="swap-locations" title="<?php echo $this->__('Swap locations A-B') ?>"><?php echo $this->__('Swap locations A-B') ?></button>
+                </div>
+                <div class="directions-panel"></div>
+            </div>
+            <div class="box-input">
+                <button title="Go" onclick="storeGetDirection(this.up('.el-content'))" class="button btn btn-show">
+                    <span><?php echo $this->__('Go') ?></span>
+                </button>
+            </div>
+        </div>
+    </li>
+</ul>
+<div id="box-view" onclick="mapManager.currentPosition()">
+    <div class="widget-mylocation">
+        <button id="widget-mylocation-button" class="widget-mylocation-button" title="Show My Location">
+            <div class="widget-mylocation-cookieless"></div>
+        </button>
+        <div class="widget-mylocation-tooltip widget-mylocation-tooltip-invisible">
+            <div class="widget-mylocation-tooltip-label-wrapper">
+                <div class="widget-mylocation-tooltip-label" style="display:none">
+                    <label>Show My Location</label>
+                </div>
+            </div>
+            <div class="widget-mylocation-tooltip-pointer"></div>
+        </div>
+    </div>
+</div>
+<style>
+
+</style>
+<script type="text/javascript">
+    window.onload = function () {
+        var array = [1];
+        for (i = 1; i <= 100; i++) {
+            array.push(i);
+        }
+        var unit = '<?php echo $unit ?>';
+        var deaultRadius = <?php echo $deaultRadius ?>;
+        new Control.Slider('handle1', 'track1', {
+            range: $R(1, 100), values: array, sliderValue: deaultRadius,
+            onChange: function (v) {
+                $('range-slider-label').update(v + unit);
+                radius = v;
+                mapManager.changeRadius(v);
+            },
+            onSlide: function (v) {
+                $('range-slider-label').update(v + unit);
+                radius = v;
+                mapManager.changeRadius(v);
+            }
+        });
+    };
+    var storeTranslate = {
+        noneStore: '<?php echo $this->__('0 store') ?>',
+        oneStore: '<?php echo $this->__('1 store') ?>',
+        moreStore: '<?php echo $this->__(' stores') ?>'
+    }
+    var storeOption = {
+        element: $('content-list').innerHTML,
+        baseUrl: '<?php echo $this->getBaseUrl() ?>',
+        mediaUrl: '<?php echo Mage::getBaseUrl('media') ?>',
+        url_icon: '<?php echo Mage::getBaseUrl('media') . 'storelocator/images/icon/resize/{icon}' ?>',
+        defaulet_img: '<?php echo $this->getSkinUrl('images/storelocator/image-default.png') ?>',
+        mapStyle : <?php echo $mapStyle ?>
+    };
+    var circleMarkerIcon = '<?php echo $this->getSkinUrl("images/storelocator/center.png") ?>';
+    new google.maps.places.Autocomplete($$('#form-search-distance input').first());
+    $$('#form-search-distance .search-distance').first().observe('click', function () {
+        mapManager.codeAddress($$('#form-search-distance .form-control').first().value, radius);
+    }.bind($$('#form-search-distance .search-distance').first()));
+    if ($$('#form-search-area .search-area').length) {
+        $$('#form-search-area .search-area').first().observe('click', function () {
+            mapManager.setAllStoreShow();
+            $$('#form-search-area input, #form-search-area  select').each(function (el) {
+                if (el.value)
+                    mapManager.searchByArea(el.value, el.readAttribute('searchType'));
+            });
+            mapManager.showMarker();
+            mapManager.showStoresInfo();
+        });
+        <?php if($this->getDefaultCountry()): ?>
+                if($$('#form-search-area select').length)
+                    $$('#form-search-area select').first().value = '<?php echo $this->getDefaultCountry() ?>';
+        <?php endif?>
+    }
+    $$('#form-search-area .reset, #form-search-distance .reset').each(function (el) {
+        el.observe('click', function () {
+            mapManager.resetMap();
+        });
+    });
+    $$('#list-tag-ul input:checkbox').each(function (el) {
+        el.observe('click', function () {
+            mapManager.filterbyTag();
+        });
+    });
+    $('storelocator_tag_0').observe('click', function () {
+        $$('#list-tag-ul input:checkbox').each(function (el) {
+            el.checked = true;
+        });
+        mapManager.filterbyTag();
+    });
+
+
+    var unit = '<?php echo $unit ?>';
+    var radius = <?php echo $deaultRadius ?>;
+    var ListStores = <?php echo $this->getListStoreJson() ?>;
+    var ListStoresImage = <?php echo $this->getArrayImage() ?>;
+    var mapManager = new MapManager;
+    var panorama = new google.maps.StreetViewPanorama($('map'), {enableCloseButton: true});
+    panorama.setVisible(false);
+</script>

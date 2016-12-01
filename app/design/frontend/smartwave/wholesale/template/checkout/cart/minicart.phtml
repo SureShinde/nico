@@ -1,0 +1,12 @@
+<?php 
+/**
+ * changed template for wholesale site
+ */
+?>
+<div class="cart_total_price">
+<?php $total = $this->helper('checkout/cart')->getQuote()->getSubtotal(); ?>
+<a href="<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>">
+    <i class="fa fa-shopping-cart fa-2x" aria-hidden="true"> </i>
+    <span class="price"><?php echo $this->__($this->helper('core')->formatPrice($total, false)); ?></span> 
+</a>
+</div>

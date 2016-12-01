@@ -1,0 +1,47 @@
+﻿//note: If the string's repeated, We won't repeat it.
+
+//frontend
+
+//---- Submit ticket
+"Submit Ticket", "Submit Ticket"
+"Support Time", "Support Time"
+"Current Time:", "Current Time:"
+"Support Status:", "Support Status:"
+
+"Please select a support department", "Please select a support department"
+"Priority","Priority"
+"Subject", "Subject"
+"Message","Message"
+"Attach a file", "Attach a file"
+"Submit New Ticket", "Submit New Ticket"
+
+//----- My ticket
+"Ticket Id", "Ticket Id"
+"Date", "Date"
+"Department", "Department"
+"Time Updated", "Time Updated"
+"Ticket ID", "Ticket ID"
+"File Attachment", "File Attachment"
+
+"Post a reply", "Post a reply"
+"Update Ticket", "Update Ticket"
+"Assign To Department", "Assign To Department"
+"Assign to Staff", "Assign to Staff"
+"Use Response Template","Use Response Template"
+"Notify customer without changing ticket status", "Notify customer without changing ticket status"
+"Submit", "Submit"
+"Ticket ID", "Ticket ID"
+
+"Reopen Ticket", "Reopen Ticket"
+"Close Ticket", "Close Ticket"
+"Please select a support department", "Please select a support department"
+"-- Please select --", "-- Please select --"
+"Update Ticket", "Update Ticket"
+"Reassign", "Reassign"
+"Use Response Template", "Use Response Template"
+"Help Desk Pro", "Help Desk Pro"
+"My Tickets", "My Tickets"
+"Date", "Date"
+"You currently have no ticket", "You currently have no ticket"
+"Please select a support department", "Please select a support department"
+"Ticket Thread", "Ticket Thread"

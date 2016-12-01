@@ -1,0 +1,88 @@
+<div class="grid">
+    <div class="hor-scroll">
+        <table cellspacing="0" id="customer_cart_grid1_table" class="data">
+            <colgroup><col width="100">
+                <col>
+                <col width="100">
+                <col width="60">
+                <col width="100">
+                <col width="100">
+                <col>
+            </colgroup>
+            <thead>
+                <tr class="headings">
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="id" href="#"><span class="sort-title">ID</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="date" href="#"><span class="sort-title">Date</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="service" href="#"><span class="sort-title">Service</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="confirmation" href="#"><span class="sort-title">Confirmation</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="firstname" href="#"><span class="sort-title">First Name</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="lastname" href="#"><span class="sort-title">Last Name</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="address" href="#"><span class="sort-title">Address</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="city" href="#"><span class="sort-title">City</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="state" href="#"><span class="sort-title">State</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="state" href="#"><span class="sort-title">Country</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="zipcode" href="#"><span class="sort-title">Zipcode</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="fail_msg" href="#"><span class="sort-title">Fail Message</span></a></span></th>
+
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="dob" href="#"><span class="sort-title">Date of Birth</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="ssn" href="#"><span class="sort-title">SSN</span></a></span></th>
+                    <th><span class="nobr"><a class="not-sort" title="asc" name="doc" href="#"><span class="sort-title">Document</span></a></span></th>
+
+                </tr>
+                <tr class="filter">
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_product_id" name="product_id"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_name" name="date"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="service"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="confirmation"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="fname"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="lname"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="addr"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="city"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="state"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="country"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="zipcode"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="fail_msg"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="dob"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="ssn"></div></th>
+                    <th><div class="field-100"><input type="text" class="input-text no-changes" value="" id="customer_cart_grid1_filter_sku" name="doc"></div></th>
+
+                </tr>
+            </thead>
+            <?php
+            $currentCustomerId = $this->getRequest()->getParam('id');
+            $verifyCollection = Mage::getModel('ageverification/ageverificationdetails')->getCollection()->addFieldToFilter('customer_id', $currentCustomerId)->getData();
+            ?>
+            <tbody>
+                <?php
+                foreach ($verifyCollection as $key => $details) {
+                    ?>
+                    <tr class="even pointer">
+                        <td><?php echo $key + 1; ?></td>
+                        <td><?php echo $details['date']; ?></td>
+                        <td><?php echo $details['service']; ?></td>
+                        <td><?php echo $details['confirmation']; ?></td>
+                        <td><?php echo $details['first_name']; ?></td>
+                        <td><?php echo $details['last_name']; ?></td>
+                        <td><?php echo $details['address']; ?></td>
+                        <td><?php echo $details['city']; ?></td>
+                        <td><?php echo $details['state']; ?></td>
+                        <td><?php echo $details['country']; ?></td>
+                        <td><?php echo $details['zipcode']; ?></td>
+                        <td><?php echo $details['fail_message']; ?></td>
+                        <td><?php echo $details['date_of_birth']; ?></td>
+                        <td><?php echo empty($details['ssn']) ? 'NA' : $details['ssn']; ?></td>
+                        <td><?php if ($details['ageverification_step'] == 3) { ?><a href="<?php echo Mage::getBaseUrl('media') . DS . 'verifyUploads/' . $details['verify_document']; ?>" target="_blank"><img src="<?php echo Mage::getBaseUrl('media') . DS . 'verifyUploads/' . $details['verify_document']; ?>" alt="document" height="100" width="100"/></a><?php
+                            } else {
+                                echo 'NA';
+                            }
+                            ?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+
+            </tbody>
+
+        </table>
+    </div>
+</div>

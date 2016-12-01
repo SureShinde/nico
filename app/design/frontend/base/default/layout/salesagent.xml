@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" ifconfig="salesagent/check/enabled" translate="label" module="halox_salesagent"><name>Agent</name><path>salesagent/agent</path><label>Agent(Sales Rep)</label></action>
+        </reference>
+    </customer_account>
+	<salesagent_agent_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="customer/account_dashboard" ifconfig="salesagent/check/enabled" name="agent-detail" template="salesagent/agent.phtml"/>
+        </reference>
+    </salesagent_agent_index> 
+</layout>

@@ -1,0 +1,64 @@
+<style type="text/css">
+	.form-body .input-box {
+	    width: 100%;
+	}
+	.fields-level2-left {float:left;}
+	.fields-level2-right {width:77%;float:right;}
+
+	#ftp_form .input-text {width: 265px;}
+	#ftp_form .fields-level2-right .input-text {width: 123px;}
+	#ftp_form .fields-level2-left .input-text {width: 122px;}
+	.ftp_user_pass {
+	    clear: both;
+	    overflow: hidden;
+	}
+</style>
+
+<div id="ftp_form">
+	<ul class="form-list form-body">
+		<!-- ftp info --> 
+		<li class="fields">
+			<label><?php echo $this->__('FTP Server:') ?></label>
+			<div class="input-box">
+				<input type="text" class="input-text" id="hd_ftpserver" name="hd_ftpserver"/>
+			</div>
+		</li>
+		<ul class="ftp_user_pass">
+			<li class="fields-level2-left">
+				<label><?php echo $this->__('FTP User:') ?></label>
+				<div class="input-box">
+					<input type="text" class="input-text" id="hd_ftpuser" name="hd_ftpuser"/>
+				</div>
+			</li>
+			<li class="fields-level2-right">
+				<label><?php echo $this->__('Password:') ?></label>
+				<div class="input-box">
+					<input type="text" class="input-text" id="hd_ftppass" name="hd_ftppass"/>
+				</div>
+			</li>
+		</ul>
+		<!-- backend info --> 
+		<li class="fields">
+			<label><?php echo $this->__('Magento Backend URL:') ?></label>
+			<div class="input-box">
+				<input type="text" class="input-text" id="hd_ftp_backend_url" name="hd_ftp_backend_url"/>
+			</div>
+		</li>
+		<ul>
+			<div class="clear-both"></div>
+			<li class="fields-level2-left">
+				<label><?php echo $this->__('Magento Admin:') ?></label>
+				<div class="input-box">
+					<input type="text" class="input-text" id="hd_ftp_backend_admin" name="hd_ftp_backend_admin"/>
+				</div>
+			</li>
+			<li class="fields-level2-right">
+				<label><?php echo $this->__('Password:') ?></label>
+				<div class="input-box">
+					<input type="text" class="input-text" id="hd_ftp_backend_pass" name="hd_ftp_backend_pass"/>
+				</div>
+			</li>
+		</ul>
+	</ul>	
+	<div class="clear-both"></div>
+</div>

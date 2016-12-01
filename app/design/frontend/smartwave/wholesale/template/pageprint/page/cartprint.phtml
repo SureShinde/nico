@@ -1,0 +1,97 @@
+<?php
+$_items = array();
+
+$_itemsCollection = $this->getQuote()->getItemsCollection();
+
+foreach ($_itemsCollection as $item) {
+
+    if (!$item->isDeleted()) {
+
+        if ($item->hasParentItemId()) {
+            $parentItem = $_itemsCollection->getItemById($item->getParentItemId());
+            if ($parentItem->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+                $_items[] = $item;
+            }
+        } elseif ($item->getProductType() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            $_items[] = $item;
+        }
+    }
+}
+
+//sort cart items in natural order(CASE-INSENSITIVE)
+usort($_items, function($a, $b) {
+    return strnatcasecmp($a->getName(), $b->getName());
+});
+?>
+
+<div class="wrapper">
+    <div class="page">
+	<div class="form-group">
+        <div class="buttons-set">		
+            <button  title="<?php echo $this->__('Print this Page') ?>" class="button shadow-btn" onclick="window.print()"><span><span><?php echo $this->__('Print this Page') ?></span></span></button>
+        </div>
+        <div class="print-head">
+
+            <?php
+            $logoPath = Mage::helper('pageprint')->getLogoPath();
+            $printpageLogoUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'wysiwyg/' . $logoPath;
+            $address = Mage::helper('pageprint')->getAddressText();
+            ?>
+                <img src="<?php echo $logoPath ? $printpageLogoUrl : $this->getSkinUrl('images/nicopure_logo_print.gif') ?>" class="logo" alt="" />
+                <address style="display:block"><?php echo $address ? $address : (Mage::getStoreConfig('general/store_information/address')); ?></address>
+           
+        </div>
+	<div class="clearfix"></div>
+	</div>
+	<div class="form-group">
+        <div class="print-cart-content table-responsive">		
+            <fieldset>
+                <table id="shopping-cart-table" class="data-table cart-table">
+                    <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+                    <thead>
+                        <tr class="first last">
+                            <th rowspan="1"><span class="nobr">Product Name</span></th>
+                            <th colspan="1" class="txt-left"><span class="nobr">Unit Price</span></th>
+                            <th rowspan="1" class="txt-center">Qty</th>
+                            <th class="last txt-right" colspan="1">Subtotal</th>
+                        </tr>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <tr>
+                                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                            </tr>
+                        <?php endif; ?>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($_items as $_item): ?>
+                            <?php
+                            $renderer = $this->getItemRenderer($_item->getProductType());
+                            //if cart item is child of a bundle item use bundle item renderer 
+                            //instead of default one
+                            if ($_item->hasParentItemId()) {
+                                $parentItem = $this->getQuote()->getItemById($_item->getParentItemId());
+                                if ($parentItem->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+                                    $renderer = $this->getItemRenderer(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
+                                }
+                            }
+
+                            $renderer->setItem($_item);
+                            ?> 
+                            <?php echo $renderer->toHtml() ?>   
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+                <div class="totals">
+                    <div>
+                        <?php echo $this->getChildHtml('totals'); ?>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+	</div>
+
+    </div>
+</div>

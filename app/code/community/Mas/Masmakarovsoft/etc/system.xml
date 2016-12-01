@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+		<mas translate="label">
+			<label>Alex Makarov Extensions</label>
+			<sort_order>2000</sort_order>
+		</mas>
+	</tabs>
+    <sections>
+        <masmakarovsoft translate="label" module="masmakarovsoft">            
+        </masmakarovsoft>
+    </sections>
+</config>

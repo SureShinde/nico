@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Yireo GoogleTagManager-module for Magento 
+ *
+ * @package     Yireo_GoogleTagManager
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2016 Yireo (https://www.yireo.com/)
+ * @license     Open Software License
+ */
+-->
+<config>
+    <modules>
+        <Yireo_GoogleTagManager>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Yireo_GoogleTagManager>
+    </modules>
+</config>

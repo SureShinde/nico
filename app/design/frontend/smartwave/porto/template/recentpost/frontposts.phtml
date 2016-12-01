@@ -1,0 +1,97 @@
+<?php
+$base_url = Mage::getBaseUrl();
+$post_image_url =  $base_url . 'blog/wp-content/uploads/';
+$post_url = $base_url . 'blog/';
+$posts = $this->getPost();
+?>
+<?php if (is_array($posts) && count($posts) > 0) :?>
+    <?php $blockId = 'sns_latestblog_' . rand() . time();?>
+    <div id="latest_news" class="owl-top-narrow">    
+        <h2 class="filter-title" style="margin-top:40px;">
+            <span class="content">
+                <strong>Recent Blog Posts</strong>
+            </span>
+        </h2>
+        <div id="latest_news" class="owl-top-narrow">
+            <div class="block-latestblog" id="<?php echo $blockId; ?>">
+                <div class="block_head_left">
+                    <div class="navslider">
+                        <a class="prev" href="#"><i class="icon-arrow-left"></i></a>
+                        <a class="next" href="#"><i class="icon-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <div class="owl-carousel">
+                        <?php $j = 0; ?>
+                        <?php foreach ($posts as $post) : ?>
+                            <?php
+                            $j++;
+                            if ($j > 6) {
+                                break;
+                            }
+                            ?>
+
+                            <div class="item<?php echo ($j == 3) ? ' last' : ''; ?> clearfix">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="postTitle">
+                                            <h2><a href="<?php echo $post_url . ''.  $post['post_name']; ?>" ><?php echo $post['post_title']; ?></a></h2>
+                                            <span class="post_date"><?php echo $this->getPostDate($post['post_date']); ?></span>
+                                        </div> 
+                                        <?php $imgName = $this->getPostImage($post['ID']); ?>
+                                        <?php if (strlen($imgName)) :?> 
+                                            <div class="blog-post-img">
+                                                <img src="<?php echo $post_image_url . $imgName; ?>" height="100px" width="100px"/>
+                                            </div>
+                                        <?php endif?>
+                                        <?php
+                                        $content = $this->getPostExcerpt($post['post_content']);
+                                        $content = iconv('ISO-8859-1', 'UTF-8//IGNORE', strip_tags($content));
+                                        $str = preg_replace("/\<img[^\>]*>/", '', $content);
+                                        ?>
+                                        <div class="postContent"><?php echo Mage::helper('core/string')->truncate($str, 200); ?></div>
+                                        <a href="<?php echo $post_url . ''.  $post['post_name']; ?>" class="readmore"><?php echo $this->__('Read more'); ?></a>
+                                    </div>
+                                </div>               
+                            </div>
+                            
+                        <?php endforeach; ?>
+                    </div>
+                </div> 
+                <script>
+                    jQuery(document).ready(function($) {
+                        $(window).load(function() {
+                            $('#<?php echo $blockId; ?> .list-blog').owlCarousel({
+                                items: 3,
+                                itemsCustom: [
+                                    [0, 2],
+                                    [768, 3]
+                                ],
+                                pagination: false,
+                                itemsScaleUp: true,
+                                slideSpeed: 800,
+                                autoPlay: true,
+                                addClassActive: true,
+                                afterAction: function(e) {
+                                    if (this.$owlItems.length > this.options.items) {
+                                        $('#<?php echo $blockId; ?> .navslider').show();
+                                    } else {
+                                        $('#<?php echo $blockId; ?> .navslider').hide();
+                                    }
+                                }
+                            });
+                            $('#<?php echo $blockId; ?> .navslider .prev').on('click', function(e) {
+                                e.preventDefault();
+                                $('#<?php echo $blockId; ?> .list-blog').trigger('owl.prev');
+                            });
+                            $('#<?php echo $blockId; ?> .navslider .next').on('click', function(e) {
+                                e.preventDefault();
+                                $('#<?php echo $blockId; ?> .list-blog').trigger('owl.next');
+                            });
+                        });
+                    });
+                </script>  
+            </div>
+        </div>
+    </div>        
+<?php endif; ?>

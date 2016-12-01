@@ -1,0 +1,22 @@
+<div class="account-login login-container">
+    <div id="login_box" class="login_box">
+        <div class="c-logo">
+            <img src="<?php echo $this->getSkinUrl('images/logo.png'); ?>" alt=""/>
+        </div>
+        <div class="login">
+            <div class="page-title">
+                <p class="welcome"><?php echo $this->__('THANK YOU FOR APPLYING') ?></p>               
+            </div>
+            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        </div>
+        <div class="buttons-set">
+            <a href="<?php echo $this->getUrl('customer/account/login'); ?>" class=" btn btn-login" id="login_portal"><?php echo $this->__('LOGIN PORTAL') ?></a>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+

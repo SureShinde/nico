@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Voronoy_ExtraTax>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_SalesRule/>
+            </depends>
+        </Voronoy_ExtraTax>
+    </modules>
+</config>

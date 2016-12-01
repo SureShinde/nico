@@ -1,0 +1,17 @@
+<div class="home-subscribe"> 
+<?php echo Mage::app()->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('core/session')->getMessages(true))->getGroupedHtml();?>
+<form class="form-inline" action="<?php echo Mage::getUrl('newsletter/subscriber/new/') ?>"  method="post" id="homepage-newsletter-validate-detail" onsubmit="setNewsletterCookie()">
+       <div class="block-content">
+           <div class="input-box">
+               <input type="text" name="email" id="newsletter_footer_home" title="" class="input-text required-entry validate-email form-control" placeholder="jane.doe@example.com"/>
+               <button type="submit" title="<?php echo $this->__('Submit') ?>" class="btn btn-default"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+               <div class="clearer"></div>
+           </div>
+       </div>
+   </form>        
+     <script type="text/javascript">
+    //<![CDATA[
+        var homepagenewsletterSubscriberFormDetail = new VarienForm('homepage-newsletter-validate-detail');
+    //]]>
+    </script>
+    </div>

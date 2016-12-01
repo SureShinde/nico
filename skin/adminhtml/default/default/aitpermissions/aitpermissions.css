@@ -1,0 +1,26 @@
+
+/**
+ * Advanced Permissions
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aitpermissions
+ * @version      2.9.2
+ * @license:     n/a
+ * @copyright:   Copyright (c) 2015 AITOC, Inc. (http://www.aitoc.com)
+ */
+.grid tr.headings th span label span{
+    padding: 3px 12px 4px 0;
+}
+.grid tr.headings th span label input{
+    margin: 3px;
+}
+.grid tr.filter th span.head-massaction {
+    margin-left: auto;
+    margin-right: auto;
+}
+.grid tr.filter th{
+    text-align: center;
+}
+a.aithide{
+    color: #909090 !important;
+}

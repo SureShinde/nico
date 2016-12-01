@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Halox_WholesaleCartUpdate>
+			<version>1.0</version>
+		</Halox_WholesaleCartUpdate>
+	</modules>
+	<default>
+		<halox_wholesalecartupdate>
+			<general>
+				<enabled>0</enabled>
+			</general>
+		</halox_wholesalecartupdate>
+	</default>
+	<global>
+		<helpers>
+			<halox_wholesalecartupdate>
+				<class>Halox_WholesaleCartUpdate_Helper</class>	
+			</halox_wholesalecartupdate>
+		</helpers>
+	</global>
+	<frontend>
+		<routers>
+			<halox_wholesalecartupdate>
+				<use>standard</use>
+				<args>
+					<module>Halox_WholesaleCartUpdate</module>
+					<frontName>wholesalecartupdate</frontName>
+				</args>
+			</halox_wholesalecartupdate>
+		</routers>
+	</frontend>
+</config>

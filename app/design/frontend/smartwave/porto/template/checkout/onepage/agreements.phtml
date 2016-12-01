@@ -1,0 +1,74 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * @see Mage_Checkout_Block_Agreements
+ */
+?>
+
+<?php if (!$this->getAgreements()) return; ?>
+<form action="" id="checkout-agreements" onsubmit="return false;">
+<ol class="checkout-agreements">
+<li class="agree-title">Terms And Conditions</li>
+<?php foreach ($this->getAgreements() as $_a): ?>
+    <li>
+        <p class="agree">
+            <input type="checkbox" id="agreement-<?php echo $_a->getId()?>" name="agreement[<?php echo $_a->getId()?>]" value="1" title="<?php echo $this->htmlEscape($_a->getCheckboxText()) ?>" class="checkbox" /><label for="agreement-<?php echo $_a->getId()?>"><?php echo $_a->getIsHtml() ? $_a->getCheckboxText() : $this->htmlEscape($_a->getCheckboxText()) ?></label>&nbsp;
+<a class="agreement" href="#terms-conditions-<?php echo $_a->getId()?>">Read More</a>            
+
+        </p>
+    </li>
+<?php endforeach ?>
+<?php if(Mage::getSingleton('checkout/session')->getQuote()->getShippingAddress()->getRegion()=="California"){?>
+<li style="text-align: center;font-size: 11px;margin-top: 20px;color: #b0b0b0;">CA PROPOSITION 65 - WARNING: Use of this product will expose you to nicotine, a chemical known to the State of California to cause birth defects or other reproductive harm, and other chemicals known to the State of California to cause cancer.  </li>
+<?php }?>
+</ol>
+</form>
+<div id="terms-conditions-1" class="rewardreferform" style="display: none;">
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('age-verification')->toHtml();?>
+</div>
+<div id="terms-conditions-2" class="rewardreferform" style="display: none;">
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('retail-terms')->toHtml();?>
+</div>
+<div id="terms-conditions-3" class="rewardreferform" style="display: none;">
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('disclaimer')->toHtml();?>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+       /* jQuery(".modalbox").fancybox({maxWidth: 435,maxHeight: 650,
+                    'autoScale': true,
+                    'autoDimensions': true,
+                    'scrolling'     : 'yes',
+                    'transitionIn'  : 'none',
+                    'transitionOut' : 'none',
+                    'autoSize' : true});*/
+                     jQuery(".agreement").fancybox({maxWidth: 435,maxHeight: 650,'autoScale': true,
+                    'autoDimensions': true,'autoSize' : true
+                    });
+    });
+</script>

@@ -1,0 +1,21 @@
+<?php
+$isEnabled = Mage::getStoreConfig('pocomment/check/enabled', Mage::app()->getStore()->getStoreId());
+if($isEnabled == 1){
+?>
+<dt id="dt_payment_comment">
+<label for="payment_comment"><?php echo $this->__('PO Reference Number') ?></label>
+<div>
+    <textarea id="payment_comment" style="width:100%;height:50px;" name="payment_comment" autocomplete="off"></textarea>
+</div>
+</dt>
+<script>
+jQuery(document).ready(function () { 
+ jQuery("input[type='radio']").click(function(){
+       jQuery("#payment_comment").removeAttr('disabled');
+       jQuery("#payment_comment").prop('disabled', false);
+   });
+});
+</script>
+<?php
+}
+?>

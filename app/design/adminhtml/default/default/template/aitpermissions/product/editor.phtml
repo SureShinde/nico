@@ -1,0 +1,53 @@
+<?php
+/**
+ * Advanced Permissions
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aitpermissions
+ * @version      2.9.2
+ * @license:     QvHpbEc0oOzK3qo2hlmyDcWVqjqnkaNA9m9UogV4wV
+ * @copyright:   Copyright (c) 2015 AITOC, Inc. (http://www.aitoc.com)
+ */
+?>
+<script type="text/javascript">
+function aitCheck(checkbox)
+{
+    if(checkbox.checked == false)
+    {
+        checkbox.checked = true;
+        fireEvent(checkbox,'change');
+    }
+}
+function aitUncheck(checkbox)
+{
+    if(checkbox.checked == true)
+    {
+        checkbox.checked = false;
+        fireEvent(checkbox,'change');
+    }
+}
+</script>
+<div class="entry-edit">
+<div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('aitpermissions')->__('Disable product tabs') ?></h4>
+</div>
+    <fieldset id="tabs">
+                        <a href="#" onclick="$$('div#permissions_product_editor input').each(aitCheck);return false;" style="margin-left:110px;"><?php echo Mage::helper('catalog')->__('select all') ?></a>
+                        <span class="separator">|</span> 
+                        <a href="#" onclick="$$('div#permissions_product_editor input').each(aitUncheck);return false;"><?php echo Mage::helper('catalog')->__('unselect all') ?></a>
+        <?php echo $this->getChildHtml('tabs'); ?>
+    </fieldset>
+
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('aitpermissions')->__('Attributes permissions') ?></h4>
+    </div>
+    <input id="is_allow_ids" type="hidden" value="" name="is_allow_ids">
+    <input id="is_allow_ids_old" type="hidden" value="" name="is_allow_ids_old">
+    <input id="is_disable_ids" type="hidden" value="" name="is_disable_ids">
+    <input id="is_disable_ids_old" type="hidden" value="" name="is_disable_ids_old">
+    <input id="default_ids" type="hidden" value="" name="default_ids">
+    <input id="default_ids_old" type="hidden" value="" name="default_ids_old">
+    <fieldset id="attribute_fields">
+        <?php echo $this->getChildHtml('attribute'); ?>
+    </fieldset>
+</div>

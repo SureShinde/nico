@@ -1,0 +1,50 @@
+<?php 
+
+$currentParentCategory = Mage::registry('current_category');
+$rewardChildCategories = Mage::getModel('catalog/category')->getCollection()
+	->addAttributeToSelect(array('name'))
+	->addIdFilter($currentParentCategory->getChildren());
+
+?>
+<?php if($rewardChildCategories->count() > 0):?>
+<div class="container category-view" id="reward-catalog-widget">
+	
+	<div class="col-md-12 reward-tabs">
+		<ul class="nav nav-pills nav-justified">
+		<?php $count = 0; foreach($rewardChildCategories as $rewardCategory):?>
+			<li class="<?php if($count == 0):?>active<?php endif?>">
+				<a class="display text-uppercase" role="presentation" data-toggle="tab" href="#tab-content-<?php echo $rewardCategory->getId()?><?php //echo Mage::getUrl('rewardcatalog/panel/load', array('id' => $rewardCategory->getId()))?>" aria-expanded="false">
+					<?php echo $rewardCategory->getName()?>
+				</a>
+			</li>
+		<?php $count++; endforeach?>	
+		</ul>
+	</div>
+	<div class="tab-content">
+		<?php $count = 0; foreach($rewardChildCategories as $rewardCategory):?>
+			<div class="tab-pane fade in <?php if($count == 0):?>active<?php endif?>" id="tab-content-<?php echo $rewardCategory->getId()?>">
+				<?php 
+					Mage::unregister('current_layer');
+					Mage::unregister('current_category');
+
+					Mage::register('current_category', $rewardCategory);
+				?>
+				<?php	
+					$listBlock = $this->getLayout()->createBlock('catalog/product_list');
+
+					$listBlock->getLayer()->setCurrentCategory($rewardCategory);
+
+					$listBlock->setCurrentCategory($rewardCategory)
+						->setCategoryId($rewardCategory->getId())
+						->setTemplate('catalog/category/reward-items.phtml');
+					
+				?>
+				<?php echo $listBlock->toHtml();?>
+				
+			</div>
+		<?php $count++; endforeach?>
+	</div>
+</div>
+<?php else:?>
+	<p class="note"><?php echo $this->__('There are no reward categories to show.')?></p>
+<?php endif?>	

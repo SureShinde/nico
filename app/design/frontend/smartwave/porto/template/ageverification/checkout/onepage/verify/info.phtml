@@ -1,0 +1,205 @@
+<?php
+/**
+ *  Information under age ageverification tab appears from here.
+ */
+?>
+<?php
+$ifInRule = Mage::helper('ageverification')->checkIfListedInRule();
+$address = Mage::getSingleton('checkout/session')->getQuote()->getShippingAddress();
+$fname = $address->getFirstname();
+$lname = $address->getLastname();
+?>
+<script>
+    var checkRule = '<?php echo $ifInRule ?>';
+    if (checkRule == 1) {
+        jQuery('#verify-buttons-container').css({"display": "none"});
+    } else {
+        jQuery('#verify-buttons-container').css({"display": "block"});
+    }
+</script>
+<?php
+if ($ifInRule) {
+    ?>
+    <div class="_ageverification clearfix">
+        <div id="verify-error-message" class="verify-error-message age-error" style="display:none" ></div>
+        <div id="verify-step1" class="active">
+            <p>
+                The products on this site are intended for sale to adults only. In order to proceed with your checkout, please enter your birthdate below to confirm you are of legal age.
+            </p>
+            <p>
+                <Strong>A correct birthdate is essential for proper age verification. If an incorrect birthdate is entered or if we are unable to verify your age with the information provided, additional information will be required to verify your age to proceed with your order. </Strong>
+            </p>
+
+            <div class="dobageverification">
+                <div class="required-star">Date of Birth</div> 
+                <ul>
+                    <li>
+                        <select id="verify-month" class="validate-select " title="Month" name="verify[month]">
+                            <option value="">MONTH</option>
+                            <?php
+                            for ($i = 1; $i <= 12; $i++) {
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </li>
+                    <li>
+                        <select id="verify-day" class="validate-select" title="Day" name="verify[day]">
+                            <option value="">DATE</option>
+                            <?php
+                            for ($i = 1; $i <= 31; $i++) {
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </li>
+                    <li>
+                        <select id="verify-year" class="validate-select" title="Year" name="verify[year]">
+                            <option value="">YEAR</option>
+                            <?php
+                            for ($i = date('Y'); $i >= 1900; $i--) {
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </li>
+                </ul>
+                <div class="first-user-name"><?php echo $fname . ' ' . $lname; ?></div>
+                <div id="verify-step1-error" class="age-error" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div id="verify-step2" class="verify-step2" style="display:none">
+
+            <div id="verify-step2-buttons">
+                <div class="ssn">
+                    <h4>Verification Method 1</h4>
+                    <div>
+                        <button type="button" title="<?php echo $this->__('VERIFY USING LAST 4 OF SSN') ?>" class="button button-ssn" onclick="showVerifySSNHtml();"><span><span><?php echo $this->__('VERIFY USING LAST 4 OF SSN') ?></span></span></button>
+                    </div>
+                </div>
+                <div class="photo-id">
+                    <h4>Verification Method 2</h4>
+                    <div>
+                        <button type="button" title="<?php echo $this->__('VERIFY USING PHOTO ID') ?>" class="button button-photo-id" onclick="showVerifyPhotoIdHtml()"><span><span><?php echo $this->__('Verify USING PHOTO ID') ?></span></span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="verify-method1-content" class="verify-method1-content" style="display:none">
+                <p>
+                    The products on this site are intended for sale to adults only. In order to proceed with your checkout, please enter the last 4 digits of your Social Security Number and your birthdate below to confirm you are of legal age.
+                </p>
+                <div class="clearfix">
+                    <ul class="clearfix">
+                        <li>
+                            <div class="ssnnumber text-left">
+                                <div>Last 4 of SSN:</div> 
+                                <input type="text" name="verify[ssn]" class="validate-number required-entry" id="verify-social" maxlength="4" onkeypress="return isNumber(event)"/>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="dobageverification">
+                                <div class="required-star text-left">Date Of Birth</div> 
+                                <ul>
+                                    <li>
+                                        <select id="verify-month2" class="validate-select" title="Month" name="verify[month2]">
+                                            <option value="">MONTH</option>
+                                            <?php
+                                            for ($i = 1; $i <= 12; $i++) {
+                                                ?>
+                                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </li>
+
+                                    <li>
+                                        <select id="verify-day2" class="validate-select" title="Day" name="verify[day2]">
+                                            <option value="">DATE</option>
+                                            <?php
+                                            for ($i = 1; $i <= 31; $i++) {
+                                                ?>
+                                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </li>
+                                    <li>
+                                        <select id="verify-year2" class="validate-select" title="Year" name="verify[year2]">
+                                            <option value="">YEAR</option>
+                                            <?php
+                                            for ($i = date('Y'); $i >= 1900; $i--) {
+                                                ?>
+                                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="second-user-name"><?php echo $fname . ' ' . $lname; ?></div>
+                    <div id="verify-step2-error" class="age-error" style="display: none;"></div>
+                </div>
+                <div><a href="javascript:void(0);" class="step2-back-button" onclick="getBackStep()">Back</a></div>
+            </div>
+
+        </div>
+        <div class="upload-for-verify" id="verify-method2-content" style="display: none;">
+            <p>
+                The products on this site are intended for sale to adults only. In order to proceed with your checkout, please upload a photo or scan of a government issued ID.
+            </p>
+            <div id="verify-step3-error" style="display: none;" class="age-error"></div>
+            <ul class="clearfix custom-attach">
+                <li>
+                    <div class="upload-attached show-file-info" style="display:none;" id="verify-method2-file-name"></div>
+                </li>
+                <li>
+                    <div class="custom-filebutton" onchange="setFileName();">
+
+                        <label> ATTACH FILE
+                            <input type="file" name="filename" class="required-entry" id="verify-doc" accept=".gif,.jpg,.jpeg,.png"/>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="step3-back-button"><a href="javascript:void(0);" onclick="getBackStep()">Back</a></div>
+        </div>
+        <div class="buttons-set" id="verify-submit-button">
+            <button type="button" title="<?php echo $this->__('Submit') ?>" class="button age-verify-submit" onclick="verify.save();"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+            <span class="please-wait" id="verify-please-wait" style="display:none;">
+                <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Verifying...') ?>" title="<?php echo $this->__('Loading next step...') ?>" class="v-middle" /> <?php echo $this->__('Verifying...') ?>
+            </span>
+        </div>
+
+
+        <div id="verify-step1-thanks" style="display: none;">
+            Thanks for verifying your age. Your age is now verified and you won't be asked for verification on future orders.
+        </div>
+
+        <div id="verify-step3-thanks" style="display: none;">
+            Thank you for uploading an image for age verification purposes. An account representative will review your information prior to processing your order. You will not be charged for your purchase until your age has been confirmed.
+            To complete your purchase, click Continue.
+        </div>
+
+
+        <input type="hidden" name="verify[step]" id="verify-step" value="1"/>
+        <input type="hidden" name="verify[status]" id="verify-status" value="0"/>
+    </div>
+    <?php
+} else {
+    ?>
+    <div>You don't need to verify your age.Please continue..</div>
+<?php } ?>

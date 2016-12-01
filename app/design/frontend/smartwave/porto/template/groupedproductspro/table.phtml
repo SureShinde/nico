@@ -1,0 +1,168 @@
+<?php
+/**
+ * Crius
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt
+ *
+ * @category   Crius
+ * @package    Crius_GroupedProductsPro
+ * @copyright  Copyright (c) 2011 Crius (http://www.criuscommerce.com)
+ * @license    http://www.criuscommerce.com/CRIUS-LICENSE.txt
+ */
+?>
+<?php
+/**
+ * Grouped product associated products table
+ *
+ * @see Crius_GroupedProductsPro_Block_View
+ * @see Mage_Catalog_Block_Product_View_Type_Grouped
+ */
+?>
+<?php $this->setPreconfiguredValue(); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_associatedProducts = $this->getAssociatedProducts(); ?>
+<?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+<table class="data-table grouped-items-table sortable" id="super-product-table">
+    <?php echo str_repeat('<col />', count($this->getTableAttributes())) ?>
+    <?php if ($_product->isSaleable()): ?>
+    <?php if ($this->showQuantityFields()): ?>
+    <col width="1" />
+    <?php endif ?>
+    <?php if ($this->showAddToCartForRows()): ?>
+    <col width="1" />
+    <?php endif ?>
+    <?php endif ?>
+    <thead>
+        <tr>
+            <?php // Print attribute titles ?>
+            <?php foreach ($this->getTableAttributes() as $attribute): ?>
+                <?php $class = ($attribute->getFrontendInput() == 'price') ? ' class="a-right formattedprice sortcol-right"' : '' ?>
+                <th<?php echo $class ?>><strong><?php echo $attribute->getStoreLabel() ?></strong></th>
+            <?php endforeach ?>
+            <?php // Print quantity title ?>
+            <?php if ($_product->isSaleable()): ?>
+            <?php if ($this->showQuantityFields()): ?>
+            <th class="a-center nosort"><strong><?php echo $this->__('Qty') ?></strong></th>
+            <?php endif ?>
+            <?php // Print add to cart title ?>
+            <?php if ($this->showAddToCartForRows()): ?>
+            <th class="nosort"><strong><?php echo $this->__('Add to Cart') ?></strong></th>
+            <?php endif ?>
+            <?php endif; ?>
+        </tr>
+    </thead>
+    <?php // Create table footer ?>
+    <?php if ($_product->isSaleable() && $this->showAddToCartInFooter()): ?>
+    <tfoot>
+        <tr>
+            <?php // Calculate colspan to put add to cart under the rows' qty or add to cart ?>
+            <?php $colspan = count($this->getTableAttributes()) - 1; ?>
+            <?php if ($this->showAddToCartForRows() || $this->showQuantityFields()) $colspan++; ?>
+            <td colspan="<?php echo $colspan; ?>"></td>
+            <td>
+                <?php echo $this->getChildHtml('product.info.addtocart') ?>
+            </td>
+            <?php if ($this->showAddToCartForRows() && $this->showQuantityFields()): ?>
+            <td></td>
+            <?php endif ?>
+        </tr>
+    </tfoot>
+    <?php endif ?>
+    <tbody>
+    <?php if ($_hasAssociatedProducts): ?>
+    <?php // Print product rows ?>
+    <?php foreach ($_associatedProducts as $_item): ?>
+        <tr>
+            <?php // Print attributes ?>
+            <?php foreach ($this->getTableAttributes() as $attribute): ?>
+                <?php $_type = $attribute->getFrontendInput(); ?>
+                <td>
+                    <?php if ($_type == 'media_image'): ?>
+                        <?php // Render image ?>
+                        <img src="<?php echo $this->helper('catalog/image')->init($_item, $attribute->getAttributeCode())->resize($this->getImageWidth(), $this->getImageHeight()); ?>" width="<?php echo $this->getImageWidth() ?>" height="<?php echo $this->getImageHeight() ?>" alt="<?php echo $_item->getName() ?>" />
+                    <?php elseif ($_type == 'price'): ?>
+                        <?php // Render price ?>
+                        <?php if ($this->getCanShowProductPrice($_item)): ?>
+                        <?php echo $this->getPriceHtml($_item, true) ?>
+                        <?php echo $this->getTierPriceHtml($_item) ?>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <?php // Render other attribute types ?>
+                        <?php if ($_item->getData($attribute->getAttributeCode())): ?>
+                            <?php echo $attribute->getFrontend()->getValue($_item) ?>
+                        <?php endif ?>
+                    <?php endif; ?>
+                </td>
+            <?php endforeach ?>
+            <?php if ($_product->isSaleable()): ?>
+            <?php if ($_item->isSaleable()) : ?>
+                <?php // Print quantity field if enabled, otherwise make a hidden field ?>
+                <?php if ($this->showQuantityFields()): ?>
+                <td class="a-center">
+                    <input type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $_item->getQty()*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                </td>
+                <?php else: ?>
+                    <input type="hidden" name="super_group[<?php echo $_item->getId() ?>]" class="qty" value="1" />
+                <?php endif; ?>
+                <?php // Add to cart button for the row ?>
+                <?php if ($this->showAddToCartForRows()): ?>
+                <td>
+                    <button class="button btn-cart" type="button" onclick="addGroupedRowToCart(this)" title="<?php echo $this->__('Add to Cart') ?>"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                </td>
+                <?php endif ?>
+            <?php else: ?>
+                <?php // If not saleable, show out of stock instead of quantity and add-to-cart ?>
+                <?php if ($this->showQuantityFields() && $this->showAddToCartForRows()): ?>
+                <td colspan="2">
+                    <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                </td>
+                <?php elseif ($this->showQuantityFields() || $this->showAddToCartForRows()): ?>
+                <td>
+                    <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                </td>
+                <?php endif ?>
+            <?php endif; ?>
+            <?php endif; ?>
+        </tr>
+    <?php endforeach; ?>
+    <?php else: ?>
+       <tr>
+           <td colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
+       </tr>
+    <?php endif; ?>
+    </tbody>
+</table>
+<script type="text/javascript">
+// Row styling
+TableKit.options.rowEvenClass = 'even';
+TableKit.options.rowOddClass = 'odd';
+// Sorting rule for price column
+TableKit.Sortable.addSortType(
+	new TableKit.Sortable.Type('formattedprice', {
+		pattern : /^[-+]?[\d]*\.?[\d]+(?:[eE][-+]?[\d]+)?/,
+		normal : function(v) {
+		    // Remove whitespace, commas and periods and grab the first thing that looks like a number
+			v = parseFloat(v.replace(/^\s*/, "").replace(/\s*$/, "").replace('.','').replace(',','').replace(/^.*?([-+]?[\d]*\.?[\d]+(?:[eE][-+]?[\d]+)?).*$/,"$1"));
+			console.log(v);
+			return isNaN(v) ? 0 : v;
+		}
+	})
+);
+function addGroupedRowToCart(button) {
+    // Quantity for row
+    var rowqty = Element.up(button, 'tr').down('input.qty').value;
+    if (rowqty=='0') {
+        rowqty = '1';
+    }
+    // Reset all quantities to zero
+    Element.up(button, 'tbody').select('input.qty').each(function(qty) { qty.value = '0'; });
+    // Re-insert current row's quantity
+    Element.up(button, 'tr').down('input.qty').value = rowqty;
+    // Submit form
+    productAddToCartForm.submit(button);
+}
+</script>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<layout>
+	<PRODUCT_TYPE_bundle>
+		
+		<reference ifconfig="halox_bundlegrid/general_settings/enabled" name="head">
+            <action method="removeItem">
+            	<type>skin_js</type>
+            	<name>js/bundle.js</name>
+            </action>
+            <action ifconfig="halox_bundlegrid/general_settings/enabled" method="addItem">
+            	<type>js</type>
+            	<name>halox/bundleGrid/bundle.js</name>
+            </action>
+        </reference>
+		
+		<reference name="product.info.bundle.options">
+			<action ifconfig="halox_bundlegrid/general_settings/enabled" method="setTemplate">
+				<template>halox/bundleGrid/catalog/product/view/type/bundle/options.phtml</template>
+			</action>
+
+			<action ifconfig="halox_bundlegrid/general_settings/enabled" method="addRenderer">
+				<type>grid</type>
+				<block>halox_bundleGrid/catalog_product_view_type_bundle_option_grid</block>
+			</action>
+		</reference>
+
+		<reference name="product.info.options.wrapper.bottom">
+			<action ifconfig="halox_bundlegrid/general_settings/enabled" method="unsetChild">
+				<child>product.info.addtocart</child>
+			</action>
+			<block ifconfig="halox_bundlegrid/general_settings/enabled" type="halox_bundleGrid/catalog_product_view_addtocart" name="product.info.addtocart" as="addtocart" template="halox/bundleGrid/catalog/product/view/addtocart.phtml"/>
+			<action ifconfig="halox_bundlegrid/general_settings/enabled" method="append"><block>product.info.addtocart</block></action>		
+		</reference>
+		
+	</PRODUCT_TYPE_bundle>
+</layout>

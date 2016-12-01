@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Halox_Recentpost>
+            <version>0.1.0</version>
+        </Halox_Recentpost>
+    </modules>
+    <global>
+        <resources>
+            <wp_blog><!-- name of the external db connection -->
+                <connection>
+                    <host><![CDATA[localhost]]></host>
+                    <username><![CDATA[chetu]]></username>
+                    <password><![CDATA[0ofcddlv15hov]]></password>
+                    <dbname><![CDATA[wp_blog]]></dbname>
+                    <type>pdo_mysql</type>
+                    <active>1</active>
+                </connection>
+            </wp_blog>
+            <recentpost_setup><!-- connection used by  setup procedures -->
+                <setup>
+                    <module>Halox_Recentpost</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>wp_blog</use>
+                </connection>
+            </recentpost_setup>
+            <recentpost_read><!-- connection used for read access -->
+                <connection>
+                    <use>wp_blog</use>
+                </connection>
+            </recentpost_read>
+        </resources>
+        
+        <models>
+            <recentpost>
+                <class>Halox_Recentpost_Model</class>
+            </recentpost>
+        </models>
+        <blocks>
+            <recentpost>
+                <class>Halox_Recentpost_Block</class>
+            </recentpost>
+        </blocks>
+        <helpers>
+            <recentpost>
+                <class>Halox_Recentpost_Helper</class>
+            </recentpost>
+        </helpers>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <recentpost>
+                    <file>wp.xml</file>
+                </recentpost>
+            </updates>
+        </layout>
+    </frontend>
+</config>

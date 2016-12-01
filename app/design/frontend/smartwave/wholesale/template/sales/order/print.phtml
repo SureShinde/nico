@@ -1,0 +1,118 @@
+<?php
+/**
+ * sort order items using natural sort for printing
+ */
+?>
+<?php $_order = $this->getOrder() ?>
+<h1><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h1>
+<p class="order-date"><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<div class="col2-set">
+    <?php if (!$_order->getIsVirtual()): ?>
+    <div class="col-1">
+        <h2><?php echo $this->__('Shipping Address') ?></h2>
+        <address><?php echo $_order->getShippingAddress()->format('html') ?></address>
+    </div>
+    <div class="col-2">
+    <?php else: ?>
+    <div class="col-1">
+    <?php endif; ?>
+        <h2><?php echo $this->__('Billing Address') ?></h2>
+        <address><?php echo $_order->getBillingAddress()->format('html') ?></address>
+    </div>
+<?php if (!$_order->getIsVirtual()): ?>
+</div>
+<div class="col2-set">
+    <div class="col-1">
+        <h2><?php echo $this->__('Shipping Method') ?></h2>
+         <?php echo $this->escapeHtml($_order->getShippingDescription()) ?>
+    </div>
+<?php endif; ?>
+    <div class="col-2">
+        <h2><?php echo $this->__('Payment Method') ?></h2>
+        <?php echo $this->getPaymentInfoHtml() ?>
+    </div>
+</div>
+<h2><?php echo $this->__('Items Ordered') ?></h2>
+<table class="data-table" id="my-orders-table">
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th><?php echo $this->__('Product Name') ?></th>
+            <th><?php echo $this->__('SKU') ?></th>
+            <th class="a-right"><?php echo $this->__('Price') ?></th>
+            <th class="a-center"><?php echo $this->__('Qty') ?></th>
+            <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <?php echo $this->getChildHtml('order_totals') ?>
+    </tfoot>
+    <?php 
+    $_itemsCollection = $_order->getItemsCollection(); 
+    foreach ($_itemsCollection as $item) {
+        if ($item->getOrderItem()) {
+            $itemType = $item->getOrderItem()->getProductType();
+        } else {
+            $itemType = $item->getProductType();
+        }
+        if($parentItem = $item->getParentItem()){
+            if ($parentItem->getOrderItem()) {
+                $parentType = $parentItem->getOrderItem()->getProductType();
+            } else {
+                $parentType = $parentItem->getProductType();
+            }
+            if($parentType == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+                $_items[] = $item;
+            }
+        }elseif($itemType != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+            $_items[] = $item;
+        }
+    }
+
+    //sort cart items in natural order(CASE-INSENSITIVE)
+    usort($_items, function($a, $b){
+        return strnatcasecmp($a->getName(),$b->getName());
+    });
+    ?>
+
+    <?php $_count = count($_items); ?>
+    <?php foreach ($_items as $_item): ?>
+    <?php //if ($_item->getParentItem()) continue; ?>
+    <tbody>
+        <?php 
+
+        if ($_item->getOrderItem()) {
+            $type = $_item->getOrderItem()->getProductType();
+        } else {
+            $type = $_item->getProductType();
+        }
+
+        $renderer = $this->getItemRenderer($type);
+        
+        //if cart item is child of a bundle item use bundle item renderer 
+        //instead of default one
+        if($parentItem = $_item->getParentItem()){
+            if ($parentItem->getOrderItem()) {
+                $parentType = $parentItem->getOrderItem()->getProductType();
+            } else {
+                $parentType = $parentItem->getProductType();
+            }
+            
+            if($parentType == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+                $renderer = $this->getItemRenderer(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
+            }
+        }
+
+        $renderer->setItem($_item);
+        ?>
+
+        <?php echo $renderer->toHtml()?>
+    </tbody>
+    <?php endforeach; ?>
+</table>
+<script type="text/javascript">decorateTable('my-orders-table', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
+<script type="text/javascript">window.print();</script>

@@ -1,0 +1,186 @@
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="width:50%;"><h3 class="icon-head head-customer"><?php echo Mage::helper('helpdesk')->__('Help Desk - Tickets Statistics') ?></h3></td>
+            <td class="a-right"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+    </table>
+</div>
+<div class="box-left">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('helpdesk')->__('Staff Statistics') ?></h4>
+        </div>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table cellspacing="0" id="cache_grid_table" class="data">
+                    <col>
+                    <col width="60">
+                    <col width="60">
+                    <col width="60">
+                    <col width="60">
+                    <col width="60">
+                    <thead>
+                        <tr class="headings">
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Staff name') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('New') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Open') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Pending customer response') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Closed') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Total') ?></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php //$memberStatusArray = $this->countOpenTicketOperator()?>
+                        <?php foreach ($this->collectionOperaror() as $_collecttionOperator): ?>
+
+                            <?php
+                            /*
+                            $open = 0;
+                            $wait = 0;
+                            $closed = 0;
+                            $new = 0;
+                            */
+                            //foreach ($this->countOpenTicketOperator($_collecttionOperator->getMemberId()) as $_count):
+                                ?>
+                                <?php
+                                /* comment here old code */
+                                /*
+                                if(isset($memberStatusArray[$_collecttionOperator->getMemberId()][1])){
+                                    $open = $memberStatusArray[$_collecttionOperator->getMemberId()][1];
+                                }
+                                if(isset($memberStatusArray[$_collecttionOperator->getMemberId()][2])){
+                                    $wait = $memberStatusArray[$_collecttionOperator->getMemberId()][2];
+                                }
+                                if(isset($memberStatusArray[$_collecttionOperator->getMemberId()][3])){
+                                    $closed = $memberStatusArray[$_collecttionOperator->getMemberId()][3];
+                                }
+                                if(isset($memberStatusArray[$_collecttionOperator->getMemberId()][4])){
+                                    $new = $memberStatusArray[$_collecttionOperator->getMemberId()][4];
+                                }
+                                */
+                                
+//                                if ($_count['status'] == 1) {
+//                                    $open = $_count['count'];
+//                                } else if ($_count['status'] == 2) {
+//                                    $wait = $_count['count'];
+//                                } else if ($_count['status'] == 3) {
+//                                    $closed = $_count['count'];
+//                                }
+                                ?>
+                            <?php //endforeach; ?>
+
+                            <tr title="" class="even" id="">
+                                <td class="a-left "><a target ="_blank" href ="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/hdadmin_member/edit/id/' . $_collecttionOperator['member_id']) ?>">
+                                        <?php echo $_collecttionOperator['name'] ?></a></td>
+                                <td class="a-left "><?php echo $this->StatisticsByMemberStatus($_collecttionOperator['member_id'], MW_HelpDesk_Model_Config_Source_Status::STATUS_NEW) ?></td>
+                                <td class="a-left "><?php echo $this->StatisticsByMemberStatus($_collecttionOperator['member_id'], MW_HelpDesk_Model_Config_Source_Status::STATUS_OPEN) ?></td>
+                                <td class="a-left "><?php echo $this->StatisticsByMemberStatus($_collecttionOperator['member_id'], MW_HelpDesk_Model_Config_Source_Status::STATUS_PROCESSING) ?></td>
+                                <td class="a-left "><?php echo $this->StatisticsByMemberStatus($_collecttionOperator['member_id'], MW_HelpDesk_Model_Config_Source_Status::STATUS_CLOSED) ?></td>
+                                <td class="a-left "><?php echo $_collecttionOperator['total'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="box-right">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('helpdesk')->__('Department Statistics') ?></h4>
+        </div>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table cellspacing="0" id="cache_grid_table" class="data">
+                    <col>
+                    <col width="60">
+                    <col width="60">
+                    <col width="60">
+                    <col width="60">
+                    <col width="60">
+                    <thead>
+                        <tr class="headings">
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Department name') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('New') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Open') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Pending customer response') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Closed') ?></span></th>
+                            <th class=" no-link"><span class="nobr"><?php echo Mage::helper('helpdesk')->__('Total') ?></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php //$departmentStatusArray = $this->countOpenTicketDepartment()?>
+                        <?php 
+                        //Zend_Debug::dump($departmentStatusArray); 
+                        //Zend_Debug::dump($this->collectionDepartment()->getData());
+                        ?>
+                        <?php foreach ($this->collectionDepartment() as $_collecttionDepartment): ?>
+
+                            <?php
+                           /*
+                            $open = 0;
+                            $wait = 0;
+                            $closed = 0;
+                            $new = 0;
+                            */
+                            //foreach ($this->countOpenTicketDepartment($_collecttionDepartment->getDepartmentId()) as $_count):
+                                ?>
+                                <?php
+                                /* comment here old code */
+                                /*
+                                if(isset($departmentStatusArray[$_collecttionDepartment->getDepartmentId()][1])){
+                                    $open = $departmentStatusArray[$_collecttionDepartment->getDepartmentId()][1];
+                                }
+                                if(isset($departmentStatusArray[$_collecttionDepartment->getDepartmentId()][2])){
+                                    $wait = $departmentStatusArray[$_collecttionDepartment->getDepartmentId()][2];
+                                }
+                                if(isset($departmentStatusArray[$_collecttionDepartment->getDepartmentId()][3])){
+                                    $closed = $departmentStatusArray[$_collecttionDepartment->getDepartmentId()][3];
+                                }
+                                if(isset($departmentStatusArray[$_collecttionDepartment->getDepartmentId()][4])){
+                                    $new = $departmentStatusArray[$_collecttionDepartment->getDepartmentId()][4];
+                                }
+                                */
+                                
+//                                if ($_count['status'] == 1) {
+//                                    $open = $_count['count'];
+//                                } else if ($_count['status'] == 2) {
+//                                    $wait = $_count['count'];
+//                                } else if ($_count['status'] == 3) {
+//                                    $closed = $_count['count'];
+//                                }
+                                ?>
+                            <?php //endforeach; ?>
+
+                            <tr title="" class="even" id="">
+                                <td class="a-left "><a target ="_blank" href ="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/hdadmin_department/edit/id/' .  $_collecttionDepartment['department_id']) ?>">
+                                        <?php echo $_collecttionDepartment['name'] ?></a></td>
+                                <td class="a-left "><?php echo $this->StatisticsByDepartmentStatus($_collecttionDepartment['department_id'], MW_HelpDesk_Model_Config_Source_Status::STATUS_NEW) ?></td>
+                                <td class="a-left "><?php echo $this->StatisticsByDepartmentStatus($_collecttionDepartment['department_id'], MW_HelpDesk_Model_Config_Source_Status::STATUS_OPEN) ?></td>
+                                <td class="a-left "><?php echo $this->StatisticsByDepartmentStatus($_collecttionDepartment['department_id'], MW_HelpDesk_Model_Config_Source_Status::STATUS_PROCESSING) ?></td>
+                                <td class="a-left "><?php echo $this->StatisticsByDepartmentStatus($_collecttionDepartment['department_id'], MW_HelpDesk_Model_Config_Source_Status::STATUS_CLOSED) ?></td>
+                                <td class="a-left "><?php echo $_collecttionDepartment['total'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('helpdesk')->__('Ticket Tags') ?></h4>
+        </div>
+        <div class="block-content">
+            <ul style="padding: 10px;background-color:#F8F7F5">
+                <?php foreach ($this->tags() as $tag): ?>
+                    <?php $param = str_replace(' ', '+', $tag); ?>
+                    <li style="display: inline;padding-right: 4px;"><a href="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/hdadmin_ticket/index', array('tags' => $param)); ?>"><?php echo $tag; ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>

@@ -1,0 +1,298 @@
+<link href="<?php echo $this->getSkinUrl('mw_helpdesk/css/autocomplete.css') ?>" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('tiny_mce/tiny_mce.js') ?>"></script>
+<div class="dashboard">
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+    <?php $ticket = $this->getTicket(); ?>
+    <div class="page-title">
+        <h1><?php echo $ticket->getSubject() ?></h1>
+    </div>
+    <div class="fieldset">
+        <table cellspacing="10" cellpadding="10">
+            <col width="100" />
+            <col width="400" />
+            <col width="80" />
+            <col width="200" />
+            <tbody>
+                <tr>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Ticket ID'); ?></b></td>
+                    <td><?php echo $ticket->getCodeId() ?></td>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Status'); ?></b></td>
+                    <td><?php echo MW_HelpDesk_Model_Config_Source_Status::getLabel($ticket->getStatus()) ?></td>
+                </tr>
+                <tr>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Time Updated'); ?></b></td>
+                    <td><?php echo Mage::helper('helpdesk')->locale_time_format(Mage::getModel('core/date')->timestamp($ticket->getLastReplyTime()),Mage_Core_Model_Locale::FORMAT_TYPE_FULL,"H:i:s"); //date('F jS, Y, h:i A', Mage::getModel('core/date')->timestamp($ticket->getLastReplyTime())) ?></td>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Priority'); ?></b></td>
+                    <td><?php echo MW_HelpDesk_Model_Config_Source_Priority::getLabel($ticket->getPriority()) ?></td>
+                </tr>
+                <tr>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Department') ?></b></td>
+                    <td><?php echo $this->getDepartmentName() ?></td>
+                </tr>
+                <?php if ($ticket->getOrder()): ?>
+                    <?php $order = Mage::getModel('sales/order')->load($ticket->getOrder()); ?>
+                    <tr>
+                        <td><b><?php echo Mage::helper('helpdesk')->__('Order #'); ?></b></td>
+                        <td><?php echo '<a href="' . $this->getUrl('sales/order/view/', array('order_id' => $ticket->getOrder())) . '" onclick="this.target=\'blank\'">#'
+                . $order->getIncrementId() . '</a>' . " (\${$order->getGrandTotal()}) " . ' on ' . Mage::helper('helpdesk')->locale_time_format(Mage::getModel('core/date')->timestamp($order->getCreatedAt()),Mage_Core_Model_Locale::FORMAT_TYPE_FULL); //date('F jS, Y', Mage::getModel('core/date')->timestamp($order->getCreatedAt())) ?></td>
+                    </tr>
+                <?php endif; ?>
+            </tbody></table>
+    </div>
+
+    <?php //$url = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+    //array_shift($url); ?>
+    <form action="<?php echo $this->getUrl('helpdesk/viewticket/reassign'); ?>" method="post" id="form-reassign">
+        <div class="fieldset">
+            <h2 class="legend"><?php echo $this->__('Update Ticket') ?></h2>
+            <input type=hidden name="url" id="url" value="<?php echo $this->getBaseUrl() ?>">
+            <input type=hidden name="ticket_id" value="<?php echo $this->getTicketId(); ?>">
+            <input type=hidden name="memberCode" value="<?php echo $this->getCodeMember(); ?>">
+            <ul class="form-list">
+                <li class="fields">
+                    <div class="field">
+                        <label for="department_id"><?php echo $this->__('Assign To Department') ?></label>
+                        <div class="input-box">
+                            <select id="department_id" name="department_id" class="validate-select">
+                                <option value="" ><?php echo $this->__('-- Please select --') ?></option>
+                                <?php foreach ($this->getDepartmentData() as $department): ?>
+                                    <?php if ($ticket->getDepartmentId() == $department->getId()) { ?>
+                                        <option selected="selected" value="<?php echo $department->getId() ?>"><?php echo $department->getName() ?></option>
+                                    <?php } else { ?>
+                                        <option value="<?php echo $department->getId() ?>"><?php echo $department->getName() ?></option>
+                                    <?php } ?>	
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="member_id"><?php echo $this->__('Assign to Staff');?></label>
+                        <div class="input-box">
+                            <input type="text" class="input-text" id="member_id" name="member_id">
+                            <div id="member_list" class="autocomplete"/>
+                        </div>
+                        <?php echo Mage::helper('helpdesk')->prepareMemberDataForAutocomplete('member_id', 'member_list');?>
+                    </div>
+                </li>
+            </ul>
+            <button type="submit" title="<?php echo $this->__('Reassign') ?>" class="button"><span><span><?php echo $this->__('Reassign') ?></span></span></button>
+            <button type="submit" name="close" value="close" title="<?php echo $this->__('Close') ?>" class="button"><span><span><?php echo $this->__('Close') ?></span></span></button>
+        </div>
+    </form>
+
+    <form action="<?php echo $this->getUrl('helpdesk/viewticket/moderatorReply'); ?>" method="post" id="form-reply" enctype="multipart/form-data">
+        <div class="fieldset">
+            <h2 class="legend"><?php echo $this->__('Post a reply') ?></h2>
+            <input type=hidden name="ticket_id" value="<?php echo $this->getTicketId(); ?>">
+            <input type=hidden name="memberCode" value="<?php echo $this->getCodeMember(); ?>">
+            <ul class="form-list">
+            	<li class="fields">
+                    <label for="template"><?php echo $this->__('Select Response Folder') ?></label>
+                    <div class="input-box">
+                        <select id="id_category" name="id_category" style="float:left;margin-right: 10px;">
+                                <option value="" selected="selected"><?php echo $this->__('-- Select Folder --') ?></option>
+                                <?php 
+                                $categories = unserialize(Mage::getStoreConfig('helpdesk/config/category_response'));
+						      	foreach ($categories as $cate):
+                                ?>
+                                    <option value="<?php echo $cate['id_category'] ?>" <?php if($cate['id_category']=="default") echo 'selected="selected"'; ?>><?php echo $cate['name_category'] ?></option>
+                                <?php endforeach ?>
+                            </select>
+                    </div>
+                </li>
+            
+                <li class="fields">
+                    <label for="template"><?php echo $this->__('Use Response Template') ?></label>
+                    <div class="input-box">
+                        <select id="template" name="template">
+                            <option value="" selected="selected"><?php echo $this->__('-- Select Template --') ?></option>
+                            <?php foreach ($this->getTemplateData() as $template): ?>
+                                <option value="<?php echo $template->getId() ?>"><?php echo $template->getTitle() ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </li>
+                <li class="wide">
+                    <label for="content" class="required"><em>*</em><?php echo $this->__('Message') ?></label>
+                    <div class="input-box">
+                        <textarea class="required-entry textarea" cols="15" rows="2" style="width: 826px; height: 150px;" title="Content" name="content" id="content"></textarea>
+                    </div>
+                    <?php echo Mage::helper('helpdesk')->getContentEditor('content')?>
+                </li>
+                <li class="control">
+                    <div class="input-box">
+                        <input type="checkbox" class="checkbox" value="1" id="no_change_status" name="no_change_status">
+                    </div>
+                    <label for="no_change_status"><?php echo $this->__('Notify customer without changing ticket status') ?></label>
+                </li>
+                <li class="fields">
+                    <?php echo Mage::helper('helpdesk')->getFrontendUploaderContainer('file_attachment');?>
+                </li>
+            </ul>
+            <div class="buttons-set">
+                <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+            </div>
+        </div>
+    </form>
+
+    <div class="page-title">
+        <h3><?php echo $this->__('Ticket Thread') ?></h3>
+    </div>
+
+    <?php foreach ($this->getCollection() as $history): 
+     $pos = strpos($history->getData('sender'), '@halocigs.com');?>
+        <div class="box-account box-info">
+            <div class="box-head">
+                <h2 style ="text-transform:none;"><?php echo Mage::helper('helpdesk')->locale_time_format(Mage::getModel('core/date')->timestamp($history->getCreatedTime()),Mage_Core_Model_Locale::FORMAT_TYPE_FULL,"H:i:s"); //date('F jS, Y, h:i A', Mage::getModel('core/date')->timestamp($history->getCreatedTime())) ?> - 
+                    <?php if ($pos === false) {
+                    echo $history->getName();  ?> &lt;<?php echo $history->getSender(); ?>&gt;
+                    <?php }else { echo "Halo Customer Service";} ?> </h2></h2>
+            </div>
+            <div class="col2-set">
+                <div class="box">
+                    <div class="box-content">
+                        <?php if(preg_match('/<\/?([a-zA-Z0-9]*)\b[^>]*>/',$history->getContent())) 
+                            echo $history->getContent();
+                        else
+                            echo nl2br($history->getContent());?>
+                    </div>
+                </div>
+                <?php
+                if ($history->getFileAttachment() != '') {
+                    $file_attachments = explode(";", $history->getFileAttachment());
+                    $i = 0;
+                    foreach ($file_attachments as $file_attachment) {
+                        if ($file_attachment != null) {
+                            ?>
+                            <div class="box">
+                                <div class="box-content">
+                                    <?php echo Mage::helper('helpdesk')->__('File Attachment:') ?>
+                                    <a href="<?php echo Mage::getBaseUrl('media') . 'ticket' . DS . $file_attachment; ?>" onclick="this.target='blank'"><?php echo $file_attachment ?></a>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+    <div class="box-account box-info">
+        <div class="box-head">
+            <h2 style ="text-transform:none;"><?php echo Mage::helper('helpdesk')->locale_time_format(Mage::getModel('core/date')->timestamp($ticket->getCreatedTime()),Mage_Core_Model_Locale::FORMAT_TYPE_FULL,"H:i:s"); //date('F jS, Y, h:i A', Mage::getModel('core/date')->timestamp($ticket->getCreatedTime())) ?> - 
+                <?php echo $ticket->getName(); ?> &lt;<?php echo $ticket->getSender(); ?>&gt;</h2>
+        </div>
+        <div class="col2-set">
+            <div class="box">
+                <div class="box-content">
+                    <?php if(preg_match('/<\/?([a-zA-Z0-9]*)\b[^>]*>/',$ticket->getContent())) 
+                        echo $ticket->getContent();
+                    else
+                        echo nl2br($ticket->getContent());?>
+                </div>
+            </div>
+            </div>
+            <?php
+            if ($ticket->getFileAttachment() != '') {
+                $file_attachments = explode(";", $ticket->getFileAttachment());
+                $i = 0;
+                foreach ($file_attachments as $file_attachment) {
+                    if ($file_attachment != null) {
+                        ?>
+                        <div class="box">
+                            <div class="box-content">
+                                <?php echo Mage::helper('helpdesk')->__('File Attachment:') ?>
+                                <a href="<?php echo Mage::getBaseUrl('media') . 'ticket' . DS . $file_attachment; ?>" onclick="this.target='blank'"><?php echo $file_attachment ?></a>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+            }
+            ?>
+        </div>
+    </div>
+    <?php echo $this->getToolbarHtml() ?>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+	var categoryarr=[];
+	function getTemplateFromCatetory(category_id){
+		new Ajax.Request('<?php echo $this->getUrl('helpdesk/viewticket/categoryresponse');?>', {
+            method: 'get',
+            parameters : {id_cate: category_id},
+            onSuccess: function(response){
+				//document.getElementById('loading-mask2').innerHTML ="";	 
+				categoryarr=eval('('+response.responseText+')');
+
+				var elSel = document.getElementById('template');
+				var i;
+				for (i = elSel.length - 1; i>=1; i--) {
+				     elSel.remove(i);
+				}
+
+				var m = document.getElementById('template');
+				var select = document.createElement('select');
+				select.id = 'template';
+				select.name = 'template';
+
+				for(var i=0;i<categoryarr.length;i++){
+				    var option = document.createElement("option");
+				    //alert(categoryarr[i]['title']);
+				    option.value=categoryarr[i]['template_id'];
+				    var newText = document.createTextNode(categoryarr[i]['title']);
+				    option.appendChild(newText);
+				    m.appendChild(option);
+				}
+    	}});
+	}
+	
+	$('id_category').observe('change', function(){
+		getTemplateFromCatetory(this.getValue());
+	});
+
+	document.observe('dom:loaded', function() {
+		getTemplateFromCatetory($('id_category').getValue());
+	});
+	
+
+    var dataFormRepply = new VarienForm('form-reply', true);
+    var dataFormReassign = new VarienForm('form-reassign', true);
+    $('template').observe('change', function(){
+        if(parseInt(this.getValue()) > 0){
+            new Ajax.Request('<?php echo $this->getUrl('helpdesk/viewticket/template');?>', {
+                method: 'get',
+                parameters : {id: this.getValue()},
+                onSuccess: function(response){
+                    tinyMCE.activeEditor.setContent(response.responseText);
+                }
+            });
+        }
+        ;
+    });
+//    $j_mw(function() {	
+//	
+//        $j_mw("#template").change(function(){
+//            var id = $j_mw("select#template").val();
+//            var loadUrl = '<?php //echo $this->getUrl('helpdesk/viewticket/template') ?>';
+//            $j_mw.get(loadUrl,
+//            {id: id},
+//            function(responseText){
+//                $j_mw("textarea#content").text(responseText);
+//            },
+//            "html"
+//        );
+//        });
+//
+//    });
+
+    //]]>
+</script>
+<?php 
+/* save ticket log */
+Mage::getModel('helpdesk/ticketlog')->SaveLogsByStaff($ticket->getTicketId()); 
+?>

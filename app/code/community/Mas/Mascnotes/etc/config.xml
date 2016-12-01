@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mas_Mascnotes extension by Makarovsoft.com
+ * 
+ * @category   	Mas
+ * @package		Mas_Mascnotes
+ * @copyright  	Copyright (c) 2014
+ * @license		http://makarovsoft.com/license.txt
+ * @author		makarovsoft.com
+ */
+-->
+<config>
+	<modules>
+		<Mas_Mascnotes>
+			<version>1.3</version>
+		</Mas_Mascnotes>
+	</modules>
+	<global>
+		<resources>
+			<mas_mascnotes_setup>
+				<setup>
+					<module>Mas_Mascnotes</module>
+					<class>Mas_Mascnotes_Model_Resource_Setup</class>
+				</setup>
+			</mas_mascnotes_setup>
+		</resources>
+		<blocks>
+			<mascnotes>
+				<class>Mas_Mascnotes_Block</class>
+			</mascnotes>
+		</blocks>
+		<helpers>
+			<mascnotes>
+				<class>Mas_Mascnotes_Helper</class>
+			</mascnotes>
+		</helpers>
+		<models>
+			<mascnotes>
+				<class>Mas_Mascnotes_Model</class>
+				<resourceModel>mascnotes_resource</resourceModel>
+			</mascnotes>
+			<mascnotes_resource>
+				<class>Mas_Mascnotes_Model_Resource</class>
+				<entities>
+					<note>
+						<table>mas_mascnotes_note</table>
+					</note>
+					<note_store>
+						<table>mas_mascnotes_note_store</table>
+					</note_store>
+					<note_customer>
+						<table>mas_mascnotes_note_customer</table>
+					</note_customer>
+				</entities>
+			</mascnotes_resource>
+		</models>
+	</global>
+	<adminhtml>
+		<layout>
+			<updates>
+				<mas_mascnotes>
+					<file>mas_mascnotes.xml</file>
+				</mas_mascnotes>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<Mas_Mascnotes>
+					<files>
+						<default>Mas_Mascnotes.csv</default>
+					</files>
+				</Mas_Mascnotes>
+			</modules>
+		</translate>
+		<events>
+			<core_block_abstract_to_html_before>
+				<observers>
+					<cnote>
+						<type>singleton</type>
+						<class>mascnotes/adminhtml_observer</class>
+						<method>addNoteBlock</method>
+					</cnote>
+				</observers>
+			</core_block_abstract_to_html_before>
+			<customer_save_after>
+				<observers>
+					<cnote>
+						<type>singleton</type>
+						<class>mascnotes/adminhtml_observer</class>
+						<method>saveNoteData</method>
+					</cnote>
+				</observers>
+			</customer_save_after>
+		</events>
+	</adminhtml>
+    <frontend>
+        <routers>
+			<mascnotes>
+				<use>standard</use>
+				<args>
+					<module>Mas_Mascnotes</module>
+					<frontName>adminnotes</frontName>
+				</args>
+			</mascnotes>
+		</routers>
+
+		<layout>
+			<updates>
+				<mas_mascnotes>
+					<file>mas_mascnotes.xml</file>
+				</mas_mascnotes>
+			</updates>
+		</layout>
+	</frontend>
+
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<Mas_Mascnotes before="Mage_Adminhtml">Mas_Mascnotes_Adminhtml</Mas_Mascnotes>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<default>
+		<mascnotes>
+			<general>
+                <editor>1</editor>
+            </general>
+            <customer>
+                <enabled>0</enabled>
+                <text_above></text_above>
+            </customer>
+		</mascnotes>
+	</default>
+</config>

@@ -1,0 +1,7 @@
+.grid tr.unread {
+    background: none repeat scroll 0 0 #FDFBD2 !important;
+}
+
+.grid tr.processing {
+    background: none repeat scroll 0 0 #FFDDDD !important;
+}

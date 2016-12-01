@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <ageverification_index_index>
+        <reference name="content">
+            <block type="ageverification/ageverification" name="ageverification" template="ageverification/ageverification.phtml" />
+        </reference>
+    </ageverification_index_index>
+    
+    <checkout_onepage_index>
+        <!-- Register or login phtml  -->
+        <reference name='checkout.onepage.login'>
+            <action method='setTemplate' ifconfig="age_verify_general/ageverification_options/is_age_ageverification_enabled">
+                <template>ageverification/checkout/onepage/login.phtml</template>
+            </action>
+        </reference>
+        
+        <reference name='checkout.onepage'>
+            <action method='setTemplate' ifconfig="age_verify_general/ageverification_options/is_age_ageverification_enabled">
+                <template>ageverification/checkout/onepage.phtml</template>
+            </action>
+            <block type="ageverification/checkout_onepage_verify" name="checkout.onepage.verify" as="verify" template="ageverification/checkout/onepage/verify.phtml">
+                <block type="ageverification/checkout_onepage_verify" name="checkout.onepage.verify.info" as="verify.info" template="ageverification/checkout/onepage/verify/info.phtml" />
+            </block>  
+        </reference>
+        <reference name='checkout.progress'>  
+            <action method='setTemplate' ifconfig="age_verify_general/ageverification_options/is_age_ageverification_enabled">
+                <template>ageverification/checkout/onepage/progress.phtml</template>
+            </action>
+            <block type="checkout/onepage_progress" name="verify.progress" template="ageverification/checkout/onepage/progress/verify.phtml"></block>
+        </reference>
+    </checkout_onepage_index>
+    
+    <checkout_onepage_progress>
+        <reference name='root'>
+            <action method='setTemplate' ifconfig="age_verify_general/ageverification_options/is_age_ageverification_enabled">
+                <template>ageverification/checkout/onepage/progress.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_progress>
+	
+    <checkout_onepage_progress_verify>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="checkout/onepage_progress" name="root" output="toHtml" template="ageverification/checkout/onepage/progress/verify.phtml">
+            <action method="setInfoTemplate">
+                <method></method>
+                <template></template>
+            </action>
+        </block>
+    </checkout_onepage_progress_verify>
+    
+    <checkout_onepage_verify>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+ 
+        <block type="ageverification/checkout_onepage_verify" name="root" output="toHtml" template="ageverification/checkout/onepage/verify/info.phtml"/>
+    </checkout_onepage_verify>
+</layout> 

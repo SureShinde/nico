@@ -1,0 +1,99 @@
+<?php if ($this->isRequiredLogin() && !Mage::getSingleton('customer/session')->isLoggedIn()): ?> 
+    <div style="text-align:center;">This type of support is provided only for registered users. Please login to access this help desk section.<br />
+        <button onclick="<?php echo 'window.location=\'' . Mage::getUrl('customer/account/login') . '\''; ?>" class="button" type="button">
+            <span><span>Login</span></span>
+        </button>
+    </div>
+<?php else: ?>
+    <div class="fieldset" >
+
+        <ul class="form-list">
+            <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+                <li class="fields">
+                    <div class="field">
+                        <label for="name" class="required"><em>*</em>Your Name</label>
+                        <div class="input-box">
+                            <input name="name" id="name" value="" class="input-text required-entry" type="text" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="sender" class="required"><em>*</em>Your Email</label>
+                        <div class="input-box">
+                            <input name="sender" id="sender" value="" class="input-text required-entry validate-email" type="text" />
+                        </div>
+                    </div>
+                </li>
+            <?php endif; ?>
+
+            <?php if (Mage::getStoreConfig('helpdesk/client_config/priority')): ?>
+                <li class="fields">
+                    <label for="priority"><?php echo Mage::helper('helpdesk')->__('Priority'); ?></label>
+                    <div class="input-box">
+                        <select id="priority" name="priority">
+                            <?php foreach (Mage::getSingleton('helpdesk/config_source_priority')->getOptionArray() as $option => $label): ?>
+                                <option value="<?php echo $option ?>"><?php echo $label ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </li>
+            <?php endif; ?>
+
+            <?php if (Mage::getStoreConfig('helpdesk/client_config/order') && $this->hasOrders()): ?>
+                <?php $orders = $this->getOrders(); ?>
+                <li class="fields">
+                    <div class="field">
+                        <label for="order"><?php echo Mage::helper('helpdesk')->__('Assign To Order'); ?> #</label>
+                        <div class="input-box">
+                            <select id="order" name="order">
+                                <option value="" selected="selected">-- <?php echo Mage::helper('helpdesk')->__('Please select'); ?> --</option>
+                                <?php foreach ($orders as $order): ?>
+                                    <option value="<?php echo $order->getId() ?>">#
+                                        <?php echo $order->getIncrementId() ?>(<?php echo $this->helper('checkout')->formatPrice($order->getGrandTotal()) ?>) on 
+                                        <?php echo Mage::helper('helpdesk')->locale_time_format(Mage::getModel('core/date')->timestamp($order->getCreatedAt()),Mage_Core_Model_Locale::FORMAT_TYPE_FULL); //date('F jS, Y', Mage::getModel('core/date')->timestamp($order->getCreatedAt())) ?>
+                                    </option>
+                                <?php endforeach; ?>      
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field"><br />
+                        <a id="linkOrder" href="#" target=""><?php echo Mage::helper('helpdesk')->__('View order detail'); ?></a>
+                    </div>
+                </li>
+            <?php endif; ?>
+
+            <li class="fields" style="display:none">
+                <label for="subject" class="required"><em>*</em><?php echo Mage::helper('helpdesk')->__('Subject'); ?></label>
+                <div class="input-box">
+                    <input type="text" class="input-text required-entry" name="subject" id="subject" value="Halo Online Inquiry" />
+                </div>
+            </li>
+            <li class="wide">
+                <label for="content" class="required"><em>*</em><?php echo Mage::helper('helpdesk')->__('Your Message'); ?></label>
+                <div class="input-box">
+                    <textarea class=" required-entry textarea" cols="15" rows="2" style="width: 100%; height: 150px;" title="Content" name="content" id="content"></textarea>
+                </div>
+            </li>
+            <?php echo Mage::helper('helpdesk')->getContentEditor('content'); ?>
+            <?php if (Mage::getStoreConfig('helpdesk/client_config/upload')): ?>
+                <?php echo Mage::helper('helpdesk')->getFrontendUploaderContainer('file_attachment'); ?>
+            <?php endif; ?>
+        </ul>
+        <div class="buttons-set">
+            <button type="submit" class="button"><span><span><?php echo Mage::helper('helpdesk')->__('Submit New Ticket'); ?></span></span></button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var linkOrder = '<?php echo $this->getUrl('sales/order/view/') ?>';
+        if($("order") != undefined){
+            Event.observe('order', 'change', function(){
+                if($('order').getValue() != ''){
+                    $('linkOrder').writeAttribute('href', linkOrder+'order_id/'+$('order').getValue());
+                    $('linkOrder').writeAttribute('target', '_blank');
+                }else{
+                    $('linkOrder').writeAttribute('href', '#');
+                    $('linkOrder').writeAttribute('target', '');
+                }
+            });
+        }
+    </script>
+<?php endif ?>

@@ -1,0 +1,164 @@
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<meta name="msvalidate.01" content="5C2CA19E9E3B3612F905924E0CCCADCF" />
+<meta name='yandex-verification' content='47218d1f6264e0fb' />
+ <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)=="/contacts/"){ ?>
+        <title>Contact Us | Halo</title>
+        <meta name="description" content="Questions or comments? Call, Email or Chat with us for a quick response." /> 
+        <?php }?>
+         <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)=="/storelocator/index/index/"){ ?>
+        <title>Vape Store Locator | Find Halo E-liquid Near Me</title>
+        <meta name="description" content="Find vape shops selling Halo E-liquid, E-juice, vape pens, box mods, and E-cig starter kits. Search by city, distance and state to find nearby vape stores. " /> 
+        <?php }?>
+<?php
+$mystring = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$findme   = 'faq'; 
+$pos = strpos($mystring, $findme);
+if ($pos === false) {
+    
+    ?>
+    <?php if($meta_title=$this->getMetaTitle()): ?>
+    <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)!="/contacts/" && parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)!="/storelocator/index/index/"){?>
+        <title><?php echo htmlspecialchars($meta_title) ?></title>
+        <?php } ?>
+        <?php else: ?>
+       <?php  if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)!="/contacts/" && parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)!="/storelocator/index/index/"){?>
+        <title><?php echo $this->getTitle() ?></title>
+        <?php } ?>
+        <?php endif; ?>
+        <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)!="/contacts/" && parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)!="/storelocator/index/index/"){?>
+    <meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+    <?php } ?>
+    <?php }else{?>
+    <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)=="/faqs/"){ ?>
+        <title>E-liquid FAQ | Halo E-liquid Information</title>
+        <meta name="description" content="Halo E-liquid frequently asked questions. Learn more about our premium E-liquid." /> 
+        <?php }?>
+    <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)=="/faqs/ecigarette-faq/"){ ?>
+        <title>G6 E-cigarette FAQ | Halo G6 Information</title>
+        <meta name="description" content="G6 E-cigarette frequently asked questions. Learn more about our popular G6 E-cigarette." /> 
+        <?php }?>
+    <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)=="/faqs/eliquid/"){ ?>
+        <title>Halo FAQ | Vaping Product Information</title>
+        <meta name="description" content="Frequently asked questions about Halo products including our E-liquids, G6 E-cigarette, Triton vape pen, Tracer mechanical mod and Reactor box mod." /> 
+        <?php }?>
+    <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)=="/faqs/tank-system-faq/"){ ?>
+        <title>Triton Tank System FAQ | Halo Triton Tank System Information</title>
+        <meta name="description" content="Triton Tank System frequently asked questions. Learn more about our Triton advanced vape pen." /> 
+        <?php }?>
+    <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)=="/faqs/tracer-faq/"){ ?>
+        <title>Tracer mod FAQ | Halo Tracer Mod Information</title>
+        <meta name="description" content="Tracer mod frequently asked questions. Learn more about Tracer mod sub-ohm vaping." /> 
+        <?php }?>
+    <?php if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)=="/faqs/reactor-faq/"){ ?>
+        <title>Reactor mod FAQ | Halo Reactor Mod Information</title>
+        <meta name="description" content="Reactor box mod frequently asked questions. Learn more about Halo’s box  mod, the Reactor mod." /> 
+        <?php }?>
+    <?php }?>
+   
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<?php
+//if(!$d['general']['disable_responsive']){
+?>	
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<?php
+//}
+?>
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<!--<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />-->
+<?php if(Mage::registry('current_product')){
+    $current_product = Mage::registry('current_product');   
+    $desc = preg_replace('/\s+?(\S+)?$/', '', substr(strip_tags(str_replace(array("\r\n", "\r", "\n"), "", $current_product->getShortDescription())), 0, 150));
+    $desc = str_replace("’","'", $desc);
+    $desc = str_replace(" "," ", $desc);
+    $product_image = Mage::getModel('catalog/product_media_config')->getMediaUrl($current_product->getSmallImage());
+
+    ?>
+    <!-- BEGIN TWITTER PRODUCT CARDS -->
+    <meta name="twitter:site" content="@HaloCigs">
+    <meta name="twitter:card" content="product" />
+    <meta name="twitter:title" content="<?php echo $current_product->getName();?>" />
+    <meta name="twitter:description" content="<?php echo strip_tags($current_product->getShortDescription());//$desc;?>" />
+    <meta name="twitter:image" content="<?php echo $product_image;?>" />
+    <meta name="twitter:data1" content="$<?php echo number_format($current_product->getPrice(),2);?>" />
+    <meta name="twitter:label1" content="PRICE" />
+    <?php if($current_product->getStockItem()->getIsInStock()) { ?>
+        <meta name="twitter:data2" content="In stock!" />
+        <?php } else { ?>
+        <meta name="twitter:data2" content="Out of stock" />
+        <?php } ?>
+    <meta name="twitter:label2" content="AVAILABILITY" />
+    <!-- END TWITTER PRODUCT CARDS -->
+    <?php }elseif(Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms' || Mage::app()->getFrontController()->getRequest()->getRouteName() =='wordpress'){?>
+    <meta name="twitter:image" content="<?php echo $this->getSkinUrl('images/twittercard-halo-logo.jpg') ?>" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@HaloCigs" />
+    <meta name="twitter:title" content="<?php echo Mage::getSingleton('cms/page')->getTitle();//echo $this->getLayout()->getBlock('head')->getTitle();?>" />
+    <?php
+    $desccms = preg_replace('/\s+?(\S+)?$/', '', substr(strip_tags(str_replace(array("\r\n", "\r", "\n"), "", Mage::getSingleton('cms/page')->getContent())), 0, 150));
+    $desccms = str_replace("’","'", $desccms);
+    $desccms = str_replace(" "," ", $desccms);
+    ?>
+    <meta name="twitter:description" content="<?php echo htmlspecialchars($this->getDescription()) ?><?php //echo substr(preg_replace('/<[^>]*>/', '', Mage::getSingleton('cms/page')->getContent()),0,150);//$desccms;//htmlspecialchars($this->getDescription()) ?>" />
+    <meta name="twitter:url" content="<?php echo Mage::helper('core/url')->getCurrentUrl();?>" /> 
+
+    <meta property="og:image" content="<?php echo $this->getSkinUrl('images/fb-halo-logo.jpg') ?>"/>  
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/> 
+    <?php }elseif (Mage::registry('current_category')){?>
+    <meta name="twitter:card" content="summary_large_image" /> 
+    <meta name="twitter:site" content="@HaloCigs">
+    <meta name="twitter:title" content="<?php echo $this->getLayout()->getBlock('head')->getTitle();?>">
+    <meta name="twitter:description" content="<?php echo substr(preg_replace('/<[^>]*>/', '', $this->getDescription()),0,150); ?>">
+    <meta name="twitter:image" content="<?php echo $this->getSkinUrl('images/twittercard-halo-logo.jpg') ?>" />
+    <?php }else{?>
+    <meta name="twitter:image" content="<?php echo $this->getSkinUrl('images/twittercard-halo-logo.jpg') ?>" />
+    <meta name="twitter:card" content="product" />
+    <meta name="twitter:site" content="@HaloCigs" />
+    <meta name="twitter:title" content="<?php echo $this->getLayout()->getBlock('head')->getTitle();?>" />
+    <meta name="twitter:description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+    <meta name="twitter:url" content="<?php echo Mage::helper('core/url')->getCurrentUrl();?>" /> 
+    <meta property="og:title" content="<?php echo $this->getLayout()->getBlock('head')->getTitle();?>"/>
+    <meta property="og:type" content="article:faq"/>
+    <meta property="og:url" content="<?php echo $this->getCurrentUrl() ?>"/>
+    <meta property="og:description" content="<?php echo htmlspecialchars($this->getDescription()) ?><?php //echo htmlspecialchars(strip_tags($_description)) ?>"/>
+    <meta property="og:image" content="<?php echo $this->getSkinUrl('images/fb-halo-logo.jpg') ?>"/>  
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <?php }?>
+<?php //Include Google fonts character subsets (such as extended latin, cyrillic)
+$theme = Mage::helper('porto');
+$charSubset = '&subset=latin';
+$d = $theme->getCfgSectionDesign();
+if (isset($d['font']['primary_char_latin_ext']) && $d['font']['primary_char_latin_ext']==1 )
+    $charSubset .= ',latin-ext';
+if (isset($d['font']['custom_char_subset']) && $d['font']['custom_char_subset'])
+    $charSubset .= ','.$d['font']['custom_char_subset'];
+$font_sizes = "%3A300%2C300italic%2C400%2C400italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic";
+?>
+<?php if ($d['font']['custom'] && $d['font']['primary_font_family_group'] == 'google'): ?>
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=<?php echo str_replace(' ', '+', $d['font']['primary_font_family']).$font_sizes; echo $charSubset; ?>' type='text/css' />
+    <?php else: ?>
+   
+    <?php endif;?>
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>
+<script type="text/javascript">
+    wow = new WOW(
+        {
+            animateClass: 'animated',
+            offset:       100
+        }
+    );
+    wow.init();
+</script>
+<script type="text/javascript">
+    //<![CDATA[
+    if (typeof dailydealTimeCountersCategory == 'undefined') {
+        var dailydealTimeCountersCategory = new Array();
+        var i = 0;
+    }
+    //]]>
+</script>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * EmJa Interactive, LLC.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.emjainteractive.com/LICENSE.txt
+ *
+ * @category   EmJaInteractive
+ * @package    EmJaInteractive_ShippingOption
+ * @copyright  Copyright (c) 2010 EmJa Interactive, LLC. (http://www.emjainteractive.com)
+ * @license    http://www.emjainteractive.com/LICENSE.txt
+ */
+-->
+<config>
+    <modules>
+        <Emjainteractive_ShippingOption>
+            <version>2.0.0</version>
+        </Emjainteractive_ShippingOption>
+    </modules>
+    <global>
+        <models>
+            <emjainteractive_shippingoption>
+                <class>Emjainteractive_ShippingOption_Model</class>
+                <resourceModel>emjainteractive_shippingoption_mysql4</resourceModel>
+            </emjainteractive_shippingoption>
+            
+            <emjainteractive_shippingoption_mysql4>
+                <class>Emjainteractive_ShippingOption_Model_Mysql4</class>
+                <entities>
+                    <option>
+                        <table>emjainteractive_shipping_options</table>
+                    </option>
+                </entities>
+            </emjainteractive_shippingoption_mysql4>
+        </models>
+
+        <resources>
+            <emjainteractive_shippingoption_setup>
+                <setup>
+                    <module>Emjainteractive_ShippingOption</module>
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
+                </setup>
+            </emjainteractive_shippingoption_setup>
+        </resources>
+
+        <helpers>
+            <emjainteractive_shippingoption><class>Emjainteractive_ShippingOption_Helper</class></emjainteractive_shippingoption>
+        </helpers>
+
+        <blocks>
+            <emjainteractive_shippingoption><class>Emjainteractive_ShippingOption_Block</class></emjainteractive_shippingoption>
+        </blocks>
+
+        <fieldsets>
+            <sales_convert_quote>
+                <emjainteractive_shippingoption><to_order>*</to_order></emjainteractive_shippingoption>
+            </sales_convert_quote>
+        </fieldsets>
+        
+        <sales>
+            <quote>
+                <totals>
+                    <shipping>
+                        <renderer>emjainteractive_shippingoption/checkout_total_shipping</renderer>
+                    </shipping>
+                </totals>
+            </quote>
+        </sales>
+
+        <events>
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <emjainteractive_shippingoption_collect_totals_before>
+                        <class>emjainteractive_shippingoption/sales_quote_observer</class>
+                        <method>collectTotalsBefore</method>
+                    </emjainteractive_shippingoption_collect_totals_before>
+                </observers>
+            </sales_quote_collect_totals_before>
+
+            <sales_quote_collect_totals_after>
+                <observers>
+                    <emjainteractive_shippingoption_collect_totals_after>
+                        <class>emjainteractive_shippingoption/sales_quote_observer</class>
+                        <method>collectTotalsAfter</method>
+                    </emjainteractive_shippingoption_collect_totals_after>
+                </observers>
+            </sales_quote_collect_totals_after>
+        </events>
+
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <emjainteractive_shippingoption before="Mage_Adminhtml">Emjainteractive_ShippingOption_Adminhtml</emjainteractive_shippingoption>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <events>
+            <controller_action_predispatch_adminhtml_sales_order_create_save>
+                <observers>
+                    <emjainteractive_shippingoption_observer>
+                        <type>singleton</type>
+                        <class>emjainteractive_shippingoption/observer</class>
+                        <method>adminCreateOrder</method>
+                    </emjainteractive_shippingoption_observer>
+                </observers>
+            </controller_action_predispatch_adminhtml_sales_order_create_save>
+        </events>
+
+        <layout>
+            <updates>
+                <emjainteractive_shippingoption_admin>
+                    <file>emjainteractive/shippingoption.xml</file>
+                </emjainteractive_shippingoption_admin>
+            </updates>
+        </layout>
+        
+    </adminhtml>
+    
+    <frontend>
+
+        <layout>
+            <updates>
+                <emjainteractive_shippingoption>
+                    <file>emjainteractive/shippingoption.xml</file>
+                </emjainteractive_shippingoption>
+            </updates>
+        </layout>
+        
+        <events>
+            <controller_action_predispatch_checkout_onepage_saveshippingmethod>
+                <observers>
+                    <emjainteractive_shippingoption_observer>
+                        <class>emjainteractive_shippingoption/observer</class>
+                        <method>saveShippingMethod</method>
+                    </emjainteractive_shippingoption_observer>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_saveshippingmethod>
+        </events>
+
+    </frontend>
+
+    <default>
+        <carriers>
+            <umosaco>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>emjainteractive_shippingoption/carrier_umosaco</model>
+                <name>Surcharge</name>
+                <price>1.00</price>
+                <title>Use My Own Shipping Account</title>
+                <type>I</type>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <handling_type>F</handling_type>
+                <customergroups>0,1,2,3</customergroups>
+            </umosaco>
+        </carriers>
+    </default>
+</config>

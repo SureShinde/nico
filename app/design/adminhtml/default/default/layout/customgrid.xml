@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="0.1.0"> 
+   <adminhtml_sales_order_view>
+        <reference name="sales_order_tabs">
+            <action method="addTab">
+                <name>related_transactions</name>
+                 <block>customgrid/adminhtml_sales_order_view_tabs</block>
+            </action>
+        </reference>
+</adminhtml_sales_order_view> 
+</layout>

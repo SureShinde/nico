@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+* @category   Chetu
+* @package    Halox_AgeVerification
+* @author     ModuleCreator
+* @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<config>
+    
+    <modules>
+        <Halox_AgeVerification>
+            <version>0.1.11</version>
+        </Halox_AgeVerification>
+    </modules>
+
+    <frontend>
+        <routers>
+            <ageverification>
+                <use>standard</use>
+                <args>
+                    <module>Halox_AgeVerification</module>
+                    <frontName>ageverification</frontName>
+                </args>
+            </ageverification>
+            
+            <!-- override checkout controller -->    
+            <checkout>
+                <args>
+                    <modules>
+                        <Halox_AgeVerification before="Mage_Checkout">Halox_AgeVerification</Halox_AgeVerification>
+                    </modules>
+                </args>
+            </checkout>
+        </routers>
+        <layout>
+            <updates>
+                <ageverification>
+                    <file>ageverification.xml</file>
+                </ageverification>
+            </updates>
+        </layout>
+        <events>
+            <sales_order_place_after>
+                <observers>
+                    <Halox_AgeVerification_Model_Observer>
+                        <type>singleton</type>
+                        <class>Halox_AgeVerification_Model_Observer</class>
+                        <method>setCustomerAgeVerificationData</method>
+                    </Halox_AgeVerification_Model_Observer>
+                </observers>
+            </sales_order_place_after>
+           
+            <sales_order_payment_place_end>
+                <observers>
+                    <Halox_AgeVerification_Model_Observer>
+                        <type>singleton</type>
+                        <class>Halox_AgeVerification_Model_Observer</class>
+                        <method>setOrderStatus</method>
+                    </Halox_AgeVerification_Model_Observer>
+                </observers>
+            </sales_order_payment_place_end>
+            
+            <checkout_controller_onepage_save_shipping_method>
+                <observers>
+                    <Halox_AgeVerification_Model_Observer>
+                        <type>singleton</type>
+                        <class>Halox_AgeVerification_Model_Observer</class>
+                        <method>updateTotals</method>
+                    </Halox_AgeVerification_Model_Observer>
+                </observers>
+            </checkout_controller_onepage_save_shipping_method>
+            
+        </events>
+    </frontend>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Halox_AgeVerification before="Mage_Adminhtml">Halox_AgeVerification_Adminhtml</Halox_AgeVerification>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    
+    <adminhtml>
+        <layout>
+            <updates>
+                <ageverification>
+                    <file>ageverification.xml</file>
+                </ageverification>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <global>
+        <models>
+            <ageverification>
+                <class>Halox_AgeVerification_Model</class>
+                <resourceModel>ageverification_mysql4</resourceModel>
+            </ageverification>
+            <checkout>
+                <rewrite>
+                    <type_onepage>Halox_AgeVerification_Model_Checkout_Type_Onepage</type_onepage>
+                </rewrite>
+            </checkout>      
+            <ageverification_mysql4>
+                <class>Halox_AgeVerification_Model_Mysql4</class>
+                <entities>
+                    <ageverification>
+                        <table>ageverification</table>
+                    </ageverification>
+                    <ageverificationdetails>
+                        <table>customer_ageverification_details</table>
+                    </ageverificationdetails>
+                    <ageverificationforstate>
+                        <table>customer_ageverification_state_details</table>
+                    </ageverificationforstate>
+                </entities>
+            </ageverification_mysql4>
+        </models>
+        <resources>
+            <ageverification_setup>
+                <setup>
+                    <module>Halox_AgeVerification</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </ageverification_setup>
+            <ageverification_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </ageverification_write>
+            <ageverification_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </ageverification_read>
+        </resources>
+        <blocks>
+            <ageverification>
+                <class>Halox_AgeVerification_Block</class>
+            </ageverification>
+            <checkout>
+                <rewrite>
+                    <onepage>Halox_AgeVerification_Block_Checkout_Onepage</onepage>
+                </rewrite>
+            </checkout>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_grid>Halox_AgeVerification_Block_Adminhtml_Order_Grid</sales_order_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <helpers>
+            <ageverification>
+                <class>Halox_AgeVerification_Helper</class>
+            </ageverification>
+        </helpers>
+    </global>
+   
+    <default>
+        <age_verify_general>
+            <ageverification_options>
+                <is_age_ageverification_enabled>1</is_age_ageverification_enabled>
+                <test>1</test>
+                <api_curl_log>1</api_curl_log>
+            </ageverification_options>
+            <api_info>
+                <veratad_username>ws@nicopure.com</veratad_username>
+                <veratad_password>wjihf975e97ygubsa</veratad_password>
+                <veratad_service_name>AgeMatch5.0</veratad_service_name>
+                <veratad_destination_url>https://production.idresponse.com/process/5/gateway</veratad_destination_url>
+            </api_info>
+        </age_verify_general>
+    </default>
+</config>

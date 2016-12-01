@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<config>
+    
+    <modules>
+        <Halox_Registration>
+            <version>0.1.0</version>
+        </Halox_Registration>
+    </modules>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Halox_Registration before="Mage_Adminhtml">Halox_Registration_Adminhtml</Halox_Registration>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <global>
+        <blocks>
+            <registration>
+                <class>Halox_Registration_Block</class>
+            </registration>
+        </blocks>
+        <helpers>
+            <registration>
+                <class>Halox_Registration_Helper</class>
+            </registration>
+        </helpers>
+    </global>
+   
+    <frontend>
+        <routers>
+            <registration>
+                <use>standard</use>
+                <args>
+                    <module>Halox_Registration</module>
+                    <frontName>registration</frontName>
+                </args>
+            </registration>
+        </routers>
+        <layout>
+            <updates>
+                <registration>
+                    <file>multistepregistration.xml</file>
+                </registration>
+            </updates>
+        </layout>
+    </frontend>
+    
+</config>

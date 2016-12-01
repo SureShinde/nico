@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Halox
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    Halox
+ * @package     Halox_CheckoutComment
+ * @copyright   Copyright (c) 2016 Halox. 
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Halox_CheckoutComment>
+            <version>0.1.1</version>
+        </Halox_CheckoutComment>
+    </modules>
+    <global>
+        <helpers>
+            <checkoutcomment>
+                <class>Halox_CheckoutComment_Helper</class>
+            </checkoutcomment>
+        </helpers>
+        <blocks>
+            <checkoutcomment>
+                <class>Halox_CheckoutComment_Block</class>
+            </checkoutcomment>
+        </blocks>
+        <models>
+            <checkoutcomment>
+                <class>Halox_CheckoutComment_Model</class>
+            </checkoutcomment>
+        </models>
+        <fieldsets>
+            <sales_convert_quote_address>
+                <customer_notes><to_order>customer_note</to_order></customer_notes>
+            </sales_convert_quote_address>
+        </fieldsets>
+    </global>
+    <frontend>
+        <events>
+			<checkout_controller_onepage_save_shipping_method>
+                <observers>
+                    <checkoutcomment_save_comment>
+                        <type>singleton</type>
+                        <class>checkoutcomment/observer</class>
+                        <method>saveComment</method>
+                    </checkoutcomment_save_comment>
+                </observers>
+            </checkout_controller_onepage_save_shipping_method>
+        </events>
+        <translate>
+            <modules>
+                <Halox_CheckoutComment>
+                    <files>
+                        <default>Halox_CheckoutComment.csv</default>
+                    </files>
+                </Halox_CheckoutComment>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <checkoutcomment module="Halox_CheckoutComment">
+                    <file>halox/checkoutcomment.xml</file>
+                </checkoutcomment>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Halox_CheckoutComment>
+                    <files>
+                        <default>Halox_CheckoutComment.csv</default>
+                    </files>
+                </Halox_CheckoutComment>
+            </modules>
+        </translate>
+		<acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <checkout_comment translate="title">
+                                        <title>Checkout Comment Settings </title>
+                                        <sort_order>98</sort_order>
+                                    </checkout_comment>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                 </children>
+            </admin>
+        </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <checkout>
+            <haloxcheckoutcomment>
+                <enable_comment>1</enable_comment>
+            </haloxcheckoutcomment>
+        </checkout>
+    </default>
+</config>

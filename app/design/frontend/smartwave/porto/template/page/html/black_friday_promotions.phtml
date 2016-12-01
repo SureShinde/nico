@@ -1,0 +1,250 @@
+
+<?php 
+$baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+$mediaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+
+$currentStoreTimezone = new DateTimeZone(Mage::getStoreConfig('general/locale/timezone'));
+$currentStoreDateTime = new DateTime(
+    Mage::getModel('core/date')->date('m/d/Y H:i:s'), 
+    $currentStoreTimezone
+);
+
+?>
+<div class="container-fluid holiday-page">
+    <div class="row" style="margin-bottom: 40px;">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="header-hdr-img">
+                <img src="<?php echo $mediaUrl . 'wysiwyg/sliders/bfriday-landingpage.jpg'?>" class="img-responsive" alt="Image">
+			</div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="holiday-hdr-txt">
+              <h1>BLACK FRIDAY SAVINGS</h1>
+              <h3>It’s that time of year again!</h3>
+              <p>Time for Black Friday deals! At Halo, you don’t have to wait for Friday to grab the savings, they’re here all week. Every day, from 11/21 through 11/28, you’ll find great deals on Halo and eVo products. Shop halocigs.com every day for the best deals we have to offer! </p>
+            </div>
+        </div>
+    </div>
+
+    <?php 
+    $fromPromotionDate = new DateTime('11/21/2016 00:01', $currentStoreTimezone);
+    $toPromotionDate = new DateTime('11/22/2016 00:00', $currentStoreTimezone);
+    
+    $isPromotionRunning = $currentStoreDateTime >= $fromPromotionDate && $currentStoreDateTime <= $toPromotionDate;  
+    $isPromotionGone = $currentStoreDateTime > $toPromotionDate; 
+    $isPromotionToCome = $currentStoreDateTime < $fromPromotionDate;
+    ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="holiday-date">
+                <p>
+                    <span class="h-day">DAY 1</span><br>
+                    <span class="h-date">Monday, November 21, 2016</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+            <?php if($isPromotionToCome):?>
+           		<img class="img-responsive" src="<?php echo $mediaUrl . 'wysiwyg/homepage/comingsoon-promotions.jpg'?>" alt="" />
+           	<?php elseif($isPromotionGone || $isPromotionRunning):?>
+	           	<div class="holiday-body">
+	                <span class="holiday-title">Monday's Deals</span>
+	                <p>Buy four or more 30 ml bottles and receive one free bottle of any e-liquid! Plus, we’re offering you 20% off our Reactor Shorty Starter Kit. We’re also offering you a choice of grab bags: Choose either <a href="<?php echo $baseUrl . 'grab-bag-special/'?>" class="label label-default">Halo</a> or <a href="<?php echo $baseUrl . 'grab-bag-special/'?>" class="label label-default">eVo</a> and we’ll send you five 30 ml bottles for just $50 or ten 30 ml bottles for $100! <span class="disclaimer">No refunds or exchanges will be provided for grab bag orders.</span></p>
+					<p>What are you waiting for? Fill your cart now!</p>
+					<p class="disclaimer">OFFER EXCLUDES CLEARANCE, GIFT CARDS, AND PURCHASES MADE USING REWARDS POINTS. MUST ADD AT LEAST FOUR 30 ML BOTTLES TO YOUR CART TO GET ONE BOTTLE FOR FREE. FOR GRAB BAG OFFER, CUSTOMER CHOOSES BRAND AND HALO CHOOSES NICOTINE STRENGTH AND FLAVORS. REFUNDS AND EXCHANGES WILL NOT BE PROVIDED FOR GRAB BAGS. OFFERS END MONDAY, 11/21/16 AT 11:59 PM EST.</p>
+					<?php if($isPromotionRunning):?>
+						<a class="bottomright btn btn-primary btn-lg" href="<?php echo $baseUrl . 'grab-bag-special/'?>" role="button">Shop Now</a>
+					<?php else:?>	
+						<a class="bottomright btn btn-primary btn-lg disabled" href="<?php echo $baseUrl . 'grab-bag-special/'?>" role="button">Missed Deal</a>
+					<?php endif?>	
+				</div>	
+           	<?php endif?> 	
+        </div>
+    </div>
+    <hr>
+	
+    <?php 
+    $fromPromotionDate = new DateTime('11/22/2016 00:01', $currentStoreTimezone);
+    $toPromotionDate = new DateTime('11/23/2016 00:00', $currentStoreTimezone);
+    
+    $isPromotionRunning = $currentStoreDateTime >= $fromPromotionDate && $currentStoreDateTime <= $toPromotionDate;  
+    $isPromotionGone = $currentStoreDateTime > $toPromotionDate; 
+    $isPromotionToCome = $currentStoreDateTime < $fromPromotionDate;
+    ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="holiday-date">
+                <p>
+                    <span class="h-day">DAY 2</span><br>
+                    <span class="h-date">Tuesday, November 22, 2016</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+			<?php if($isPromotionToCome):?>
+			<img class="img-responsive" src="<?php echo $mediaUrl . 'wysiwyg/homepage/comingsoon-promotions.jpg'?>" alt="" />
+            <?php elseif($isPromotionGone || $isPromotionRunning):?>
+            <div class="holiday-body">
+                <span class="holiday-title">Tuesday's Deals</span>
+                <p>Buy three or more 30 ml bottles and receive one free bottle of any e-liquid! Plus, get 20% off our Tracer Starter Kit (V1). We’re also offering you a choice of grab bags: Choose either <a href="<?php echo $baseUrl . 'grab-bag-special/'?>" class="label label-default">Halo</a> or <a href="<?php echo $baseUrl . 'grab-bag-special/'?>" class="label label-default">eVo</a> and we’ll send you five 30 ml bottles for just $50 or ten 30 ml bottles for $100! <span class="disclaimer">No refunds or exchanges will be provided for grab bag orders.</span></p>
+				<p>Shop now to enjoy these great deals!</p>
+				<p class="disclaimer">OFFER EXCLUDES CLEARANCE, GIFT CARDS, AND PURCHASES MADE USING REWARDS POINTS. MUST ADD AT LEAST THREE 30 ML BOTTLES TO YOUR CART TO GET ONE BOTTLE FOR FREE. FOR GRAB BAG OFFER, CUSTOMER CHOOSES BRAND AND HALO CHOOSES NICOTINE STRENGTH AND FLAVORS. REFUNDS AND EXCHANGES WILL NOT BE PROVIDED FOR GRAB BAGS. OFFERS END MONDAY, 11/21/16 AT 11:59 PM EST.</p>
+				<?php if($isPromotionRunning):?>
+					<a class="bottomright btn btn-primary btn-lg" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Shop Now</a>
+				<?php else:?>
+					<a class="bottomright btn btn-primary btn-lg disabled" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Missed Deal</a>
+				<?php endif?>	
+            </div>
+        	<?php endif?> 	
+        </div>
+    </div>
+    <hr>
+
+
+    <?php 
+    $fromPromotionDate = new DateTime('11/23/2016 00:01', $currentStoreTimezone);
+    $toPromotionDate = new DateTime('11/24/2016 00:00', $currentStoreTimezone);
+    
+    $isPromotionRunning = $currentStoreDateTime >= $fromPromotionDate && $currentStoreDateTime <= $toPromotionDate;  
+    $isPromotionGone = $currentStoreDateTime > $toPromotionDate; 
+    $isPromotionToCome = $currentStoreDateTime < $fromPromotionDate;
+    ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="holiday-date">
+                <p>
+                    <span class="h-day">DAY 3</span><br>
+                    <span class="h-date">Wednesday, November 23, 2016</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+			<?php if($isPromotionToCome):?>
+			<img class="img-responsive" src="<?php echo $mediaUrl . 'wysiwyg/homepage/comingsoon-promotions.jpg'?>" alt="" />
+            <?php elseif($isPromotionGone || $isPromotionRunning):?>
+            <div class="holiday-body">
+                <span class="holiday-title">Wednesday's Deals</span>
+                <p>Buy two or more 30 ml bottles and receive one free bottle of any e-liquid! Plus, get 20% off our Reactor Mini Starter Kit. We’re also offering you a choice of grab bags: Choose either <a href="<?php echo $baseUrl . 'grab-bag-special/'?>" class="label label-default">Halo</a> or <a href="<?php echo $baseUrl . 'grab-bag-special/'?>" class="label label-default">eVo</a> and we’ll send you five 30 ml bottles for just $50 or ten 30 ml bottles for $100! <span class="disclaimer">No refunds or exchanges will be provided for grab bag orders.</span></p>
+				<p>Enjoy these special deals now! </p>
+				<p class="disclaimer">OFFER EXCLUDES CLEARANCE, GIFT CARDS, AND PURCHASES MADE USING REWARDS POINTS. MUST ADD AT LEAST TWO 30 ML BOTTLES TO YOUR CART TO GET ONE BOTTLE FOR FREE. FOR GRAB BAG OFFER, CUSTOMER CHOOSES BRAND AND HALO CHOOSES NICOTINE STRENGTH AND FLAVORS. REFUNDS AND EXCHANGES WILL NOT BE PROVIDED FOR GRAB BAGS. OFFERS END MONDAY, 11/21/16 AT 11:59 PM EST.</p>
+				<?php if($isPromotionRunning):?>
+				<a class="bottomright btn btn-primary btn-lg" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Shop Now</a>
+				<?php else:?>
+				<a class="bottomright btn btn-primary btn-lg disabled" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Missed Deal</a>
+				<?php endif?>		
+			</div>
+        	<?php endif?>
+        </div>
+    </div>
+    <hr>
+
+	<?php 
+    $fromPromotionDate = new DateTime('11/24/2016 00:01', $currentStoreTimezone);
+    $toPromotionDate = new DateTime('11/25/2016 00:00', $currentStoreTimezone);
+    
+    $isPromotionRunning = $currentStoreDateTime >= $fromPromotionDate && $currentStoreDateTime <= $toPromotionDate;  
+    $isPromotionGone = $currentStoreDateTime > $toPromotionDate; 
+    $isPromotionToCome = $currentStoreDateTime < $fromPromotionDate;
+    ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="holiday-date">
+                <p>
+                    <span class="h-day">DAY 4</span><br>
+                    <span class="h-date">Thursday, November 24, 2016</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+			<?php if($isPromotionToCome):?>
+			<img class="img-responsive" src="<?php echo $mediaUrl . 'wysiwyg/homepage/comingsoon-promotions.jpg'?>" alt="" />
+            <?php elseif($isPromotionGone || $isPromotionRunning):?>
+	            <div class="holiday-body">
+	                <span class="holiday-title">Thanksgiving Deals</span>
+	                <p>Buy one or more sample packs and receive one free bottle of any e-liquid! We’re also offering you a choice of grab bags: Choose either <a href="https://www.halocigs.com/grab-bag-special/" class="label label-default">Halo</a> or <a href="https://www.halocigs.com/grab-bag-special/" class="label label-default">eVo</a> and we’ll send you five 30 ml bottles for just $50 or ten 30 ml bottles for $100! <span class="disclaimer">No refunds or exchanges will be provided for grab bag orders.</span></p>
+					<p>These great prices are for today only! Shop now and enjoy this excellent deal!</p>
+					<p class="disclaimer">OFFER EXCLUDES CLEARANCE, GIFT CARDS, AND PURCHASES MADE USING REWARDS POINTS. MUST ADD AT ONE LEAST 10 ML SAMPLE PACK TO YOUR CART TO GET ONE BOTTLE FOR FREE. FOR GRAB BAG OFFER, CUSTOMER CHOOSES BRAND AND HALO CHOOSES NICOTINE STRENGTH AND FLAVORS. REFUNDS AND EXCHANGES WILL NOT BE PROVIDED FOR GRAB BAGS. OFFERS END MONDAY, 11/21/16 AT 11:59 PM EST.</p>
+					<?php if($isPromotionRunning):?>
+						<a class="bottomright btn btn-primary btn-lg" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Shop Now</a>
+					<?php else:?>
+						<a class="bottomright btn btn-primary btn-lg disabled" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Missed Deal</a>
+					<?php endif?>	
+				</div>
+        	<?php endif?>
+        </div>
+    </div>
+    <hr>
+
+	<?php 
+    $fromPromotionDate = new DateTime('11/25/2016 00:01', $currentStoreTimezone);
+    $toPromotionDate = new DateTime('11/28/2016 00:00', $currentStoreTimezone);
+    
+    $isPromotionRunning = $currentStoreDateTime >= $fromPromotionDate && $currentStoreDateTime <= $toPromotionDate;  
+    $isPromotionGone = $currentStoreDateTime > $toPromotionDate; 
+    $isPromotionToCome = $currentStoreDateTime < $fromPromotionDate;
+    ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="holiday-date">
+                <p>
+                    <span class="h-day">DAY 5-7</span><br>
+                    <span class="h-date">Friday-Sunday, November 25-27, 2016</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+			<?php if($isPromotionToCome):?>
+			<img class="img-responsive" src="<?php echo $mediaUrl . 'wysiwyg/homepage/comingsoon-promotions.jpg'?>" alt="" />
+            <?php elseif($isPromotionGone || $isPromotionRunning):?>
+            	<div class="holiday-body">
+	                <span class="holiday-title">Black Friday Weekend Deals</span>
+	                <p>Today through Sunday we’re offering you <span style="font-weight: 700;">20% off site-wide!</span> We're also providing a 7 ml sample of eVo's Solar Smash with every purchase.</p>
+					<p>Fill your cart now and take advantage of these great savings!</p>
+					<p class="disclaimer">Disclaimer: Offer excludes clearance, gift cards, and purchases made using rewards points. Offer cannot be combined with any other promotion. The 7 ml sample of eVo’s Solar Smash will be provided in 0 mg nicotine and is available 11/25/2016 to 12/1/2016 or until supplies last. Site-wide discount ends Sunday, 11/27/16 at 11:59 pm EST.</p>
+					<?php if($isPromotionRunning):?>
+						<a class="bottomright btn btn-primary btn-lg" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Shop Now</a>
+					<?php else:?>
+						<a class="bottomright btn btn-primary btn-lg disabled" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Missed Deal</a>
+					<?php endif?>	
+				</div>
+            <?php endif?>	
+        </div>
+    </div>
+    <hr>
+
+	<?php 
+    $fromPromotionDate = new DateTime('11/28/2016 00:01', $currentStoreTimezone);
+    $toPromotionDate = new DateTime('11/29/2016 00:00', $currentStoreTimezone);
+    
+    $isPromotionRunning = $currentStoreDateTime >= $fromPromotionDate && $currentStoreDateTime <= $toPromotionDate;  
+    $isPromotionGone = $currentStoreDateTime > $toPromotionDate; 
+    $isPromotionToCome = $currentStoreDateTime < $fromPromotionDate;
+    ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <div class="holiday-date">
+                <p>
+                    <span class="h-day">DAY 8</span><br>
+                    <span class="h-date">Monday, November 28, 2016</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+			<?php if($isPromotionToCome):?>
+				<img class="img-responsive" src="<?php echo $mediaUrl . 'wysiwyg/homepage/comingsoon-promotions.jpg'?>" alt="" />
+			<?php elseif($isPromotionGone || $isPromotionRunning):?>	
+				<div class="holiday-body">
+	                <span class="holiday-title">Cyber Monday Deals</span>
+	                <p>Shop today, Cyber Monday, and enjoy <span style="font-weight: 700;">25% off site-wide!</span> We're also providing a 7 ml sample of eVo's Solar Smash with every purchase.</p>
+					<p>What are you waiting for? The deals don’t get better than this! Shop now!</p>
+					<p class="disclaimer">Disclaimer: Offer excludes clearance, gift cards, and purchases made using rewards points. Offer cannot be combined with any other promotion. The 7 ml sample of eVo’s Solar Smash will be provided in 0 mg nicotine and is available 11/25/2016 to 12/1/2016 or until supplies last. Site-wide discount ends Monday, 11/28/16 at 11:59 pm EST.</p>
+					<?php if($isPromotionRunning):?>
+						<a class="bottomright btn btn-primary btn-lg" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Shop Now</a>
+					<?php else:?>
+						<a class="bottomright btn btn-primary btn-lg disabled" href="<?php echo $baseUrl . 'e-liquid/premium-flavors/'?>" role="button">Missed Deal</a>
+					<?php endif?>	
+				</div>
+			<?php endif?>	
+		</div>
+    </div>
+</div>

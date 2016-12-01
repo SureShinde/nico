@@ -1,0 +1,491 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+        <mageworld translate="label">
+            <label>Mage World</label>
+            <sort_order>300</sort_order>
+        </mageworld>
+    </tabs>
+    <sections>
+        <helpdesk translate="label">	<!-- note name -->
+            <label>Help Desk Pro</label>
+            <tab>mageworld</tab><!-- Tham chieu den ten bat ky mageworld o tren -->
+            <frontend_type>text</frontend_type>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>                
+                <config translate="label">
+                    <label>General Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>						
+						<enabled translate="label">
+                            <label>Enable Help Desk Pro</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <email_minute translate="label">
+                            <label>Email Gateway – Auto Update Interval (in minutes)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email_minute>
+                        
+                        <step_notice translate="label">
+                            <label>Staff Notification Interval (In hours, default is 4 hours)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </step_notice>
+                        
+                        <notice translate="label">
+                            <label>Notify Staff of missed ticket (In hours, 0 means do not notify operator)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </notice>
+                        
+                        <complete translate="label">
+                            <label>Ticket Auto-Closed in ( # of hours, 0 means ticket will not be auto-closed):</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>After specified time from when Staff replies to ticket and no more request is sent from the customer, this ticket will be auto-closed</comment>
+                        </complete>
+                        <!-- 
+                        <delete_ticket_enabled translate="label">
+                            <label>Enable Delete Expired Ticket</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delete_ticket_enabled>
+                        -->
+                        <expried_time translate="label">
+                            <label>Auto-Delete Closed Tickets after (# of days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <comment>Enter 0 or leave empty if do not delete closed tickets</comment>
+                            <validate>validate-number</validate>
+                        </expried_time>
+                        
+                        <delete_ticketlog translate="label">
+                            <label>Auto-Delete Tickets Log after (# of days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <comment>Enter 0 or leave empty if do not delete ticket logs</comment>
+                            <validate>validate-number</validate>
+                        </delete_ticketlog>
+                        
+                        <category_response translate="label">
+	                            <label>Quick Response Folder</label>
+	                            <frontend_model>MW_HelpDesk_Block_Categoryresponse</frontend_model>
+	                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+	                            <sort_order>206</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                   	</category_response>
+                      </fields>
+                </config>
+                   
+                <support_time translate="label">   
+                   		<label>Set Support Dept. Working Time</label>
+	                    <frontend_type>text</frontend_type>
+	                    <sort_order>11</sort_order>
+	                    <show_in_default>1</show_in_default>
+	                    <show_in_website>1</show_in_website>
+	                    <show_in_store>1</show_in_store>
+	                    <fields> 
+	                        <support translate="label">
+	                            <label>Display Support Dept’s Working Hours/Days</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>45</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                        </support>
+	                        <timezone translate="label">
+	                            <label>Timezone</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_locale_timezone</source_model>
+	                            <sort_order>50</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                        </timezone>
+	                        
+	                         <day_off translate="label">
+	                            <label>Support Department Extra Days Off (Holidays etc)</label>
+	                            <frontend_model>MW_HelpDesk_Block_Dayoff</frontend_model>
+	                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+	                            <sort_order>55</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <comment>(Ex: 1/5 Or 1/5 - 6/5 (dd/mm) | Title: International Labor Day)</comment>
+	                        </day_off>
+	                        
+	                         <working_time translate="label">
+	                            <label>Support dept. hours (From, to)</label>
+	                            <frontend_type>text</frontend_type>
+	                            <sort_order>60</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <comment>(Ex: 08:00-17:30)</comment>
+	                        </working_time>
+	                        <break_time translate="label">
+	                            <label>Break time (From, to)</label>
+	                            <frontend_type>text</frontend_type>
+	                            <sort_order>65</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <comment>(Ex: 12:00-13:30)</comment>
+	                        </break_time>
+	                       
+	                        <weekend translate="label">
+	                            <label>Normal Working Days</label>
+	                            <frontend_type>multiselect</frontend_type>
+	                            <source_model>helpdesk/system_config_source_weekdays</source_model>
+	                            <sort_order>70</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <can_be_empty>1</can_be_empty>
+	                        </weekend>
+	                    </fields>
+                 </support_time>       
+                 
+                 <support_contact translate="label">   
+                   		<label>'Contact Us' Form/Page Configuration</label>
+	                    <frontend_type>text</frontend_type>
+	                    <sort_order>12</sort_order>
+	                    <show_in_default>1</show_in_default>
+	                    <show_in_website>1</show_in_website>
+	                    <show_in_store>1</show_in_store>
+	                    <fields> 
+	                    
+                 			<contact translate="label">
+	                            <label>Overwrite Magento 'Contact Us' Form</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>75</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <comment>If Yes, a ticket would be created when sending a message via the contact form of magento</comment>
+	                        </contact>
+	                        <static_block translate="label">
+	                            <label>Add CMS Static Block to 'Contact Us' Page</label>
+	                            <frontend_type>text</frontend_type>
+	                            <sort_order>80</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <comment>Enter 'CMS Static Block' Identifier </comment>
+	                        </static_block>
+                        </fields>
+             	</support_contact>
+                 	
+              	<client_config translate="label">   
+                   		<label>Customer Configuration</label>
+	                    <frontend_type>text</frontend_type>
+	                    <sort_order>13</sort_order>
+	                    <show_in_default>1</show_in_default>
+	                    <show_in_website>1</show_in_website>
+	                    <show_in_store>1</show_in_store>
+	                    <fields> 	
+	                        <department translate="label">
+	                            <label>Allow Client To Select Department</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>85</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                        </department>
+	                        <default_department translate="label">
+	                            <label>Default Support Department</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>helpdesk/system_config_source_department</source_model>
+	                            <sort_order>90</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <comment>If a ticket isn't assigned to any department it will be automatically assigned to default department. Please choose default department.</comment>
+	                        </default_department>
+							<default_sender translate="label">
+	                            <label>Default Staff - Email address</label>
+	                            <frontend_type>text</frontend_type>
+	                            <sort_order>95</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <comment>If a ticket isn't assigned to any staff it will be automatical assigned to default staff</comment>
+	                        </default_sender>
+	                        <priority translate="label">
+	                            <label>Allow Client To Select Priority</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>100</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                        </priority>
+	                        <order translate="label">
+	                            <label>Allow Client To Select Order Number</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>115</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                        </order>
+	                        <upload translate="label">
+	                            <label>Allow Client To Attach File</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>120</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                        </upload>
+	                        <max_upload translate="label">
+	                            <label>Max Upload File Size (Mb)</label>
+	                            <frontend_type>text</frontend_type>
+	                            <sort_order>125</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                        </max_upload>
+	                    </fields>
+	          	</client_config>
+	                       
+	           	<email_config translate="label">   
+                   		<label>Customer Email Configuration</label>
+	                    <frontend_type>text</frontend_type>
+	                    <sort_order>14</sort_order>
+	                    <show_in_default>1</show_in_default>
+	                    <show_in_website>1</show_in_website>
+	                    <show_in_store>1</show_in_store>
+	                    <fields> 	        
+	                        <creticket_email translate="label">
+	                            <label>Auto create support ticket sent from customer’s email address</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>130</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                        </creticket_email>
+	                        <reply_to translate="label">
+	                            <label>Use Reply-To as Client Email</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>135</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <comment>(Use To if Reply-To does not exist)</comment>
+	                        </reply_to>
+	                        
+	                        <tag_html translate="label">
+	                            <label>Tag HTML's Supported In Email</label>
+	                            <frontend_type>textarea</frontend_type>
+	                            <sort_order>150</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>1</show_in_store>
+	                            <comment>Example: br;li;ul;strong</comment>
+	                        </tag_html>
+	                 	</fields>
+                </email_config>
+                
+                <helpdesk_email_temp translate="label">
+                    <label>General Email Templates</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>15</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                    	<enabled_new_ticket_customer translate="label">
+                            <label>Enable Client New Ticket Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled_new_ticket_customer>
+                     	<new_ticket_customer>
+                        	<label>Client New Ticket Template (Notify customer of new ticket)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>                            
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </new_ticket_customer>
+                        
+                        <enabled_reply_ticket_customer translate="label">
+                            <label>Enable Staff Response Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>109</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled_reply_ticket_customer>
+                        <reply_ticket_customer>
+                        	<label>Staff Response Template (Notify client of the reply from staff)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </reply_ticket_customer>
+                        
+                        <enabled_new_ticket_operator translate="label">
+                            <label>Enable Staff New Ticket Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>119</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled_new_ticket_operator>
+                        <new_ticket_operator>
+                        	<label>Staff New Ticket Template (Notify staff of new ticket)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </new_ticket_operator>
+                        
+                        <enabled_reply_ticket_operator translate="label">
+                            <label>Enable Client Response Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>129</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled_reply_ticket_operator>
+                        <reply_ticket_operator>
+                        	<label>Client Response Template (Notify staff of the reply from client)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </reply_ticket_operator>
+                        
+                        <enabled_reassign_ticket_operator translate="label">
+                            <label>Enable Ticket Reassign Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>139</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled_reassign_ticket_operator>
+                        <reassign_ticket_operator>
+                        	<label>Ticket Reassignment Template (Notify staff of ticket reassignment)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </reassign_ticket_operator>
+                        
+                        <enabled_late_reply_ticket_operator translate="label">
+                            <label>Enable Late Response Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>149</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled_late_reply_ticket_operator>
+                        <late_reply_ticket_operator>
+                        	<label>Late Response Template (Notify staff of a missed ticket)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </late_reply_ticket_operator>
+                        
+                        <enabled_internal_note_notification translate="label">
+                            <label>Enable Internal Note Notification</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>199</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled_internal_note_notification>
+                        <internal_note_notification>
+                            <label>Internal Note Notification Template (Notify Staff by Email)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </internal_note_notification>
+                    </fields>
+                </helpdesk_email_temp>
+                
+                <author_information translate="label">
+                    <label>Author Information</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment>The Help Desk Extension is developed and supported by &lt;a href="http://www.mage-world.com/"&gt;www.Mage-World.com&lt;/a&gt;.
+							 If you need any support or have any question, please contact us at &lt;a href="mailto:support@mage-world.com"&gt;support@mage-world.com.&lt;/a&gt;
+                    </comment>
+                </author_information>
+            </groups>
+        </helpdesk>
+    </sections>
+</config>

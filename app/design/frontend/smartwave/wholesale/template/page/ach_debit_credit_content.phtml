@@ -1,0 +1,25 @@
+<?php
+
+$requestedParam = $this->getRequest()->getParam('p_method');
+if(isset($requestedParam) && ($requestedParam == 'ach-debit')){
+	echo"<p><strong>ACH DEBIT: Nicopure Labs Initiates ACH Transfer </strong><br/>This is the preferred method, as it streamlines the entire ordering process. <a href='/media/wholesale/Nicopure_ACH.pdf'><font color='3fae2b'>By filling out the form here</font></a>, you authorize Nicopure Labs to initiate ACH transfers for order payment. Once we receive this completed form, there is no additional action required by you for paying via ACH. We will simply initiate the ACH transfer each time you place an order, enabling your order to get processed in the least amount of time possible.</p>";
+}elseif(isset($requestedParam) && ($requestedParam == 'ach-credit')){
+	echo"<p><strong>ACH CREDIT: Customer Initiates ACH Transfer</strong><br /> This method will require you to send an ACH transfer for payment each time an order is placed. Please use the following details to ensure ACH payments are routed correctly to Nicopure Labs account:</p>
+<div style='float: left; width: 100%; margin-bottom: 30px;'>
+<div style='float: left; width: 48%;'>
+<table class='whtable'>
+<tbody>
+<tr><th>Routing Number:</th>
+<td>026009593</td>
+</tr>
+<tr><th>Account Number:</th>
+<td>898052457910</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>";
+}
+
+?>
+

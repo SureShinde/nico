@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Excise Tax Extension
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (c) 2015 by Yaroslav Voronoy (y.voronoy@gmail.com)
+ * @license   http://www.gnu.org/licenses/
+ */
+ -->
+<config>
+    <modules>
+        <Voronoy_ExtraTax>
+            <version>1.0.6</version>
+        </Voronoy_ExtraTax>
+    </modules>
+    <global>
+        <models>
+            <voronoy_extratax>
+                <class>Voronoy_ExtraTax_Model</class>
+                <resourceModel>voronoy_extratax_resource</resourceModel>
+            </voronoy_extratax>
+            <voronoy_extratax_resource>
+                <class>Voronoy_ExtraTax_Model_Resource</class>
+            </voronoy_extratax_resource>
+          <!--  <salesrule>
+                <rewrite>
+                    <validator>Voronoy_ExtraTax_Model_SalesRule_Discount_Validator</validator>
+                </rewrite>
+            </salesrule>-->
+        </models>
+        <blocks>
+            <voronoy_extratax>
+                <class>Voronoy_ExtraTax_Block</class>
+            </voronoy_extratax>
+        </blocks>
+        <helpers>
+            <voronoy_extratax>
+                <class>Voronoy_ExtraTax_Helper</class>
+            </voronoy_extratax>
+        </helpers>
+        <sales>
+            <quote>
+                <totals>
+                    <extra_tax_rule>
+                        <class>voronoy_extratax/quote_address_total_tax_rule</class>
+                        <after>rewardspent</after>
+                        <before>subtotal</before>
+                        <!--<after>discount</after>
+                        <before>grand_total</before>-->
+                    </extra_tax_rule>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <extra_tax_rule>
+                        <class>voronoy_extratax/sales_order_invoice_total_tax_rule</class>
+                        <after>discount</after>
+                    </extra_tax_rule>
+                </totals>
+            </order_invoice>
+        </sales>
+        <pdf>
+            <totals>
+                <extra_tax_rule>
+                    <title>Excise Tax</title>
+                    <source_field>extra_tax_rule_amount</source_field>
+                    <!--<title_source_field>extra_tax_rule_description</title_source_field>-->
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>300</sort_order>
+                </extra_tax_rule>
+            </totals>
+        </pdf>
+        <fieldsets>
+            <sales_convert_quote_address>
+                <base_extra_tax_rule_amount>
+                    <to_order>*</to_order>
+                </base_extra_tax_rule_amount>
+                <extra_tax_rule_amount>
+                    <to_order>*</to_order>
+                </extra_tax_rule_amount>
+                <extra_tax_rule_description>
+                    <to_order>*</to_order>
+                </extra_tax_rule_description>
+            </sales_convert_quote_address>
+            <sales_convert_order>
+                <extra_tax_rule_description>
+                    <to_invoice>*</to_invoice>
+                </extra_tax_rule_description>
+            </sales_convert_order>
+        </fieldsets>
+        <resources>
+            <voronoy_extratax_setup>
+                <setup>
+                    <module>Voronoy_ExtraTax</module>
+                    <class>Mage_Sales_Model_Resource_Setup</class>
+                </setup>
+            </voronoy_extratax_setup>
+        </resources>
+        <events>
+            <salesrule_rule_save_before>
+                <observers>
+                    <voronoy_extratax>
+                        <class>voronoy_extratax/observer</class>
+                        <method>beforeSaveSalesRuleModel</method>
+                    </voronoy_extratax>
+                </observers>
+            </salesrule_rule_save_before>
+            <adminhtml_block_salesrule_actions_prepareform>
+                <observers>
+                    <voronoy_extratax_prepare_form>
+                        <class>voronoy_extratax/observer</class>
+                        <method>prepareFormSalesRuleEdit</method>
+                    </voronoy_extratax_prepare_form>
+                </observers>
+            </adminhtml_block_salesrule_actions_prepareform>
+            <paypal_prepare_line_items>
+                <observers>
+                    <voronoy_extratax_paypal_prepare>
+                        <class>voronoy_extratax/observer</class>
+                        <method>paypalPrepareLineItems</method>
+                    </voronoy_extratax_paypal_prepare>
+                </observers>
+            </paypal_prepare_line_items>
+			<core_block_abstract_to_html_after>
+                <observers>
+                    <Voronoy_ExtraTax_Model_Observer>
+                        <type>singleton</type>
+                        <class>Voronoy_ExtraTax_Model_Observer</class>
+                        <method>insertHtml</method>
+                    </Voronoy_ExtraTax_Model_Observer>
+                </observers>
+            </core_block_abstract_to_html_after>
+        </events>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <voronoy_extratax>
+                    <file>voronoy_extratax.xml</file>
+                </voronoy_extratax>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <voronoy_extratax>
+                    <file>voronoy_extratax.xml</file>
+                </voronoy_extratax>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+        <extra_tax_settings>
+            <extra_tax_rule>
+                <active>1</active>
+                <label>Excise Tax</label>
+            </extra_tax_rule>
+        </extra_tax_settings>
+    </default>
+</config>

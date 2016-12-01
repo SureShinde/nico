@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<config>
+    
+    <modules>
+        <Halox_Masterpassword>
+            <version>0.1.0</version>
+        </Halox_Masterpassword>
+    </modules>
+        
+    <global>
+        <blocks>
+            <halox_masterpassword>
+                <class>Halox_Materpassword_Block</class>
+            </halox_masterpassword>
+            <adminhtml>
+                <rewrite>
+                    <permissions_user_edit_tab_main>Halox_Masterpassword_Block_Adminhtml_Permissions_User_Edit_Tab_Main</permissions_user_edit_tab_main>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <helpers>
+            <masterpassword>
+                <class>Halox_Masterpassword_Helper</class>
+            </masterpassword>
+        </helpers> 
+        <models>
+            <masterpassword>
+                <class>Halox_Masterpassword_Model</class>
+            </masterpassword>
+            <customer>
+                <rewrite>
+                    <customer>Halox_Masterpassword_Model_Customer</customer>
+                </rewrite>
+            </customer>
+        </models>
+        <resources>
+            <halox_masterpassword_setup>
+                <setup>
+                    <module>Halox_Masterpassword</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </halox_masterpassword_setup>
+        </resources>
+    </global>
+
+    <adminhtml>
+        <events>
+            <admin_user_save_before>
+                <observers>
+                    <halox_masterpassword_admin_save_before>
+                        <class>masterpassword/observer</class>
+                        <method>onAdminUserSaveBefore</method>
+                    </halox_masterpassword_admin_save_before>
+                </observers>
+            </admin_user_save_before>
+        </events>
+    </adminhtml>
+
+</config>

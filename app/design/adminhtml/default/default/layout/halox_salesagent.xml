@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Halox_Salesagent extension
+ * 
+ * @category       Halox
+ * @package        Halox_Salesagent
+ * @copyright      Copyright (c) 2016
+ */
+--> 
+<layout>
+    <adminhtml_salesagent_salesagent_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>customer/halox_salesagent/salesagent</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="halox_salesagent/adminhtml_salesagent" name="salesagent" />
+        </reference>
+    </adminhtml_salesagent_salesagent_index>
+	<adminhtml_salesagent_salesagent_new>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>customer/halox_salesagent/salesagent</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="halox_salesagent/adminhtml_salesagent_edit" name="salesagent_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="halox_salesagent/adminhtml_salesagent_edit_tabs" name="salesagent_tabs"></block>
+        </reference>
+    </adminhtml_salesagent_salesagent_new>
+	<adminhtml_salesagent_salesagent_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>csutomer/halox_salesagent/salesagent</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="halox_salesagent/adminhtml_salesagent_edit" name="sales_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="halox_salesagent/adminhtml_salesagent_edit_tabs" name="advertisement_tabs"></block>
+        </reference>
+    </adminhtml_salesagent_salesagent_edit>
+	
+    <adminhtml_advertisement_advertiser_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>catalog/biddingram_advertisement/advertiser</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="biddingram_advertisement/adminhtml_advertiser" name="advertiser" />
+
+        </reference>
+    </adminhtml_advertisement_advertiser_index>
+    
+    
+    
+    <adminhtml_advertisement_advertisement_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="biddingram_advertisement/adminhtml_advertisement_grid" name="advertisement_grid"/>
+        </block>
+    </adminhtml_advertisement_advertisement_grid>
+     <adminhtml_advertisement_advertiser_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="biddingram_advertisement/adminhtml_advertiser_grid" name="advertiser_grid"/>
+        </block>
+    </adminhtml_advertisement_advertiser_grid>
+    <!-- Adbanner add/edit action -->
+    <adminhtml_advertisement_advertisement_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>catalog/biddingram_advertisement/advertisement</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="biddingram_advertisement/adminhtml_advertisement_edit" name="advertisement_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="biddingram_advertisement/adminhtml_advertisement_edit_tabs" name="advertisement_tabs"></block>
+        </reference>
+    </adminhtml_advertisement_advertisement_edit>
+    <adminhtml_advertisement_advertiser_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>catalog/biddingram_advertisement/advertisement</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="biddingram_advertisement/adminhtml_advertiser_edit" name="advertiser_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="biddingram_advertisement/adminhtml_advertiser_edit_tabs" name="advertiser_tabs"></block>
+        </reference>
+    </adminhtml_advertisement_advertiser_edit>
+	<adminhtml_salesagent_salesagent_loadchat>        
+        <reference name="content">
+            <block type="halox_salesagent/adminhtml_salesagent_chat" name="root"  template="salesagent/chatList.phtml"></block>
+        </reference>
+    </adminhtml_salesagent_salesagent_loadchat>
+</layout>

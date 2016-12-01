@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	
+	<adminhtml_urlmanager_index_index>
+		<reference name="content">
+			<block type="urlmanager/adminhtml_list" name="urlmanager_list"/>
+		</reference>
+	</adminhtml_urlmanager_index_index>
+		
+	<adminhtml_urlmanager_index_edit>
+		<reference name="content">
+			<block type="urlmanager/adminhtml_edit" name="urlmanager_edit"/>
+		</reference>
+        <reference name="left">
+            <block type="urlmanager/adminhtml_edit_tabs" name="urlmanager_edit_tabs">
+				<block type="urlmanager/adminhtml_edit_tabs_general" name="urlmanager_edit_tabs_general" />
+                <action method="addTab"><name>general_section</name><block>urlmanager_edit_tabs_general</block></action>
+			</block>
+        </reference>
+	</adminhtml_urlmanager_index_edit>
+	
+	<adminhtml_urlmanager_index_new>
+		<reference name="content">
+			<block type="urlmanager/adminhtml_edit" name="urlmanager_new"/>
+		</reference>
+        <reference name="left">
+            <block type="urlmanager/adminhtml_edit_tabs" name="urlmanager_edit_tabs">
+				<block type="urlmanager/adminhtml_edit_tabs_general" name="urlmanager_edit_tabs_general" />
+                <action method="addTab"><name>general_section</name><block>urlmanager_edit_tabs_general</block></action>
+			</block>
+        </reference>
+	</adminhtml_urlmanager_index_new>
+</layout>

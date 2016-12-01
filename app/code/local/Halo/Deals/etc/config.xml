@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Halo_Deals>
+      <version>0.1.2</version>
+    </Halo_Deals>
+  </modules>
+  <frontend>
+    <routers>
+      <deals>
+        <use>standard</use>
+          <args>
+            <module>Halo_Deals</module>
+            <frontName>frontdeals</frontName>
+          </args>
+      </deals>
+    </routers>
+		<layout>
+		  <updates>
+			<deals>
+			  <file>deals.xml</file>
+			</deals>
+		  </updates>
+		</layout>
+  </frontend>
+  <global>
+    <helpers>
+      <deals>
+        <class>Halo_Deals_Helper</class>
+      </deals>
+    </helpers>
+	<blocks>
+	  <deals>
+		<class>Halo_Deals_Block</class>
+	  </deals>
+	</blocks>
+	<models>
+	  <deals>
+		<class>Halo_Deals_Model</class>
+		<resourceModel>deals_mysql4</resourceModel>
+	  </deals>
+	  <deals_mysql4>
+		<class>Halo_Deals_Model_Mysql4</class>
+		<entities>		  
+			  <deals>
+				<table>deals_gp_sl</table>
+			  </deals>
+        </entities>
+	  </deals_mysql4>
+	</models>
+	<resources>
+	  <deals_setup>
+		<setup>
+		  <module>Halo_Deals</module>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </deals_setup>
+	  <deals_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </deals_write>
+	  <deals_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </deals_read>
+	</resources>
+    <template>
+    <email>
+        <halo_deals translate="label" module="deals">
+            <label>Redeem Voucher</label>
+            <file>halo_deals.html</file>
+            <type>html</type>
+        </halo_deals>
+    </email>
+</template>
+  </global>
+  <admin>
+	<routers>
+	  <adminhtml>
+                <args>
+                    <modules>
+                        <deals before="Mage_Adminhtml">Halo_Deals_Adminhtml</deals>
+                    </modules>
+                </args>
+            </adminhtml>
+       <!--<adminhtml>
+                <args>
+                    <modules>
+                        <Halo_Deals before="Mage_Adminhtml">Halo_Deals</Halo_Deals>
+                    </modules>
+                </args>
+            </adminhtml>-->
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <deals module="deals">
+		<title>Vouchers</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <deals module="deals">
+		    <title>Voucher Information</title>
+			<sort_order>0</sort_order>
+			<!--<action>admindeals/adminhtml_deals</action>-->
+            <action>adminhtml/deals_deals/</action>
+		  </deals>
+		</children>
+	  </deals>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<deals translate="title" module="deals">
+			  <title>Deals</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <deals translate="title">
+			<title>Manage Deals</title>
+			<sort_order>0</sort_order>
+		  </deals>
+			  </children>
+			</deals>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<deals>
+		  <file>deals.xml</file>
+		</deals>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 

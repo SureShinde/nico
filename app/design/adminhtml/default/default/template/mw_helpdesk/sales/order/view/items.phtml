@@ -1,0 +1,64 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_order = $this->getOrder() ?>
+<div class="grid np">
+  <div style="padding-bottom: 5px;">
+	<?php 
+		$order_id = $this->getOrderId();
+      	$order = Mage::getModel('sales/order')->load($order_id);
+      	$increment_id = $order->getIncrementId();
+      	
+      	$mw_order = null;
+      	if($order_id == '') 
+      		$mw_order = '<strong>' . ' &lt;' .'Not Assigned' .'&gt;</strong>'; 
+      	else $mw_order = '<a href="' . $this->getUrl('adminhtml/sales_order/view', array('order_id' => $order_id)) . '" onclick="this.target=\'blank\'">#'  
+      					 . $increment_id . '</a>' . " (\${$order->getGrandTotal()}) " . ' on ' . Mage::helper('helpdesk')->locale_time_format(Mage::getModel('core/date')->timestamp($order->getCreatedAt()),Mage_Core_Model_Locale::FORMAT_TYPE_FULL);//date('F jS, Y', Mage::getModel('core/date')->timestamp($order->getCreatedAt()));
+		echo "Order   " . $mw_order;
+	?>
+  </div>
+  <div class="hor-scroll">
+    <table cellspacing="0" class="data order-tables">
+        <col />
+        <col width="1" />
+        <thead>
+            <tr class="headings">
+                <th><?php echo $this->helper('sales')->__('Product') ?></th>
+            </tr>
+        </thead>
+        <?php $_items = $this->getItemsCollection() ?>
+        <?php $i=0;foreach ($_items as $_item):?>
+            <?php if ($_item->getParentItem()) continue; else $i++;?>
+            <tbody class="<?php echo $i%2?'even':'odd' ?>">
+                <?php echo $this->getItemHtml($_item) ?>
+                <?php echo $this->getItemExtraInfoHtml($_item) ?>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+  </div>
+</div>
+<br />
+

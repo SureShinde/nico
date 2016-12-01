@@ -1,0 +1,14 @@
+<?php
+ 
+$shipping_region = $this->getData('order')->getShippingAddress()->getRegion();
+If(isset($shipping_region) && !empty($shipping_region)){
+	
+	if(strtolower($shipping_region) == 'california'){
+		echo"<p style='color:#8c8c8c; margin:0;'> 
+		<b>CALIFORNIA PROPOSITION 65</b> - WARNING: Use of this product will expose you to nicotine, a chemical known to the State of California to cause birth defects or other reproductive harm, and other chemicals known to the State of California to cause cancer.</p><br>";
+	}else{
+		echo"";
+	}
+	
+}
+?>

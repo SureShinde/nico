@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">  
+  
+    <customer_account translate="label" >
+        <reference  name="left">
+            <block type="customer/account_navigation"  name="my_navigation" after="customer_account_navigation" template="mw_helpdesk/customer/navigation.phtml">
+                <action method="addLink" ifconfig="helpdesk/config/enabled" translate="label" module="helpdesk">
+                    <name>helpdesk/account/submit</name>
+                    <path>helpdesk/account/submit</path>
+                    <label>Submit Ticket</label>
+                </action>
+                <action method="addLink" ifconfig="helpdesk/config/enabled" translate="label" module="helpdesk">
+                    <name>helpdesk/account/show</name>
+                    <path>helpdesk/account/show</path>
+                    <label>My Tickets</label>
+                </action>
+            </block>
+        </reference>
+    </customer_account>
+    
+    <helpdesk_account_submit>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="helpdesk/submit" name="helpdesk" template="mw_helpdesk/customer/helpdesk/submit.phtml"/>
+        </reference>
+    </helpdesk_account_submit>
+    
+    <helpdesk_account_show>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="helpdesk/show" name="helpdesk" template="mw_helpdesk/customer/helpdesk/show.phtml"/>
+        </reference>
+    </helpdesk_account_show>
+    
+    <helpdesk_account_history>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="helpdesk/history" name="helpdesk" template="mw_helpdesk/customer/helpdesk/history.phtml"/>
+        </reference>
+    </helpdesk_account_history>
+    
+<!-- Supported layout update handles (action): reference template 'contactForm' in layout contacts.xml -->
+    <contacts_index_index>
+        <reference  name="contactForm">
+            <action method="setTemplate" ifconfig="helpdesk/support_contact/contact">
+                <template>mw_helpdesk/contacts/form.phtml</template>
+            </action>
+        </reference>
+    </contacts_index_index>
+    
+    <helpdesk_viewticket_customer>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="helpdesk/viewticket_customer" template="mw_helpdesk/viewticket/customer.phtml"/>
+        </reference>
+    </helpdesk_viewticket_customer>
+    
+    <helpdesk_viewticket_moderator>
+
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="helpdesk/viewticket_moderator" template="mw_helpdesk/viewticket/moderator.phtml"/>
+        </reference>
+    </helpdesk_viewticket_moderator>
+    
+</layout> 

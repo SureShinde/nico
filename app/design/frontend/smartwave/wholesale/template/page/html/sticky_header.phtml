@@ -1,0 +1,52 @@
+<script type="text/javascript">
+	jQuery(function($){
+		var scrolled = false;
+		/**
+                 * ISSUE: HCL-15
+                 * PREVIOUS: $(document).scroll(function(){/...../});
+                 * CHANGED TO: $(document).on('scroll',window,function(){/...../});
+                 * 
+                 *  Now scroll event remains binded to window object after an AJAX reqeust
+                 *  modifies the DOM.
+                 *  Previousl implementation allowed scroll event to get unbinded on AJAX this was
+                 *  causing the sticky menu to not work correctly 
+                 **/
+                $(document).on('scroll', window, function(){
+			    if(140<$(window).scrollTop() && !scrolled){
+				    
+				    $('.header-container').addClass("sticky-header");
+				    
+				    var minicartTotal = $('.header-container .cart_total_price').html();
+                    
+                    $('.header-container .menu-wrapper .menu-all-pages-container').append('<div class="cart_total_price">'+ minicartTotal +'</div>');
+				    
+				    $('.header-container .header-wrapper > div').each(function(){
+					    if($(this).hasClass("container")){
+						    $(this).addClass("already");
+					    } else {
+						    $(this).addClass("container");
+					    }
+				    });
+				    scrolled = true;
+
+			    }
+
+			    if(140>=$(window).scrollTop() && scrolled){
+				    
+				    $('.header-container').removeClass("sticky-header");
+				    
+				    $('.header-container .menu-wrapper .cart_total_price').remove();
+				    
+				    scrolled = false;
+				    $('.header-container .header-wrapper > div').each(function(){
+					    if($(this).hasClass("already")){
+						    $(this).removeClass("already");
+					    } else {
+						    $(this).removeClass("container");
+					    }
+				    });
+
+			    }
+		});
+	});
+</script>

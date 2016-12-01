@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Halox_DynamicSku>
+            <version>1.0.0</version>
+        </Halox_DynamicSku>
+    </modules>
+    <global>
+        <models>
+            <halox_dynamicSku>
+                <class>Halox_DynamicSku_Model</class>
+            </halox_dynamicSku>   
+            <salesrule>
+                <rewrite>
+                    <rule_condition_product>Halox_DynamicSku_Model_SalesRule_Rule_Condition_Product</rule_condition_product>
+                </rewrite>
+            </salesrule> 
+        </models>
+        <helpers>
+            <halox_dynamicSku>
+                <class>Halox_DynamicSku_Helper</class>
+            </halox_dynamicSku>    
+        </helpers>
+    </global>
+</config>

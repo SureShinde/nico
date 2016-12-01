@@ -1,0 +1,414 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$_order = $this->getOrder();
+$orderAdminDate = $this->formatDate($_order->getCreatedAtDate(), 'medium', true);
+$orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', true);
+?>
+
+<div class="box-left">
+    <!--Order Information-->
+    <div class="entry-edit">
+        <?php
+        if ($_order->getEmailSent()):
+            $_email = Mage::helper('sales')->__('the order confirmation email was sent');
+        else:
+            $_email = Mage::helper('sales')->__('the order confirmation email is not sent');
+        endif;
+        ?>
+        <div class="entry-edit-head">
+            <?php if ($this->getNoUseOrderLink()): ?>
+                <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId()) ?> (<?php echo $_email ?>)</h4>
+            <?php else: ?>
+                <a href="<?php echo $this->getViewUrl($_order->getId()) ?>"><?php echo Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId()) ?></a>
+                <strong>(<?php echo $_email ?>)</strong>
+            <?php endif; ?>
+        </div>
+        <div class="fieldset">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('sales')->__('Order Date') ?></label></td>
+                    <td class="value"><strong><?php echo $orderAdminDate ?></strong></td>
+                </tr>
+                <?php if ($orderAdminDate != $orderStoreDate): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('Order Date (%s)', $_order->getCreatedAtStoreDate()->getTimezone()) ?></label></td>
+                        <td class="value"><strong><?php echo $orderStoreDate ?></strong></td>
+                    </tr>
+                <?php endif; ?>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('sales')->__('Order Status') ?></label></td>
+                    <td class="value"><strong><span id="order_status"><?php echo $_order->getStatusLabel() ?></span></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('sales')->__('Purchased From') ?></label></td>
+                    <td class="value"><strong><?php echo $this->getOrderStoreName() ?></strong></td>
+                </tr>
+                <?php if ($_order->getRelationChildId()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('Link to the New Order') ?></label></td>
+                        <td class="value"><a href="<?php echo $this->getViewUrl($_order->getRelationChildId()) ?>">
+                                <?php echo $_order->getRelationChildRealId() ?>
+                            </a></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($_order->getRelationParentId()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('Link to the Previous Order') ?></label></td>
+                        <td class="value"><a href="<?php echo $this->getViewUrl($_order->getRelationParentId()) ?>">
+                                <?php echo $_order->getRelationParentRealId() ?>
+                            </a></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($_order->getRemoteIp() && $this->shouldDisplayCustomerIp()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('Placed from IP') ?></label></td>
+                        <td class="value"><strong><?php
+                                echo $_order->getRemoteIp();
+                                echo ($_order->getXForwardedFor()) ? ' (' . $this->escapeHtml($_order->getXForwardedFor()) . ')' : '';
+                                ?></strong></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($_order->getGlobalCurrencyCode() != $_order->getBaseCurrencyCode()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('%s / %s rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                        <td class="value"><strong><?php echo $_order->getBaseToGlobalRate() ?></strong></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($_order->getBaseCurrencyCode() != $_order->getOrderCurrencyCode()): ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('%s / %s rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                        <td class="value"><strong><?php echo $_order->getBaseToOrderRate() ?></strong></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (Mage::helper('affiliatenetworkconnector')->isEnabled()): ?>  
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('Affiliate Network') ?></label></td>
+                        <td class="value">
+                            <strong>
+                                <?php
+                                if ($_order->getAffnetwork()) {
+                                    echo $_order->getAffnetwork();
+                                } else {
+                                    echo Mage::helper('affiliatenetworkconnector')->getDefaultNetwork();
+                                }
+                                ?>
+                            </strong>
+                        </td>
+                    </tr>
+                    <?php if ($_order->getAffnetwork()): ?>
+                        <?php
+                        ?>
+                        <tr>
+                            <td class="label"><label><?php echo Mage::helper('sales')->__('Affiliate ID') ?></label></td>
+                            <td class="value"><strong><?php echo $_order->getAffid() ?></strong></td>
+                        </tr>
+                        <tr>
+                            <td class="label"><label><?php echo Mage::helper('sales')->__('Request ID') ?></label></td>
+                            <td class="value"><strong><?php echo $_order->getReqid() ?></strong></td>
+                        </tr>
+                        <tr>
+                            <td class="label"><label><?php echo Mage::helper('sales')->__('Affiliate Commission') ?></label></td>
+                            <td class="value"><strong><?php echo $commission . " " . $_order->getAffstatus() . " " . $_order->getAffcommissiontype() ?></strong></td>
+                        </tr> 
+   			
+                    <?php endif; ?>
+                <?php endif; ?>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="box-right">
+    <!--Account Information-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Account Information') ?></h4>
+            <div class="tools"><?php echo $this->getAccountEditLink() ?></div>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list">
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('Customer Name') ?></label></td>
+                        <td class="value"> 
+                            <?php if ($_customerUrl = $this->getCustomerViewUrl()) : ?>
+                                <a href="<?php echo $_customerUrl ?>" target="_blank"><strong><?php echo $this->htmlEscape($_order->getCustomerName()) ?></strong></a>
+                            <?php else: ?>
+                                <strong><?php echo $this->htmlEscape($_order->getCustomerName()) ?></strong>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('Email') ?></label></td>
+                        <td class="value"><a href="mailto:<?php echo $_order->getCustomerEmail() ?>"><strong><?php echo $_order->getCustomerEmail() ?></strong></a></td>
+                    </tr>
+                    <?php if ($_groupName = $this->getCustomerGroupName()) : ?>
+                        <tr>
+                            <td class="label"><label><?php echo Mage::helper('sales')->__('Customer Group') ?></label></td>
+                            <td class="value"><strong><?php echo $_groupName ?></strong></td>
+                        </tr>
+                    <?php endif; ?>
+
+                    <?php
+                    //$_xorders = Mage::getModel('sales/order')->getCollection()->addFieldToFilter('customer_id',$_order->getCustomerId()); 
+                    $customer = Mage::getModel('customer/customer')->load($_order->getCustomerId());
+                    $customerTotals = Mage::getResourceModel('sales/sale_collection')->setCustomerFilter($customer)->load()->getTotals();
+                    $customerLifetimeSales = $customerTotals->getLifetime();
+                    $customerNumberOfOrders = $customerTotals->getNumOrders();
+                    ?>
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('Lifetime Orders') ?></label></td>
+                        <td class="value"><strong><?php echo $customerNumberOfOrders; ?></strong></td>
+                    </tr>     
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('Lifetime Sales') ?></label></td>
+                        <td class="value"><strong>$<?php echo $customerLifetimeSales; ?></strong></td>
+                    </tr>       
+                    <tr>
+                        <td class="label"><label><?php echo Mage::helper('sales')->__('AVS Match') ?></label></td>
+                        <td class="value"><?php echo "<strong>" . $_order->getPayment()->getCcAvsStatus() . "</strong>"; ?></td>
+                    </tr> 
+                    <?php foreach ($this->getCustomerAccountData() as $data): ?>
+                        <tr>
+                            <td class="label"><label><?php echo $data['label'] ?></label></td>
+                            <td class="value"><strong><?php echo $data['value'] ?></strong></td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    <!--CHECK IF AGEVERIFICATION MODULE IS ENABLED STARTS-->
+                    <?php if (!$this->getOrder()->getIsVirtual()) { ?>
+                        <?php if (Mage::helper('core')->isModuleEnabled('Halox_AgeVerification')): ?>
+                            <?php
+                            $isDobSet = Mage::helper('ageverification')->isCustomerDOBVerified($_order->getCustomerId());
+                            if ($isDobSet == 1) {
+                                $style = "readonly";
+                                $style2 = "display:none;";
+                            } else {
+                                $style = "";
+                                $style2 = "";
+                            }
+                            $countryCode = $_order->getShippingAddress()->getCountryId();
+                            $regionId = $_order->getShippingAddress()->getRegionId();
+                            $region = Mage::getModel('directory/region')->load($regionId);
+                            $state_code = $region->getCode();
+                            $customer_dob = Mage::getModel('customer/customer')->load($this->getOrder()->getCustomerId())->getData('dob');
+                            if (isset($customer_dob) && !empty($customer_dob)) {
+                                $customer_dob = explode(' ', $customer_dob);
+                                $customer_dob = explode('-', $customer_dob[0]);
+                                $customer_dob = $customer_dob[1] . '/' . $customer_dob[2] . '/' . $customer_dob[0];
+                            }
+
+                            $verifyCollection = Mage::getModel('ageverification/ageverificationdetails')->getCollection()
+                                    ->addFieldToFilter('customer_id', $this->getOrder()->getCustomerId())
+                                    ->addFieldToFilter('quote_id', $this->getOrder()->getQuoteId())
+                                    ->getLastItem();
+
+                            if ($verifyCollection->getAgeverificationStep() == 3) {
+                                $attachmentUrl = '<a href="' . Mage::getBaseUrl('media') . 'verifyUploads' . DS . $verifyCollection->getVerifyDocument() . '" target="_blank">Click Here</a>';
+                                $verificationStatus = $_order->getVerificationStatus();
+                            } else {
+                                $verificationStatus = 'Age Verified';
+                                $attachmentUrl = 'Not Found';
+                            }
+                            ?>
+
+                            <!--Age verification changes for adding verification status ,attachment and DOB-->
+                            <?php if ($verifyCollection->getAgeverificationStep() == 3) { ?>
+                                <?php if ($_groupName = $this->getCustomerGroupName()) : ?>
+                                    <tr>
+                                        <td class="label"><label><?php echo Mage::helper('sales')->__('Age Verified') ?></label></td>
+                                        <td class="value"><strong><?php echo $verificationStatus ?></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label"><label><?php echo Mage::helper('sales')->__('Attachment') ?></label></td>
+                                        <td class="value"><strong><?php echo $attachmentUrl; ?></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label"><label><?php echo Mage::helper('sales')->__('Date of Birth') ?></label></td>
+                                        <td class="value"><strong>
+                                                <input type="text" style="width:110px !important;" class=" input-text" id="set_cust_dob" name="product[set_cust_dob]" value="<?php echo $customer_dob; ?>" <?php echo $style ?>> <img style="<?php echo $style2; ?>" title="Select Date" id="set_cust_dob_trig" class="v-middle" alt="" src="<?php echo $this->getSkinUrl('images/grid-cal.gif'); ?>"/>
+                                                <?php
+                                                $saveUrl = Mage::helper('adminhtml')->getUrl('*/ageverification/saveCustomerDOBAndSetVerified');
+                                                $redirectUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order/view", array('order_id' => $this->getOrder()->getId()));
+                                                ?>
+                                                <script type="text/javascript">
+                                                    //&lt;![CDATA[
+                                                    Calendar.setup({
+                                                        inputField: "set_cust_dob",
+                                                        ifFormat: "%m/%e/%Y",
+                                                        showsTime: false,
+                                                        button: "set_cust_dob_trig",
+                                                        align: "Bl",
+                                                        singleClick: true
+
+                                                    });
+                                                    //]]&gt;
+
+                                                    function saveDOB(dob) {
+                                                        isValid = isValidDOB(dob);
+                                                        if (!dob || 0 == dob.length || !isValid) {
+                                                            alert('DOB is empty or incorrect');
+                                                            return false;
+                                                        }
+                                                        var cust_id = '<?php echo $this->getOrder()->getCustomerId() ?>';
+                                                        var redirectUrl = '<?php echo $redirectUrl ?>';
+                                                        var order_id = '<?php echo $this->getOrder()->getId() ?>';
+                                                        var countryId = '<?php echo $countryCode ?>';
+                                                        var stateCode = '<?php echo $state_code ?>';
+                                                        var cust_id = '<?php echo $this->getOrder()->getCustomerId() ?>';
+                                                        var url = '<?php echo $saveUrl ?>?dob=' + dob + '&cust_id=' + cust_id + '&country=' + countryId + '&state=' + stateCode + '&orderId=' + order_id;
+
+                                                        var xhttp = new XMLHttpRequest();
+                                                        xhttp.onreadystatechange = function () {
+                                                            document.getElementById('loading-mask').style.display = 'block';
+                                                            if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+                                                                window.location = redirectUrl;
+                                                            }
+                                                        };
+                                                        xhttp.open("GET", url, false);
+                                                        xhttp.send();
+                                                    }
+                                                    function isValidDOB(testDate) {
+                                                        var date_regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/;
+                                                        if (!(date_regex.test(testDate)))
+                                                        {
+                                                            return false;
+                                                        }
+                                                        return true;
+                                                    }
+                                                </script>
+
+                                            </strong><a href="javascript:void(0);" onclick="saveDOB(document.getElementById('set_cust_dob').value);" style="<?php echo $style2; ?>">Update</a></td>
+                                    </tr>
+                                <?php endif; ?>
+                                <div style="left: -2px; top: 0px; width: 1349px; height: 861px; display: none;" id="loading-mask">
+                                    <p id="loading_mask_loader" class="loader"><img alt="Updating..." src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif'); ?>"><br>Please wait...</p>
+                                </div>
+                            <?php } ?>
+                            <!--Age verification changes ends here-->
+
+                        <?php endif ?>
+                    <?php } ?>
+                    <!--CHECK IF AGEVERIFICATION MODULE IS ENABLED ENDS-->    
+
+                    <?php if (Mage::getStoreConfig('customerflag/params/enabled', Mage::app()->getStore())) { ?>
+                        <?php
+                        $_customerUrl = $this->getCustomerViewUrl();
+                        ?>
+                        <?php //if ($_customerUrl = $this->getCustomerViewUrl() && $_order->getCustomerId()) :  ?>
+                        <?php if (true) : ?>
+                            <tr>
+                            <div class="customer-flag" style="position: relative; float: right;">
+                                <span id="customer-flag-updater">
+                                    <?php
+                                    $customer = Mage::getModel('customer/customer')->load($_order->getCustomerId());
+                                    
+                                    $customerFlag;
+
+                                    $custId = '';
+                                    $custId = $_order->getCustomerId();
+
+                                    if (isset($custId) && !empty($custId)) {
+                                        //registered users[HCL-13]
+                                        if ($customer->getCustomerFlag()) {
+                                            $customerFlag = Mage::getModel('customerflag/flag')->load($customer->getCustomerFlag());
+                                        } else {
+                                            $customerFlag = Mage::getModel('customerflag/flag')->load(Mage::getStoreConfig('customerflag/params/default_flag', Mage::app()->getStore()));
+                                        }
+                                    } else {
+                                        //guest users[HCL-13]
+                                        $flagStatus = $_order->getData('customer_flag');
+
+                                        if ($flagStatus) {
+                                            $customerFlag = Mage::getModel('customerflag/flag')->load($flagStatus);
+                                        } else {
+                                            $customerFlag = Mage::getModel('customerflag/flag')->load(Mage::getStoreConfig('customerflag/params/default_flag', Mage::app()->getStore()));
+                                        }
+                                    }
+
+                                    $cId = isset($custId) ? $custId : '';
+
+                                    echo '<a href="javascript: changeFlag(' . $customerFlag->getId() . ')"><img src="' . Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $customerFlag->getPicture() . '" title="' . $customerFlag->getLabel() . '" /></a>';
+                                    ?>
+                                    <span id="customer-flag-updater">
+                                        <script type="text/javascript">
+                                            function changeFlag(currentFlag) {
+                                                //order id is passed to identify guest user[HCL-13]
+                                                var custid = "<?php echo $cId; ?>";
+
+                                                var url = '<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/customerflag_index/getnext') ?>';
+
+                                                new Ajax.Request(url, {
+                                                    method: 'get',
+                                                    parameters: {currentflag: currentFlag, customerid: custid, orderid: <?php echo $_order->getData('entity_id'); ?>},
+                                                    requestHeaders: {Accept: 'application/json'},
+                                                    onSuccess: function (transport) {
+                                                        var json = transport.responseText.evalJSON();
+                                                        $('customer-flag-updater').replace(json.content);
+                                                    }
+                                                });
+                                            }
+                                        </script>
+                                        </div>
+                                        </tr>
+                                    <?php endif; ?>
+                                <?php } ?>          
+                                </table>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                                <div class="clear"></div>
+
+                                <div class="box-left">
+                                    <!--Billing Address-->
+                                    <div class="entry-edit">
+                                        <div class="entry-edit-head">
+                                            <h4 class="icon-head head-billing-address"><?php echo Mage::helper('sales')->__('Billing Address') ?></h4>
+                                            <div class="tools"><?php echo $this->getAddressEditLink($_order->getBillingAddress()) ?></div>
+                                        </div>
+                                        <fieldset>
+                                            <address><?php echo $_order->getBillingAddress()->getFormated(true) ?></address>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <?php if (!$this->getOrder()->getIsVirtual()): ?>
+                                    <div class="box-right">
+                                        <!--Shipping Address-->
+                                        <div class="entry-edit">
+                                            <div class="entry-edit-head">
+                                                <h4 class="icon-head head-shipping-address"><?php echo Mage::helper('sales')->__('Shipping Address') ?></h4>
+                                                <div class="tools"><?php echo $this->getAddressEditLink($_order->getShippingAddress()) ?></div>
+                                            </div>
+                                            <fieldset>
+                                                <address><?php echo $_order->getShippingAddress()->getFormated(true) ?></address>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                <?php endif; ?>

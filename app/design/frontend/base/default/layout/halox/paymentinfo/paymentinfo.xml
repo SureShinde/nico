@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2016 Amasty (https://www.amasty.com)
+ * @package Amasty_Checkoutfees
+ */
+-->
+<layout version="1.0.0">
+    <checkout_onepage_paymentmethod>
+        <reference name="root">
+            <block type="core/template" as="additional" name="additional">
+                <block template="halox/paymentinfo/info.phtml"
+                       type="core/template" name="extra_info"/>
+            </block>
+        </reference>
+    </checkout_onepage_paymentmethod>
+    <default>
+    <reference name="head">
+        <action method="addItem"><type>skin_js</type><name>js/halox/PaymentInfo/info.js</name></action>
+    </reference>
+    <reference name="footer">
+    <block type="core/text" name="fabric_controller_tool_js">
+         <action method="setText">
+             <text><![CDATA[<script src="/js/fabric/tool/controller_tool.js"></script>]]></text>
+         </action>
+    </block>
+    </reference>
+   </default>
+</layout>

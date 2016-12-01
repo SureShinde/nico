@@ -1,0 +1,24 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2016 Amasty (https://www.amasty.com)
+ * @package Amasty_Checkoutfees
+ */
+?>
+<select name='amcheckoutfees_<?php echo $this->getData("feeId"); ?>'>
+    <?php foreach ($this->getData('options') as $option) {
+        $type = $option->getPriceType();
+        $amount = Mage::helper('amcheckoutfees')->getAdditionalWireTransferFee($option->getPrice(),$type);
+        ?>
+        <option value='<?php echo $option->getFeesDataId(); ?>' <?php echo($option->getChecked() ? " selected='selected' " : "") ?> >
+            <?php echo $option->getTitleForStore() ?>
+            (
+            <?php if ($option->getPriceType()) { ?>
+                <?php echo (float)$amount; ?>%
+            <?php } else { ?>
+                <?php echo Mage::helper('core')->currency($amount, true, false) ?>
+            <?php } ?>
+            )
+        </option>
+    <?php } ?>
+</select>

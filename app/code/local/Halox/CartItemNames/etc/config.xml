@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Halox_CartItemNames>
+            <version>1.0.0</version>
+        </Halox_CartItemNames>
+    </modules>
+    <global>
+        <helpers>
+            <halox_cartitemnames>
+                <class>Halox_CartItemNames_Helper</class>
+            </halox_cartitemnames>
+        </helpers>
+        <models>
+            <halox_cartitemnames>
+                <class>Halox_CartItemNames_Model</class>
+            </halox_cartitemnames>
+        </models>
+        <events>
+            <sales_quote_item_set_product>
+                <observers>
+                    <halox_cartitemnames_sales_quote_item_set_product>
+                        <class>Halox_CartItemNames_Model_Observer</class>
+                        <method>onSalesQuoteItemSetProduct</method>
+                    </halox_cartitemnames_sales_quote_item_set_product>
+                </observers>
+            </sales_quote_item_set_product>
+        </events>
+    </global>
+    <default>
+        <halox_cartitemnames>
+            <general_settings>
+                <enabled>0</enabled>
+            </general_settings>
+        </halox_cartitemnames>
+    </default>
+</config>

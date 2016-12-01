@@ -1,0 +1,67 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (https://www.amasty.com)
+ * @package Amasty_Promo
+ */
+?>
+<?php
+/*$products = Mage::helper('ampromo')->getNewItems();
+$autoOpen = Mage::getStoreConfig('ampromo/general/auto_open_popup');
+?>
+<?php if (sizeof($products) > 0): ?>
+    <div id="ampromo-items-add"><?php echo Mage::getStoreConfig('ampromo/general/add_message')?></div>
+    <script type="text/javascript">
+        var button = $('ampromo-items-add').down('a');
+        button.observe('click', ampromo_check_initialization);
+        if (window.location.hash == '#choose-gift' || <?php echo $autoOpen ? 'true' : 'false' ?>) {
+            Event.observe(window, 'load', function() {
+                button.click();
+            });
+        }
+    </script>
+<?php endif*/ ?>
+ <?php   /*Free Gift code from amasty/add.phtml*/  ?>
+    <?php 
+$products = Mage::helper('ampromo')->getNewItems();
+$autoOpen = Mage::getStoreConfig('ampromo/general/auto_open_popup');
+$totals = Mage::getSingleton('checkout/session')->getQuote()->getTotals(); //Total object
+$grandtotal = round($totals["grand_total"]->getValue()); //Grandtotal value 
+
+$cartitems = Mage::getSingleton('checkout/session')->getQuote()->getAllItems();
+
+foreach($cartitems  as $item) {
+    $itemname.=$item->getName().",";
+    $logoitemnid.=$item->getProductId().",";
+   
+}
+$free = explode(',',$logoitemnid);
+
+?>
+    
+    <?php if (sizeof($products) > 0 ):
+       if((strpos($itemname,"30 ml")!== false || strpos($itemname,"30ml")!== false) && (Mage::helper('checkout/cart')->getQuote()->getSubtotal() - 19.99) < 19.99){
+         
+        }else{ 
+              /*            free t-shirt */
+             // if(!in_array('1753',$free)){ 
+              /*            free t-shirt */ ?>
+    <div id="ampromo-items-add"><?php echo Mage::getStoreConfig('ampromo/general/add_message')?>
+    <!--<a href="#" style="text-decoration: none;border-bottom:0px;"><img src="<?php echo $this->getSkinUrl('images/10062015_Triton_Sale_940x127.png');?>" alt="Triton Starter Kit $49.95 + Free 30 ml E-Liquid"></a> -->
+    <input type="hidden" name="subtotal" value="<?php echo Mage::helper('checkout/cart')->getQuote()->getSubtotal();?>" />
+    </div>
+    <script type="text/javascript">
+       var button = $('ampromo-items-add').down('a');
+      button.observe('click', ampromo_check_initialization);
+       if (window.location.hash == '#choose-gift' || <?php echo $autoOpen ? 'true' : 'false' ?>) {
+            Event.observe(window, 'load', function() {
+                button.click();
+            });
+        }        
+    </script>
+<?php   /* free t-shirt */
+       // }
+        /*            free t-shirt */
+        } endif ?>
+
+<?php   /*Free Gift code from amasty/add.phtml*/  ?>

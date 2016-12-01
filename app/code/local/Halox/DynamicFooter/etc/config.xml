@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Halox_DynamicFooter>
+			<version>1.0.0</version>
+		</Halox_DynamicFooter>
+	</modules>
+	<global>
+		<helpers>
+			<halox_dynamicfooter>
+				<class>Halox_DynamicFooter_Helper</class>
+			</halox_dynamicfooter>
+		</helpers>
+		<blocks>
+			<halox_dynamicfooter>
+				<class>Halox_DynamicFooter_Block</class>
+			</halox_dynamicfooter>
+			<page>
+				<rewrite>
+					<html_footer>Halox_DynamicFooter_Block_Page_Html_Footer</html_footer>
+				</rewrite>
+			</page>
+		</blocks>
+	</global>
+</config>

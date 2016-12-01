@@ -1,0 +1,24 @@
+
+<script type="text/javascript">
+//<![CDATA
+    var uploadUrl = '<?php echo $this->getUrl('ageverification/onepage/uploadVerify'); ?>';
+    var verify = new VerifyMethod('co-verify-form', '<?php echo $this->getUrl('ageverification/onepage/saveVerify') ?>', uploadUrl);
+    var verifyForm = new VarienForm('co-verify-form');
+//]]>
+</script>
+<form id="co-verify-form" action="" enctype="multipart/form-data">
+    <fieldset>
+        <ul class="form-list">
+            <li id="checkout-verify-load">  <!-- This id format is very important -->
+                <?php echo $this->getChildHtml('info'); ?>
+            </li>
+        </ul>
+        <div class="buttons-set" id="verify-buttons-container">
+            <button type="button" title="<?php echo $this->__('Continue') ?>" class="button" onclick="verify.save()" id="verify-button-continue"><span><span><?php echo $this->__('Continue') ?></span></span></button>
+            <span class="please-wait" id="verify-please-wait2" style="display: none;">
+                <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading next step...') ?>" title="<?php echo $this->__('Loading next step...') ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+            </span>
+        </div>
+    </fieldset>
+</form>
+

@@ -1,0 +1,11 @@
+<?php if( $this->_getOptions() && sizeof($this->_getOptions()) > 0 ):?>
+    <br />
+    <table cellspacing="0" class="form-list">
+    <?php foreach($this->_getOptions() as $_option):?>
+        <tr>
+            <td class="label"><?php echo $_option['label']?></td>
+            <td><strong><?php echo $_option['value']?></strong></td>
+        </tr>
+    <?php endforeach;?>
+    </table>
+<?php endif;?>

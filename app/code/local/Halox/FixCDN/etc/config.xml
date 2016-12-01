@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<config>
+	
+	<modules>
+		<Halox_FixCDN>
+			<version>1.0</version>
+		</Halox_FixCDN>
+	</modules>
+	
+	<global>
+		<blocks>
+			<halox_fixCDN>
+				<class>Halox_FixCDN_Block</class>
+			</halox_fixCDN>	
+		</blocks>
+		<models>
+			<halox_fixCDN>
+				<class>Halox_FixCDN_Model</class>
+			</halox_fixCDN>	
+		</models>
+		<helpers>
+			<halox_fixCDN>
+				<class>Halox_FixCDN_Helper</class>
+			</halox_fixCDN>	
+		</helpers>
+	</global>
+
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<Halox_FixCDN before="Mage_Adminhtml">Halox_FixCDN_Rewrite</Halox_FixCDN>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	
+</config>

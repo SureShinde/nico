@@ -1,0 +1,77 @@
+<?php
+/**
+ * sort order items in invoice email in natural order
+ */
+?>
+<?php $_invoice = $this->getInvoice() ?>
+<?php $_order   = $this->getOrder() ?>
+<?php if ($_invoice && $_order): ?>
+<table cellspacing="0" cellpadding="0" border="0" width="650" style="border:1px solid #EAEAEA;">
+    <thead>
+        <tr>
+            <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Qty') ?></th>
+			<th align="left" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Sku') ?></th>
+			<th align="left" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Item') ?></th>
+            <th align="left" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Unit Price') ?></th>
+            <th align="right" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Extended Price') ?></th>
+        </tr>
+    </thead>
+
+    <?php 
+    $_itemsCollection = $_invoice->getAllItems();
+    foreach ($_itemsCollection as $item) {
+        
+        if ($item->getOrderItem()) {
+            $itemType = $item->getOrderItem()->getProductType();
+        } else {
+            $itemType = $item->getProductType();
+        }
+        
+        if($parentItem = $item->getOrderItem()->getParentItem()){
+                
+            if ($parentItem->getOrderItem()) {
+                $parentType = $parentItem->getOrderItem()->getProductType();
+            } else {
+                $parentType = $parentItem->getProductType();
+            }
+            if($parentType == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+                $_items[] = $item;
+            }
+        }elseif($itemType != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+            $_items[] = $item;
+        }
+
+        
+    }
+
+    //sort cart items in natural order(CASE-INSENSITIVE)
+    usort($_items, function($a, $b){
+        return strnatcasecmp($a->getName(),$b->getName());
+    });
+    ?>
+    
+    <?php $i=0; foreach ($_items as $_item): ?>
+    <?php $i++; ?>
+    <tbody<?php echo $i%2 ? ' bgcolor="#F6F6F6"' : '' ?>>
+        <?php 
+
+        if ($_item->getOrderItem()) {
+            $type = $_item->getOrderItem()->getProductType();
+        } else {
+            $type = $_item->getProductType();
+        }
+
+        $renderer = $this->getItemRenderer($type);
+        
+        $renderer->setItem($_item);
+        ?>
+
+        <?php echo $renderer->toHtml()?>
+    </tbody>
+    <?php endforeach; ?>
+
+    <tfoot>
+        <?php echo $this->getChildHtml('invoice_totals')?>
+    </tfoot>
+</table>
+<?php endif; ?>

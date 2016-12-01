@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mas_Mascnotes extension by Makarovsoft.com
+ * 
+ * @category   	Mas
+ * @package		Mas_Mascnotes
+ * @copyright  	Copyright (c) 2014
+ * @license		http://makarovsoft.com/license.txt
+ * @author		makarovsoft.com
+ */
+-->
+<config>
+ 	<sections>
+		<mascnotes translate="label" module="mascnotes">
+			<class>separator-top</class>
+			<label>Notes On Customers</label>
+			<tab>mas</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>100</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>		
+				<general translate="label" module="mascnotes">
+					<label>General</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>20</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>						
+						<editor translate="label" module="mascnotes">
+							<label>Enable WYSIWYG Editor?</label>
+							<frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+                            <comment><![CDATA[If enabled you may edit notes on not edit page in WYSIWYG Editor]]></comment>
+						</editor>
+					</fields>
+				</general>
+				<customer translate="label" module="mascnotes">
+					<label>Customer Settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>30</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>						
+						<enabled translate="label" module="mascnotes">
+							<label>Show allowed notes to customer?</label>
+							<frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+                            <comment><![CDATA[If allowed, link to customer notes will be displayed in menu at customer dashboard page]]></comment>
+						</enabled>
+						<text_above translate="label" module="mascnotes">
+							<label>Text above notes</label>
+							<frontend_type>textarea</frontend_type>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+                            <comment><![CDATA[Text to be shown to customer above notes in customer dashboard section. HTML tags are allowed]]></comment>
+						</text_above>
+					</fields>
+				</customer>						
+			</groups>
+		</mascnotes>
+	</sections>
+</config> 

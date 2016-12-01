@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Halox
+ * @package    Halox_Minimumorderamount
+ * @author     Chetu
+ */
+ -->
+<config>
+    <modules>
+        <Halox_Minimumorderamount>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Halox_Minimumorderamount>
+    </modules>
+</config> 

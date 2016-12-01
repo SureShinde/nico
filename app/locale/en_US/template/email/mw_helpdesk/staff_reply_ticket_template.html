@@ -1,0 +1,32 @@
+<!--@subject {{var subject}}@-->
+
+========= Please enter your reply ABOVE this line =========
+<p>Hello <i>{{var customer_name}}</i>,</p>
+
+<p>Our staff has responsed to your ticket. Please see the detail below.</p>
+
+<p>Replied From: <i>Halo Customer Service</i><br>
+-------------------------------<br>
+{{var message}} <br>
+<input type="hidden" name="example" value="{{var order_id}}">
+<input type="hidden" name="example" value="{{var customer_name}}">
+<input type="hidden" name="example" value="{{var subject}}">
+<input type="hidden" name="example" value="{{var store_name}}">
+<input type="hidden" name="example" value="{{var department_name}}">
+<input type="hidden" name="example" value="{{var operator_name}}">
+<input type="hidden" name="example" value="{{var operator_direct_link}}">
+<input type="hidden" name="example" value="{{var customer_direct_link}}">
+<input type="hidden" name="example" value="{{var expired_time}}">
+<input type="hidden" name="example" value="{{var late}}">
+<input type="hidden" name="example" value="{{var staff_name}}">
+<input type="hidden" name="example" value="{{var note}}">
+<input type="hidden" name="example" value="{{var email_ref_id}}">
+<input type="hidden" name="example" value="{{var ticket_id}}">
+------------------------------- </p>
+
+<p>This ticket will close automatically if you do not reply within {{var expired_time}} hours. <br>
+To reply or reopen this ticket, you can simply reply to this email. <br>
+Anytime you wish to view and manage your ticket online, please login to your account or click the link below: <br>
+<a href="{{var customer_direct_link}}">{{var customer_direct_link}}</a> </p>
+
+<p>This message was sent by the {{var department_name}} department - {{var store_name}} helpdesk.</p>

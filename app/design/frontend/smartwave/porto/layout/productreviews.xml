@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <productreviews_review_index>   
+      	<reference name="content">			
+		        <block type="productreviews/Product_View" name="root" template="productreviews/reviews.phtml" />
+            </reference>
+    </productreviews_review_index>
+</layout>

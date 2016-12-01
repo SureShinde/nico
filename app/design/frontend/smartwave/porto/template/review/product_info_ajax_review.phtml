@@ -1,0 +1,120 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+ ?>
+ 
+<div class="add-review" >
+    <?php echo $this->getLayout()->createBlock('review/form')->setBlockId('product.review.form')->toHtml() ?>
+</div>
+
+<?php $_items = $this->getReviewsCollection()->getItems();?>
+<?php if (count($_items)):?>
+<div class="collateral-box" id="product-customer-reviews">
+
+    <?php echo $this->getChildHtml('toolbar') ?>
+
+    <ol id="itemContainer">
+        <?php foreach ($_items as $_review):?>
+            <li>
+                <div class="review-area">
+                    <strong class="review-title"><?php echo $this->htmlEscape($_review->getTitle()) ?></strong>
+                    <span class="review-by"> <?php echo $this->__('review by %s', "<b>".$this->htmlEscape($_review->getNickname())."</b>") ?> <?php //echo $this->__('on %s', $this->formatDate($_review->getCreatedAt()), 'long') ?></span>
+                    <div class="ratings-list">
+                    <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                        <div class="rating-item">
+                            <span class="label"><?php echo $_vote->getRatingCode() ?></span>
+                            <div class="rating-box">
+                                <div class="rating" style="width: <?php echo $_vote->getPercent() ?>%;"></div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                    </div>
+                    <p><?php echo nl2br($this->htmlEscape($_review->getDetail())) ?></p>
+                </div>
+                <div class="clearer"></div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+    <?php //echo $this->getChildHtml('toolbar') ?>
+</div>
+<?php
+$productId = '';
+if($product = Mage::registry('current_product')){
+  $productId =  $product->getId();
+}
+$totalSize = $this->getReviewsCollectionSize();
+?>
+<script type="text/javascript">
+    
+    var countTotal = "<?php echo ceil($totalSize/5); ?>"; //count pages
+    //var jqyes = jQuery.noConflict(true); 
+           
+           var k = 0;
+           var totalSize = '<?php echo $totalSize; ?>';
+		   var js = 2;
+           function loadMoreReviews(){
+                 jQuery("#loadMore").html("<i id='fa' class='fa fa-circle-o-notch fa-spin'></i> Loading....");
+                 jQuery("#loadMore").attr("disabled", true);
+                 jQuery('#loadMore').addClass('disabled');
+                
+                if(js <= countTotal ){
+               jQuery.ajax({
+                            url: '<?php echo Mage::getBaseUrl();?>productreviews/review/index/id/<?php echo $productId;?>/start/'+js,
+                            type: 'GET',
+                            async: true,
+                            success: function(data){ 
+                             jQuery("#itemContainer").append(data);
+                             jQuery("#loadMore").html("Load More Reviews");
+                             jQuery("#loadMore").removeAttr("disabled");
+                             jQuery('#loadMore').removeClass('disabled');
+                             if((js*5) > totalSize){
+                              k = totalSize;  
+                              jQuery("#loadMore").hide();							  
+                             }else{
+                              k = js*5;   
+                             }
+                             jQuery("#dispCounter").html(" ("+ k +" out of "+totalSize+" loaded.)");                             
+                             js = js+1;
+                            },
+                            error: function(data) {
+                                alert('Some Error Occured !');
+                            }
+                            });
+                    }else{                     
+                     jQuery("#loadMore").hide();
+                    }
+                  }
+</script>
+<button type="button" class="btn btn-primary" id="loadMore"   onclick = 'loadMoreReviews();'> Load More Reviews</button><span id="dispCounter"> (5 out of <?php echo $totalSize;?> loaded.)</span>
+
+
+
+<?php else:?>
+<div class="collateral-box" id="product-customer-reviews">
+<ol><li><?php echo $this->__('Be the first to review this product'); ?></li></ol>
+</div>
+<?php endif;?>
+

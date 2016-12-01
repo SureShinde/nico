@@ -1,0 +1,391 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of Observer
+ *
+ * @author Administrator
+ */
+class Sunovisio_AffiliateNetworkConnector_Model_Observer {
+
+    public function loadCookie($event) {
+		if(Mage::helper('affiliatenetworkconnector')->isEnabled()){	
+			//-------------------------------------------
+			//Check if in Session Variable First
+			//-------------------------------------------
+			$magsession = Mage::getSingleton('core/session');
+			$magcookie = Mage::getSingleton('core/cookie');
+			$affprimary = $magsession->getAffprimary();
+			$affnetwork = $magsession->getAffnetwork();
+			$affid = $magsession->getAffid();
+			
+			//-------------------------------------------
+			//Load Session From Cookie If Not In Session
+			//-------------------------------------------
+			//Primary Values
+			if (!isset($affprimary) || !$affprimary) {
+				if($magcookie->get("affprimary")){
+					$affprimary = $magcookie->get("affprimary");	
+					$magsession->setAffprimary($affprimary);
+				}
+				if($magcookie->get("affprimaryurl")){$magsession->setAffprimaryurl($magcookie->get("affprimaryurl"));}
+				if($magcookie->get("affprimarydate")){$magsession->setAffprimarydate($magcookie->get("affprimarydate"));}	
+			}
+			
+			//Affiliate Values
+			if (!isset($affnetwork) || !$affnetwork) {
+				if($magcookie->get("affnetwork")){
+					$affnetwork = $magcookie->get("affnetwork");							
+					$magsession->setAffnetwork($affnetwork);
+				}
+				if($magcookie->get("affid")){
+					$affid = $magcookie->get("affid");
+					$magsession->setAffid($affid);
+				}
+				if($magcookie->get("affoffer")){$magsession->setAffoffer($magcookie->get("affoffer"));}
+				if($magcookie->get("affurl")){$magsession->setAffurl($magcookie->get("affurl"));}
+				if($magcookie->get("affdate")){$magsession->setAffdate($magcookie->get("affdate"));}
+			}
+			
+			//-------------------------------------------
+			//First Referral
+			//-------------------------------------------
+			// Important: Check After Session Variable updated from Cookie(if needed)
+			if (!isset($affprimary) || !$affprimary) {
+				$firstReferral=true;
+			}
+			else{
+				$firstReferral=false;
+			}			
+		
+			//-------------------------------------------
+			// Get Referring URL 
+			//-------------------------------------------
+			if(!empty($_SERVER['HTTP_REFERER'])){
+				$refUrl = strtolower($_SERVER['HTTP_REFERER']);
+				//$refUrl_parsed = parse_url($refUrl);
+				//if (isset($refUrl_parsed['query'])){parse_str($refUrl_parsed['query'], $refUrl_parts);}
+			}
+			else{
+				$refUrl = "N/A";	
+			}
+			
+			//-------------------------------------------
+			// Get Current URL 
+			//-------------------------------------------
+			$curUrl = Mage::helper('core/url')->getCurrentUrl();
+			$new_source = "";
+			$new_affid = "";
+			$new_affoffer = "";
+			
+			if(isset($curUrl)){
+				$curUrl = strtolower($curUrl);
+				$curUrl_parsed = parse_url($curUrl);
+				if (isset($curUrl_parsed['query'])){parse_str($curUrl_parsed['query'], $curUrl_parts);}
+				if (!empty($curUrl_parts['source'])){$new_source = $curUrl_parts['source'];}
+				if (!empty($curUrl_parts['aid'])){$new_affid = $curUrl_parts['aid'];}
+				if (!empty($curUrl_parts['oid'])){$new_affoffer = $curUrl_parts['oid'];}
+			}
+			else{
+				$curUrl = "N/A";	
+			}
+			
+			//-------------------------------------------
+			//Set Default Variables
+			//-------------------------------------------
+			$currentdate = Mage::getModel('core/date')->date('Y-m-d H:i:s');
+			$networkpriority = Mage::helper('affiliatenetworkconnector')->getNetworkPriority();
+			$networkindirectoverride = Mage::helper('affiliatenetworkconnector')->isNetworkIndirectOverride();
+			$affprimaryurl = $refUrl;
+			$affcookieevent = "";
+			$savenetwork = false;
+			$saveprimary = false;
+			
+			//-------------------------------------------
+			//Get Network Updates If Required
+			//-------------------------------------------
+			// Share-A-Sale Affiliate
+			if ($new_source=="sas" && Mage::helper('affiliatenetworkconnector')->isShareASaleEnabled()) {
+				// First Referral : Affiliate Network
+				$new_affnetwork = "Share-A-Sale";
+				$new_affdate 	= $currentdate;
+				$new_affurl 	= $refUrl;
+				
+				//if (!empty($refUrl_parts['u'])){$new_affid = $refUrl_parts['u'];}
+				//if (!empty($refUrl_parts['b'])){$new_affoffer = $refUrl_parts['b'];}
+				
+				$indirectenabled = Mage::helper('affiliatenetworkconnector')->isShareASaleIndirectEnabled();
+				$affpriority = Mage::helper('affiliatenetworkconnector')->getShareASalePriority();
+				$affindirectoverride = Mage::helper('affiliatenetworkconnector')->isShareASaleIndirectOverride();
+				
+				if($firstReferral){
+					//First Referral
+					$savenetwork = true;
+					$saveprimary = true; 
+					$affprimary = "Affiliate";
+					$affcookieevent="<span style=\"color:red\">Direct Affiliate Added</span><br/>Share-A-Sale Affiliate was the first referral to site.";
+				}
+				elseif($affnetwork == "N/A" && $indirectenabled){
+					//Indirect Referral
+					$savenetwork = true; 
+					$affcookieevent="<span style=\"color:red\">Indirect Affiliate Added</span><br/>Share-A-Sale Affiliate referred customer after they had already found site.";
+				}
+				elseif($affnetwork=="Share-A-Sale" && $affpriority=="Last"){
+					//Override Affiliate
+					$savenetwork = true; 
+					if($affprimary=="Affiliate"){
+						//Override Direct Affiliate
+						if(($affid != $new_affid) && $affindirectoverride){
+							//Override Affiliate / Change Structure To Indirect
+							$saveprimary = true; 
+							$affprimary = "Affiliate (Override)";
+							$affcookieevent="<span style=\"color:red\">Direct Affiliate Replaced (Last Affiliate Wins)</span><br/>New Share-A-Sale Affiliate has replaced previous Share-A-Sale Affiliate.<br/><br/><span style=\"color:red\">Changed To Indirect Affiliate</span><br/>The new affiliate was not solely responsible for this sale.";
+						}
+						elseif ($affid != $new_affid){
+							//Override Affiliate / No Change In Structure
+							$affcookieevent="<span style=\"color:red\">Direct Affiliate Replaced (Last Affiliate Wins)</span><br/>New Share-A-Sale Affiliate has replaced previous Share-A-Sale Affiliate.";
+						}
+						else{
+							// Current Affiliate is same as previous Affiliate
+							$affcookieevent="<span style=\"color:red\">Same Affiliate</span><br/>Current Share-A-Sale Affiliate is same as previous Share-A-Sale Affiliate. No change was made.";
+						}
+					}
+					else{
+						//Override Indirect Affiliate
+						$affcookieevent="<span style=\"color:red\">Indirect Affiliate Replaced (Last Affiliate Wins)</span><br/>New Share-A-Sale Affiliate has replaced previous Share-A-Sale Affiliate.";
+					}
+				}
+				elseif(!$firstReferral && $affnetwork!="N/A" && $affnetwork!="Share-A-Sale" && $networkpriority=="Last"){
+					//Override Network
+					$savenetwork = true; 
+					if($affprimary=="Affiliate"){
+						//Override Direct Affiliate
+						if($networkindirectoverride){
+							//Override Affiliate / Change Structure To Indirect
+							$saveprimary = true; 
+							$affprimary = "Affiliate (Override)";
+							$affcookieevent="<span style=\"color:red\">Direct Affiliate Replaced (Last Network Wins)</span><br/>New Share-A-Sale Affiliate has replaced previous " . $affnetwork . " Affiliate.<br/><br/><span style=\"color:red\">Changed To Indirect Affiliate</span><br/>The new affiliate was not solely responsible for this sale.";
+						}
+						else{
+							//Override Affiliate / No Change In Structure
+							$affcookieevent="<span style=\"color:red\">Direct Affiliate Replaced (Last Network Wins)</span><br/>New Share-A-Sale Affiliate has replaced previous " . $affnetwork . " Affiliate.";
+						}
+						
+					}
+					else{
+						//Override Indirect Affiliate
+						$affcookieevent="<span style=\"color:red\">Indirect Affiliate Replaced (Last Network Wins)</span><br/>New Share-A-Sale Affiliate has replaced previous " . $affnetwork . " Affiliate.";
+					}
+				}
+				
+			} 
+			
+			// Ebay Enterprise Affiliate
+			elseif ($new_source=="pjn" && Mage::helper('affiliatenetworkconnector')->isEbayEnterpriseEnabled()) {
+				//Update If Empty Or Overwrite Existing Ebay Enterprise Affiliate
+
+				$new_affnetwork = "Ebay Enterprise";
+				//if (!empty($curUrl_parts['publisherid'])){$new_affid = $curUrl_parts['publisherid'];}
+				//if (!empty($curUrl_parts['creativeid'])){$new_affoffer = $curUrl_parts['creativeid'];}
+				$new_affdate 	= $currentdate;
+				$new_affurl 	= $refUrl;
+								
+				$indirectenabled = Mage::helper('affiliatenetworkconnector')->isEbayEnterpriseIndirectEnabled();
+				$affpriority = Mage::helper('affiliatenetworkconnector')->getEbayEnterprisePriority();
+				$affindirectoverride = Mage::helper('affiliatenetworkconnector')->isEbayEnterpriseIndirectOverride();
+				
+				if($firstReferral){
+					//First Referral
+					$savenetwork = true;
+					$saveprimary = true; 
+					$affprimary = "Affiliate";
+					$affcookieevent="<span style=\"color:red\">Direct Affiliate Added</span><br/>Ebay Enterprise Affiliate was the first referral to site.";
+				}
+				elseif($affnetwork == "N/A" && $indirectenabled){
+					//Indirect Referral
+					$savenetwork = true; 
+					$affcookieevent="<span style=\"color:red\">Indirect Affiliate Added</span><br/>Ebay Enterprise Affiliate referred customer after they had already found site.";
+				}
+				elseif($affnetwork=="Ebay Enterprise" && $affpriority=="Last"){
+					//Override Affiliate
+					$savenetwork = true; 
+					if($affprimary=="Affiliate"){
+						//Override Direct Affiliate
+						if(($affid != $new_affid) && $affindirectoverride){
+							// Override Affiliate / Change Structure To Indirect
+							$saveprimary = true; 
+							$affprimary = "Affiliate (Override)";
+							$affcookieevent="<span style=\"color:red\">Direct Affiliate Replaced (Last Affiliate Wins)</span><br/>New Ebay Enterprise Affiliate has replaced previous Ebay Enterprise Affiliate.<br/><br/><span style=\"color:red\">Changed To Indirect Affiliate</span><br/>The new affiliate was not solely responsible for this sale.";
+						}
+						elseif ($affid != $new_affid){
+							// Override Affiliate / No Change In Structure
+							$affcookieevent="<span style=\"color:red\">Direct Affiliate Replaced (Last Affiliate Wins)</span><br/>New Ebay Enterprise Affiliate has replaced previous Ebay Enterprise Affiliate.";
+						}
+						else{
+							// Current Affiliate is same as previous Affiliate
+							$affcookieevent="<span style=\"color:blue\">Same Affiliate</span><br/>Current Ebay Enterprise Affiliate is same as previous Ebay Enterprise Affiliate. No change was made.";
+						}
+					}
+					else{
+						//Override Indirect Affiliate
+						$affcookieevent="<span style=\"color:red\">Indirect Affiliate Replaced (Last Affiliate Wins)</span><br/>New Ebay Enterprise Affiliate has replaced previous Ebay Enterprise Affiliate.";
+					}
+				}
+				elseif($affnetwork!="N/A" && $affnetwork!="Ebay Enterprise" && $networkpriority=="Last" && !$firstReferral){
+					//Override Network
+					$savenetwork = true; 
+					if($affprimary=="Affiliate"){
+						//Override Direct Affiliate
+						if($networkindirectoverride){
+							// Override Affiliate / Change Structure To Indirect
+							$saveprimary = true; 
+							$affprimary = "Affiliate (Override)";
+							$affcookieevent="<span style=\"color:red\">Direct Affiliate Replaced (Last Network Wins)</span><br/>New Ebay Enterprise Affiliate has replaced previous " . $affnetwork . " Affiliate.<br/><br/><span style=\"color:red\">Changed To Indirect Affiliate</span><br/>The new affiliate was not solely responsible for this sale.";
+						}
+						else{
+							// Override Affiliate / No Change In Structure
+							$affcookieevent="<span style=\"color:red\">Direct Affiliate Replaced (Last Network Wins)</span><br/>New Ebay Enterprise Affiliate has replaced previous " . $affnetwork . " Affiliate.";
+						}
+						
+					}
+					else{
+						//Override Indirect Affiliate
+						$affcookieevent="<span style=\"color:red\">Indirect Affiliate Replaced (Last Network Wins)</span><br/>New Ebay Enterprise Affiliate has replaced previous " . $affnetwork . " Affiliate.";
+					}
+				}
+			}
+			
+			// No Affiliate Set
+			elseif ($firstReferral){
+				// First Referral : Direct
+				$affprimary = "Direct";		
+				$affcookieevent="<span style=\"color:blue\">Direct Referral (No Affiliate)</span>";
+				
+				//Set Affiliate Defaults
+				$new_affnetwork = "N/A";
+				$new_affid = "N/A";				
+				$new_affoffer = "N/A";
+				$new_affurl = "N/A";
+				$new_affdate = "N/A";
+				$savenetwork = true;
+				$saveprimary = true;
+			}
+
+			//-----------------------------------------------------
+			//Update Cookie/Session With Primary Values If Required
+			//-----------------------------------------------------	
+			if ($saveprimary){
+				//First Click To Site
+				$magsession->setAffprimary($affprimary);
+				$magcookie->set("affprimary", $affprimary,  time() + 2000000000,"/");
+
+				if($firstReferral){
+					$magsession->setAffprimaryurl($affprimaryurl);
+					$magsession->setAffprimarydate($currentdate);					
+					$magcookie->set("affprimaryurl", $affprimaryurl,  time() + 2000000000,"/");
+					$magcookie->set("affprimarydate", $currentdate,  time() + 2000000000,"/");
+				}
+			}
+
+			//-----------------------------------------------------
+			//Update Cookie/Session With Network Values If Required
+			//-----------------------------------------------------			
+			if ($savenetwork) {
+				//Set Affiliate Network Values
+				$magsession->setAffnetwork($new_affnetwork);
+				
+				$magsession->setAffid($new_affid);
+				$magsession->setAffoffer($new_affoffer);
+				$magsession->setAffurl($new_affurl);
+				$magsession->setAffdate($new_affdate);
+
+				$magcookie->set("affnetwork", $new_affnetwork,  time() + 2000000000,"/");
+				$magcookie->set("affid", $new_affid,  time() + 2000000000,"/");
+				$magcookie->set("affoffer", $new_affoffer,  time() + 2000000000,"/");
+				$magcookie->set("affurl", $new_affurl,  time() + 2000000000,"/");
+				$magcookie->set("affdate", $new_affdate,  time() + 2000000000,"/");
+				
+				//Update Event Tracking
+				if (Mage::helper('affiliatenetworkconnector')->isDebugTracking()){
+					$magsession->setAffcookieevent($affcookieevent);
+					$magcookie->set("affcookieevent", $affcookieevent,  time() + 2000000000,"/");
+				}
+			}
+		}
+   }
+
+    public function saveCustomerAffiliation($event) {
+		if(Mage::helper('affiliatenetworkconnector')->isEnabled()){
+			$customerid = $event->getCustomer()->getEntityId();
+	
+			if ($customerid) {
+				$customer = Mage::getModel('customer/customer')->load($customerid);
+				$affprimary = $customer->getAffprimary();
+	
+				//Save Affiliation Data To Customer
+				if (empty($affprimary)) {
+					//Set The Session
+					$magsession = Mage::getSingleton('core/session');
+					$magcookie = Mage::getSingleton('core/cookie');
+
+					//Set The Customer Primary Values
+					$customer->setAffprimary($magsession->getAffprimary());
+					$customer->setAffprimaryurl($magsession->getAffprimaryurl());
+					$customer->setAffprimarydate($magsession->getAffprimarydate());
+					
+					//Check If Customer Was Referred From A Network
+					$affprimary = $magsession->getAffprimary();
+					$affnetwork = $magsession->getAffnetwork();
+					$loadnetwork = false;
+					
+					//Load Network Values Affiliate Referral Or Affiliate Indirect Referral
+					if ($affnetwork == 'Share-A-Sale' && Mage::helper('affiliatenetworkconnector')->isShareASaleEnabled()){
+						if($affprimary=="Affiliate" || $affprimary=="Affiliate (Override)" || ($affprimary=="Direct" && Mage::helper('affiliatenetworkconnector')->isShareASaleIndirectEnabled()==true)){
+							$loadnetwork = true;
+						}
+					}
+					elseif ($affnetwork == 'Ebay Enterprise' && Mage::helper('affiliatenetworkconnector')->isEbayEnterpriseEnabled()){
+						if($affprimary=="Affiliate" || $affprimary=="Affiliate (Override)" || ($affprimary=="Direct" && Mage::helper('affiliatenetworkconnector')->isEbayEnterpiseIndirectEnabled()==true)){
+							$loadnetwork = true;
+						}
+					}
+	
+					//Load Affilite Network
+					if($loadnetwork){				
+						$customer->setAffnetwork($magsession->getAffnetwork());
+						$customer->setAffid($magsession->getAffid());
+						$customer->setAffoffer($magsession->getAffoffer());
+						$customer->setAffurl($magsession->getAffurl());
+						$customer->setAffdate($magsession->getAffdate());
+						
+						//Update Event Tracking
+						if (Mage::helper('affiliatenetworkconnector')->isDebugTracking()){					
+							if($affprimary=="Affiliate"){
+								$affmagentoevent="<span style=\"color:red\">Direct Affiliate Saved</span><br/>" . $magsession->getAffnetwork() . " Affiliate has been saved to Magento Customer Database.";
+							}
+							else{
+								$affmagentoevent="<span style=\"color:red\">Indirect Affiliate Saved</span><br/>" . $magsession->getAffnetwork() . " Affiliate has been saved to Magento Customer Database.";
+							}
+							$magsession->setAffmagentoevent($affmagentoevent);
+							$magcookie->set("affmagentoevent", $affmagentoevent,  time() + 2000000000,"/");
+						}						
+					}
+					
+					//Save Customer Information
+					$customer->save();	
+
+				}
+			}
+			//Reset Cookie To Direct
+			//Clear Cookie On First Sale Only
+			//Mage::helper('affiliatenetworkconnector')->clearCookie();
+		}
+    }
+
+}
+
+?>

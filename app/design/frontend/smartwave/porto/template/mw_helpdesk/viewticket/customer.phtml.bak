@@ -1,0 +1,170 @@
+<script type="text/javascript" src="<?php echo $this->getJsUrl('tiny_mce/tiny_mce.js') ?>"></script>
+<div class="dashboard">
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+    <?php $ticket = $this->getTicket(); ?>
+    <div class="page-title">
+        <h1><?php echo $ticket->getSubject() ?></h1>
+    </div>
+    <div class="fieldset">
+        <table cellspacing="10" cellpadding="10">
+            <col width="100" />
+            <col width="400" />
+            <col width="80" />
+            <col width="200" />
+            <tbody>
+                <tr>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('TicketID'); ?></b></td>
+                    <td><?php echo $ticket->getCodeId() ?></td>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Status'); ?></b></td>
+                    <td><?php echo MW_HelpDesk_Model_Config_Source_Status::getLabel($ticket->getStatus()) ?></td>
+                </tr>
+                <tr>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Time Updated'); ?></b></td>
+                    <td><?php echo date('F jS, Y, h:i A', Mage::getModel('core/date')->timestamp($ticket->getLastReplyTime())) ?></td>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Priority'); ?></b></td>
+                    <td><?php echo MW_HelpDesk_Model_Config_Source_Priority::getLabel($ticket->getPriority()) ?></td>
+                </tr>
+                <tr>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Department'); ?></b></td>
+                    <td><?php echo $this->getDepartmentName() ?></td>
+                </tr>
+                <?php if ($ticket->getOrder()): ?>
+                    <?php $order = Mage::getModel('sales/order')->load($ticket->getOrder()); ?>
+                    <tr>
+                        <td><b><?php echo Mage::helper('helpdesk')->__('Order'); ?> #</b></td>
+                        <td><?php echo '<a href="' . $this->getUrl('sales/order/view/', array('order_id' => $ticket->getOrder())) . '" onclick="this.target=\'blank\'">#'
+                . $order->getIncrementId() . '</a>' . " (\${$order->getGrandTotal()}) " . ' on ' . date('F jS, Y', Mage::getModel('core/date')->timestamp($order->getCreatedAt())) ?></td>
+                    </tr>
+                <?php endif; ?>
+            </tbody></table>
+    </div>
+    <?php //$url = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+    //array_shift($url); ?>
+
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Post a reply') ?></h2>
+        <form action="<?php echo $this->getUrl('helpdesk/viewticket/reply'); ?>" method="post" id="form-reply" enctype="multipart/form-data">
+            <input type=hidden name="ticket_id" value="<?php echo $this->getTicketId(); ?>">
+            <input type=hidden name="customerCode" value="<?php echo $this->getCodeCustomer(); ?>">
+            <ul class="form-list">
+                <li class="wide">
+                    <label for="content" class="required"><em>*</em><?php echo $this->__('Message') ?></label>
+                    <div class="input-box">
+                        <textarea class="required-entry textarea" cols="15" rows="2" style="width: 826px; height: 150px;" title="Content" name="content" id="content"></textarea>
+                    </div>
+                    <?php echo Mage::helper('helpdesk')->getContentEditor('content'); ?>
+                </li>
+                <li class="fields">
+                    <div class="field">
+                        <?php echo Mage::helper('helpdesk')->getFrontendUploaderContainer('file_attachment');?>
+                    </div>
+                    <?php /*
+                      <div class="field">
+                      <label for="attachment"><?php echo $this->__('Vote') ?></label>
+                      <div class="input-box">
+                      <img class='loading' src='<?php echo $this->getSkinUrl();?>/mw_helpdesk/images/like.png' alt='like' />
+                      <input type="radio" value="1" id="vote_1" class="radio poll_vote" name="vote">
+                      <img class='loading' src='<?php echo $this->getSkinUrl();?>/mw_helpdesk/images/unlike.png' alt='unlike' />
+                      <input type="radio" value="2" id="vote_2" class="radio poll_vote" name="vote">
+                      </div>
+                      </div>
+                     */ ?>
+                </li>
+            </ul>
+            <div style="float:left;margin-left: 670px;">
+                <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span>
+                            <?php if ($ticket->getStatus() == MW_HelpDesk_Model_Config_Source_Status::STATUS_CLOSED) { ?>
+                                <?php echo $this->__('Reopen Ticket') ?>
+                            <?php } else { ?>
+                                <?php echo $this->__('Submit') ?>
+                            <?php } ?>
+                        </span></span></button>
+            </div>
+        </form>
+        <?php if ($ticket->getStatus() != MW_HelpDesk_Model_Config_Source_Status::STATUS_CLOSED): ?>
+            <form action="<?php echo $this->getUrl('helpdesk/viewticket/close'); ?>" method="post" id="form-close">
+                <div style="float:left;margin-left: 5px;">
+                    <input type=hidden name="customerCode" value="<?php echo $this->getCodeCustomer(); ?>">
+                    <input type=hidden name="ticket_id" value="<?php echo $this->getTicketId(); ?>">
+                    <button type="submit" name="close" value="close" title="<?php echo $this->__('Close Ticket') ?>" class="button"><span><span><?php echo $this->__('Close Ticket') ?></span></span></button>
+                </div>
+            </form>
+        <?php endif; ?>
+        <div style="clear:both;"></div>
+    </div>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        var dataForm = new VarienForm('form-reply', true);
+        //]]>
+    </script>
+
+    <div class="page-title">
+        <h3><?php echo $this->__('Ticket Thread') ?></h3>
+    </div>
+
+    <?php foreach ($this->getCollection() as $history): ?>
+        <div class="box-account box-info">
+            <div class="box-head">
+                <h2 style ="text-transform:none;"><?php echo date('F jS, Y, h:i A', Mage::getModel('core/date')->timestamp($history->getCreatedTime())) ?> -
+                    <?php echo $history->getName(); ?> &lt;<?php echo $history->getSender(); ?>&gt;</h2>
+            </div>
+            <div class="col2-set">
+                <div class="box">
+                    <div class="box-content"><?php echo $history->getContent(); ?></div>
+                </div>
+                <?php
+                if ($history->getFileAttachment() != '') {
+                    $file_attachments = explode(";", $history->getFileAttachment());
+                    $i = 0;
+                    foreach ($file_attachments as $file_attachment) {
+                        if ($file_attachment != null) {
+                            ?>
+                            <div class="box">
+                                <div class="box-content">
+                                    File Attachment:
+                                    <a href="<?php echo Mage::getBaseUrl('media') . DS . 'ticket' . DS . rawurlencode($file_attachment); ?>" onclick="this.target='blank'"><?php echo $file_attachment ?></a>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+    <div class="box-account box-info">
+        <div class="box-head">
+            <h2 style ="text-transform:none;"><?php echo date('F jS, Y, h:i A', Mage::getModel('core/date')->timestamp($ticket->getCreatedTime())) ?> - 
+                <?php echo $ticket->getName(); ?> &lt;<?php echo $ticket->getSender(); ?>&gt;</h2>
+        </div>
+        <div class="col2-set">
+            <div class="box">
+                <div class="box-content"><?php echo $ticket->getContent(); ?></div>
+            </div>
+            <?php
+            if ($ticket->getFileAttachment() != '') {
+                $file_attachments = explode(";", $ticket->getFileAttachment());
+                $i = 0;
+                foreach ($file_attachments as $file_attachment) {
+                    if ($file_attachment != null) {
+                        ?>
+                        <div class="box">
+                            <div class="box-content">
+                                File Attachment:
+                                <a href="<?php echo Mage::getBaseUrl('media') . DS . 'ticket' . DS . rawurlencode($file_attachment); ?>" onclick="this.target='blank'"><?php echo $file_attachment ?></a>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+            }
+            ?>
+        </div>
+    </div>
+
+    <?php echo $this->getToolbarHtml() ?>
+</div>

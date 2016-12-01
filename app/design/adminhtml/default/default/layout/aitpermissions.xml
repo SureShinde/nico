@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <adminhtml_catalog_category_edit>
+        <reference name="left">
+            <block name="category.tree.aitperm" type="adminhtml/catalog_category_tree" template="aitpermissions/catalog_category_tree.phtml" after="-" />
+        </reference>
+    </adminhtml_catalog_category_edit>
+    <adminhtml_permissions_role_editrole>
+        <reference name="head">
+            <action method="addCss"><name>aitpermissions/aitpermissions.css</name></action>
+            <action method="addJs"><script>aitoc/aitpermissions/main.js</script></action>
+        </reference>
+        <reference name="js">
+            <block type="adminhtml/template" name="adminhtml.permissions.editroles.attribute" template="aitpermissions/product/editor/grid_js.phtml"/>
+        </reference>
+    </adminhtml_permissions_role_editrole>
+</layout>
+<!--
+/**
+ * Advanced Permissions
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aitpermissions
+ * @version      2.9.2
+ * @license:     QvHpbEc0oOzK3qo2hlmyDcWVqjqnkaNA9m9UogV4wV
+ * @copyright:   Copyright (c) 2015 AITOC, Inc. (http://www.aitoc.com)
+ */
+-->

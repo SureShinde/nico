@@ -1,0 +1,54 @@
+Xtento_AdvancedOrderStatus
+
+-------------
+  CHANGELOG
+-------------
+
+===== 1.0.0 =====
+ * Initial release
+
+===== 1.0.1 =====
+ * Bugfix release
+
+===== 1.0.2 =====
+ * Bugfix release
+
+===== 1.0.3 =====
+ * Fixed a bug that could lead to wrong "Notified" / "Not Notified" states in the order status history
+
+===== 1.0.4 =====
+ * Prevented duplicate emails from being sent
+
+===== 1.0.5 =====
+ * Adjusted adminhtml controller to cope with full page caches better
+
+===== 1.0.6 =====
+ * Notification emails are sent regardless if Magentos order comment emails are enabled or not
+
+===== 1.0.7 =====
+ * Fixed a bug where only one notification would be sent for many orders during bulk processing
+
+===== 1.0.8 =====
+ + Added resource reset script for failed DB installations/updates
+
+===== 1.0.9 =====
+ * Fixed a bug that could cause order update emails to be sent out twice, for the old and new status, when adding comments from the Sales > Orders view in the Magento backend
+
+===== 1.0.10 =====
+ + Added further possible controller_names to the Observer to match more grids
+
+===== 1.1.0 =====
+ + Added ability to hide/show only specific order statuses in the "Status" dropdown when changing the order status
+ ! Added compatibility for Magento CE 1.9.0.0 / EE 1.14.0.0
+
+===== 1.1.1 =====
+ * Various bugfixes and code optimization in license code
+
+===== 1.1.2 =====
+ * Fixed a bug in Xtento_AdvancedOrderStatus_Model_Sales_Order_Status_History -> "Fatal error: Call to a member function save() on a non-object..."
+
+===== 1.1.3 =====
+ + Added ability to restrict/allow the order status bulk action per admin role
+
+===== 1.1.4 =====
+ ! Added compatibility for Magento CE 1.9.1.0 / EE 1.14.1.0

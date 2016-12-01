@@ -1,0 +1,57 @@
+<?php
+	
+	$layer = $this->getLayer();
+	$_category = $this->getLayer()->getCurrentCategory();	
+
+	$_helper = $this->helper('catalog/output');
+    $_image_helper = $this->helper('catalog/image');
+    
+    $store = Mage::app()->getStore();
+    $code  = $store->getCode();
+    
+    $aspect_ratio = Mage::getStoreConfig("porto_settings/category/aspect_ratio",$code);
+    $ratio_width = Mage::getStoreConfig("porto_settings/category/ratio_width",$code);
+    $ratio_height = Mage::getStoreConfig("porto_settings/category/ratio_height",$code);
+
+    $isRewardEnabled = Mage::helper('core')->isModuleEnabled('Magestore_RewardPoints');
+
+    $_productCollection = $this->getLoadedProductCollection();
+
+?>
+
+<?php if( ! $_productCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no reward items matching the selection.') ?></p>
+<?php else: ?>
+	<?php echo $this->getToolbarHtml() ?>
+	<?php foreach($_productCollection as $_product):?>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="reward-device-img">
+					<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
+						<img class="img-responsive" src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(250);?><?php else: ?><?php echo $_image_helper->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-6 pull-middle-container">
+				<div class="device-content pull-middle">
+					<h3>
+						<?php echo $_product->getName()?>
+						<?php if($isRewardEnabled):?>
+							<?php $rewardHelper = Mage::helper('rewardpoints/point');?>
+							<span style="float:right">
+								<?php echo $rewardHelper->format($_product->getRewardpointsSpend(), $store->getId()) ?>
+							</span>
+						<?php endif?>
+					</h3>
+					
+					<p><?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?></p>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="device-cta row-vert-align">
+					<a class="btn btn-default text-upperclass" href="<?php echo $_product->getProductUrl() ?>" role="button"><?php echo $this->__('Redeem Now')?></a>
+				</div>
+			</div>
+		</div>
+	<?php endforeach?>
+<?php endif?>

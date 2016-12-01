@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.2.0">	
+
+	<default>
+        <reference name="root">
+            <block type="core/template" name="affiliatenetworkconnector.debug" template="affiliatenetworkconnector/debug.phtml" output="toHtml" />
+        </reference>
+    </default>
+	
+    <checkout_onepage_success>
+        <reference name="content">
+            <block type="core/template" name="affiliatenetworkconnector.connector" template="affiliatenetworkconnector/connector.phtml" />
+        </reference>
+    </checkout_onepage_success>
+	
+</layout>
+
+

@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Halox
+ * @package    Halox_Pageprint
+ * @author     ModuleCreator
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Halox_Pageprint>
+            <version>0.1.0</version>
+        </Halox_Pageprint>
+    </modules>
+    <frontend>
+        <routers>
+            <pageprint>
+                <use>standard</use>
+                <args>
+                    <module>Halox_Pageprint</module>
+                    <frontName>cartprint</frontName>
+                </args>
+            </pageprint>
+        </routers>
+        <layout>
+            <updates>
+                <pageprint>
+                    <file>pageprint.xml</file>
+                </pageprint>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+			<pageprint>
+				<use>admin</use>
+				<args>
+					<module>Halox_Pageprint</module>
+					<frontName>pageprint</frontName>
+				</args>
+			</pageprint>
+        </routers>
+    </admin>
+    <adminhtml>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Halox_Pageprint>
+							<title>Pageprint Module</title>
+							<sort_order>10</sort_order>
+						</Halox_Pageprint>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<pageprint>
+					<file>pageprint.xml</file>
+				</pageprint>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <pageprint>
+                <class>Halox_Pageprint_Model</class>
+                <resourceModel>pageprint_mysql4</resourceModel>
+            </pageprint>
+            <pageprint_mysql4>
+                <class>Halox_Pageprint_Model_Mysql4</class>
+                <entities>
+                    <pageprint>
+                        <table>pageprint</table>
+                    </pageprint>
+                </entities>
+            </pageprint_mysql4>
+        </models>
+        <resources>
+            <pageprint_setup>
+                <setup>
+                    <module>Halox_Pageprint</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </pageprint_setup>
+            <pageprint_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </pageprint_write>
+            <pageprint_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </pageprint_read>
+        </resources>
+        <blocks>
+            <pageprint>
+                <class>Halox_Pageprint_Block</class>
+            </pageprint>
+        </blocks>
+        <helpers>
+            <pageprint>
+                <class>Halox_Pageprint_Helper</class>
+            </pageprint>
+        </helpers>
+    </global>
+</config>

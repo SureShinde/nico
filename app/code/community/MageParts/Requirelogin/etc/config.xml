@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageParts
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This code is copyrighted by MageParts and may not be reproduced
+ * and/or redistributed without a written permission by the copyright 
+ * owners. If you wish to modify and/or redistribute this file please
+ * contact us at info@mageparts.com for confirmation before doing
+ * so. Please note that you are free to modify this file for personal
+ * use only.
+ *
+ * If you wish to make modifications to this file we advice you to use
+ * the "local" file scope in order to aviod conflicts with future updates. 
+ * For information regarding modifications see http://www.magentocommerce.com.
+ *  
+ * DISCLAIMER
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE 
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF 
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY 
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * @category   MageParts
+ * @package    MageParts_Requirelogin
+ * @copyright  Copyright (c) 2009 MageParts (http://www.mageparts.com/)
+ * @author     MageParts Crew
+ */
+-->
+<config>
+    <modules>
+        <MageParts_Requirelogin>
+            <version>2.1.0.0</version>
+        </MageParts_Requirelogin>
+    </modules>
+    <global>
+        <models>
+            <requirelogin>
+                <class>MageParts_Requirelogin_Model</class>
+            </requirelogin>
+        </models>
+        <helpers>
+            <requirelogin>
+                <class>MageParts_Requirelogin_Helper</class>
+            </requirelogin>
+        </helpers>
+        <blocks>
+            <requirelogin>
+                <class>MageParts_Requirelogin_Block</class>
+            </requirelogin>
+        </blocks>
+        <resources>
+            <requirelogin_setup>
+                <setup>
+                    <module>MageParts_Requirelogin</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </requirelogin_setup>
+            <requirelogin_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </requirelogin_write>
+            <requirelogin_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </requirelogin_read>
+        </resources>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <requirelogin>
+                                            <title>MageParts - Require Login Section</title>
+                                            <sort_order>900</sort_order>
+                                        </requirelogin>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <events>
+            <admin_system_config_changed_section_requirelogin>
+                <observers>
+                    <mageparts_requirelogin_observer_adminhtml>
+                        <type>singleton</type>
+                        <class>MageParts_Requirelogin_Model_Observer_Adminhtml</class>
+                        <method>changedCfg</method>
+                    </mageparts_requirelogin_observer_adminhtml>
+                </observers>
+            </admin_system_config_changed_section_requirelogin>
+        </events>
+    </adminhtml>
+    <frontend>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <mageparts_requirelogin_observer>
+                        <type>singleton</type>
+                        <class>MageParts_Requirelogin_Model_Observer</class>
+                        <method>checkLogin</method>
+                    </mageparts_requirelogin_observer>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+    </frontend>
+    <default>
+        <requirelogin>
+            <general>
+                <enabled>1</enabled>
+            </general>
+        </requirelogin>
+    </default>
+</config>

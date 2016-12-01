@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * MageParts
+ *
+ * NOTICE OF LICENSE
+ *
+ * This code is copyrighted by MageParts and may not be reproduced
+ * and/or redistributed without a written permission by the copyright
+ * owners. If you wish to modify and/or redistribute this file please
+ * contact us at info@mageparts.com for confirmation before doing
+ * so. Please note that you are free to modify this file for personal
+ * use only.
+ *
+ * If you wish to make modifications to this file we advice you to use
+ * the "local" file scope in order to aviod conflicts with future updates.
+ * For information regarding modifications see http://www.magentocommerce.com.
+ *
+ * DISCLAIMER
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category   MageParts
+ * @package    MageParts_Base
+ * @copyright  Copyright (c) 2009 MageParts (http://www.mageparts.com/)
+ * @author     MageParts Crew
+ */
+-->
+
+<config>
+    <modules>
+        <MageParts_Base>
+            <version>0.6.6.0</version>
+        </MageParts_Base>
+    </modules>
+    <global>
+        <models>
+            <mageparts_base>
+                <class>MageParts_Base_Model</class>
+            </mageparts_base>
+        </models>
+        <helpers>
+            <mageparts_base>
+                <class>MageParts_Base_Helper</class>
+            </mageparts_base>
+        </helpers>
+        <blocks>
+            <mageparts_base>
+                <class>MageParts_Base_Block</class>
+            </mageparts_base>
+        </blocks>
+        <resources>
+            <mageparts_base_setup>
+                <setup>
+                    <module>MageParts_Base</module>
+                </setup>
+            </mageparts_base_setup>
+        </resources>
+        <cache>
+            <types>
+                <mageparts_base translate="label,description" module="mageparts_base">
+                    <label>MageParts</label>
+                    <description>General data related to all MageParts extensions.</description>
+                    <tags>mageparts_base</tags>
+                </mageparts_base>
+            </types>
+        </cache>
+        <events>
+            <eav_collection_abstract_load_before>
+                <observers>
+                    <mageparts_base_global_observer>
+                        <type>singleton</type>
+                        <class>MageParts_Base_Model_Observer_Global</class>
+                        <method>appendConfigurationDefaultsToCollection</method>
+                    </mageparts_base_global_observer>
+                </observers>
+            </eav_collection_abstract_load_before>
+            <core_collection_abstract_load_before>
+                <observers>
+                    <mageparts_base_global_observer>
+                        <type>singleton</type>
+                        <class>MageParts_Base_Model_Observer_Global</class>
+                        <method>appendConfigurationDefaultsToCollection</method>
+                    </mageparts_base_global_observer>
+                </observers>
+            </core_collection_abstract_load_before>
+            <model_load_after>
+                <observers>
+                    <mageparts_base_global_observer>
+                        <type>singleton</type>
+                        <class>MageParts_Base_Model_Observer_Global</class>
+                        <method>appendConfigurationDefaultsToModel</method>
+                    </mageparts_base_global_observer>
+                </observers>
+            </model_load_after>
+        </events>
+        <default_value_mapping>
+            <cms_page>
+                <meta_keywords>mageparts_base/captcha/err_default</meta_keywords>
+            </cms_page>
+        </default_value_mapping>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mageparts_base translate="title" module="mageparts_base">
+                                            <title>MageParts - Base</title>
+                                            <sort_order>900</sort_order>
+                                        </mageparts_base>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <mageparts_base>
+                    <file>mageparts/base.xml</file>
+                </mageparts_base>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <MageParts_Base>
+                    <files>
+                        <default>MageParts_Base.csv</default>
+                    </files>
+                </MageParts_Base>
+            </modules>
+        </translate>
+        <events>
+            <admin_system_config_changed_section_mageparts_base>
+                <observers>
+                    <mageparts_base_adminhtml_observer>
+                        <type>singleton</type>
+                        <class>MageParts_Base_Model_Observer_Adminhtml</class>
+                        <method>changedCfg</method>
+                    </mageparts_base_adminhtml_observer>
+                </observers>
+            </admin_system_config_changed_section_mageparts_base>
+            <model_save_before>
+                <observers>
+                    <mageparts_base_adminhtml_observer>
+                        <type>singleton</type>
+                        <class>MageParts_Base_Model_Observer_Adminhtml</class>
+                        <method>clearConfigDefaultValues</method>
+                    </mageparts_base_adminhtml_observer>
+                </observers>
+            </model_save_before>
+        </events>
+    </adminhtml>
+    <default>
+        <mageparts_base>
+            <captcha>
+                <err_wrong_code><![CDATA[The verification code you entered was incorrect, please try again.]]></err_wrong_code>
+                <err_default><![CDATA[An error occurred, please try again.]]></err_default>
+            </captcha>
+        </mageparts_base>
+    </default>
+</config>

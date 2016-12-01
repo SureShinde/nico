@@ -1,0 +1,12 @@
+<script type="text/javascript">
+function save_order(){
+		var arrInput = document.getElementsByClassName('department_sort_order');
+		var params = "";
+		for(var i=0;i<arrInput.length;i++){
+			params += arrInput[i].title + "-" + arrInput[i].value + "|";
+		}
+		var url = "<?php echo $this->getUrl('*/*/setorder') ?>items/"+params; 
+		//alert(url);
+		window.location = "<?php echo $this->getUrl('*/*/setorder') ?>items/"+params; 
+}
+</script>

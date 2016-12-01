@@ -1,0 +1,278 @@
+<?php 
+$currentAction = $this->getAction()->getFullActionName();
+
+$currentProduct = Mage::registry('current_product') ? Mage::registry('current_product') : '';
+$currentCategory =  Mage::registry('current_category') ? Mage::registry('current_category') : '';
+
+if($currentProduct){
+    $isBundleProduct = $currentProduct->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE;
+}
+
+$isProductPage = $currentProduct ? true : false;
+$isCategoryPage = $currentCategory ? true : false;
+
+$isCategoryView = $currentAction == 'catalog_category_view';
+$isCartPage = $currentAction == 'checkout_cart_index'; 
+$isProductConfigurePage = $currentAction == 'checkout_cart_configure';
+
+$isConfigureMode = $this->getRequest()->getParam('configure_id', false);
+?>
+<?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+    <?php 
+        echo $this->getLayout()->createBlock('cms/block')
+            ->setBlockId('zopim_live_chat_wholesale_footer')
+            ->toHtml(); 
+    ?>
+
+    <script>
+      /*$zopim(function() {
+            $zopim.livechat.departments.setVisitorDepartment('WHSL');
+        });
+        
+        $zopim(function() {
+            $zopim.livechat.departments.filter('WHSL');
+        });*/
+
+        /*$zopim(function() { 
+            $zopim.livechat.setEmail('<?php //echo Mage::getSingleton("customer/session")->getCustomer()->getEmail()?>'); 
+        });*/
+       /*$zopim(function() { 
+            $zopim.livechat.setName('<?php //echo Mage::getSingleton("customer/session")->getCustomer()->getSalesRep();?>'); 
+        })*/
+    </script>
+<?php endif ?>
+
+<script>
+    /* add script for Anchor link of media sub category to specific content on media page */
+    jQuery(document).ready(function($) {
+
+        $('li.menu-item a[href*="logos"]').attr("href", "/nicopure-media#logos").addClass('scroll');
+        $('li.menu-item a[href*="website-images"]').attr("href", "/nicopure-media#website-images").addClass('scroll');
+        $('li.menu-item a[href*="social-media-images"]').attr("href", "/nicopure-media#social-media-images").addClass('scroll');
+
+        $('.scroll').on('click', function() {
+            $('html, body').animate({
+                scrollTop: $('#' + this.id).offset().top
+            }, 1000);
+        });
+
+
+        /*To show the Estimated and shipping section content when clicked on getQoute button*/
+        if ($(".shipping-form").find("dl").length) {
+            $('.shipping > h2').addClass('opened');
+            $('.shipping .shipping-form').css("display", "block");
+        }
+        
+        $('.close-popup').click(function(){
+            $('#after-loading-success-message').css('display','none');
+        });
+
+    });
+
+</script>
+
+<!--SCRIPT TO HANDLE SHOWING YOUTUBE VIDEO ON BOOTSTRAP MODAL ON CLICK ON ANY BUTTON WITH CLASS 'btn-learn-more'-->
+<script>
+    (function($) {
+
+        $('.btn-learn-more').on('click', function() {
+
+            var modalBoxId = $(this).data('target');
+            console.log(modalBoxId);
+            if (modalBoxId === undefined) {
+                return;
+            }
+
+            //done to cover training video CMS page video popups
+            var iframeDataSrc = $(this).attr('data-target-src');
+            var modalWidget = $(modalBoxId).modal();
+
+            modalWidget.on('shown.bs.modal', function() {
+
+                var iframeElements = $(this).find('iframe');
+
+                iframeElements.each(function() {
+
+                    $(this).attr('data-ratio', this.height / this.width)
+                            .data("ratio", this.height / this.width)
+                            .removeAttr("width")
+                            .removeAttr("height");
+                });
+
+                
+                iframeElements.attr('src', iframeElements.attr('data-src'));
+
+                if(iframeDataSrc !== undefined && iframeDataSrc.length){
+                    iframeElements.attr('src', iframeDataSrc);                    
+                }
+
+                $(window).resize();
+            });
+
+            modalWidget.on('hidden.bs.modal', function() {
+
+                var iframeElements = $(this).find('iframe');
+                iframeElements.attr('src', '');
+
+            });
+
+        });
+
+        //code to re-size taking aspect ration into consideration
+        $(window).on('resize', function() {
+
+            var iframeElements = $("iframe");
+
+            iframeElements.each(function() {
+
+                if ($(this).data('ratio') == undefined) {
+                    return;
+                }
+
+                var width = $(this).parent().parent().width();
+                if (width <= 0) {
+                    width = '250';
+                    $(this).parent().width(width);
+                }
+
+                $(this).height(width * $(this).data("ratio"));
+
+            });
+
+        });
+
+    })(jQuery);
+
+</script>
+<!--SCRIPT TO HANDLE SHOWING YOUTUBE VIDEO ON BOOTSTRAP MODAL ENDS-->   
+
+
+<!--ALLOW ONLY NUMBERS AND DECIMAL SIGN IN QTY BOX STARTS-->
+<script>
+    (function($){
+        $('input.qty').on('keydown', function(e){
+            -1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault();
+        });
+    })(jQuery);
+</script>
+<!--ALLOW ONLY NUMBERS AND DECIMAL SIGN IN QTY BOX ENDS-->
+
+<!--SHOW ALERT IF USER TRIES TO NAVIGATE TO ANOTHER PAGE STARTS-->
+<?php if( ! $isCartPage/* && ! ($isConfigureMode && $isCategoryView)*/):
+?>
+<script>
+
+    var initialQtyString = '';
+
+    (function($){
+        
+        function buildQtyString(){
+            
+            var qtyInputs = $('input.qty');            
+            var qtyString = '';
+            
+            if(qtyInputs.length > 1){
+                qtyInputs.each(function(i, qtyElement){
+                    if($(this).val()){
+                        qtyString += $(this).val();        
+                    }
+                });
+                
+            } 
+            
+            return qtyString;   
+        }
+
+
+        $(document).ready(function(){
+            initialQtyString = buildQtyString();
+        });
+
+        $("a").on('click', function(e){
+			
+            var currentHref = jQuery(this).attr('href');
+			
+            currentQtyString = buildQtyString();  
+
+            var shouldConfirm = currentQtyString == initialQtyString ? false : true;
+			
+            if(shouldConfirm){	
+				/*****check ignore list first*****/
+				var ignoreClass = jQuery(this).attr('class');	
+				if(ignoreClass != "fancybox-main cloud-zoom" && ignoreClass !="ui-tabs-anchor"){
+					e.preventDefault();
+					jQuery( "#confirm-and-leave" ).dialog({
+						resizable: false,
+						height: "auto",
+						width: 400,
+						modal: true,
+						buttons: {
+						"Leave Page": function() {
+						  jQuery( this ).dialog( "close" );
+						  window.location = currentHref;
+						},
+						"Stay on Page": function() {
+						  jQuery(this).dialog( "close" );
+						  
+						}
+						}
+					}); 
+				}
+			}
+		});
+    })(jQuery);
+</script>
+
+<!--clear cart button confirmation added[end]-->
+<div id="confirm-and-leave" title="" style="display:none;">
+  <p><?php echo $this->__('Do you want to leave this page without adding the selected products to your cart?')?></p>
+</div>
+<?php endif?>
+
+
+<!--SHOW ALERT IF USER TRIES TO NAVIGATE TO ANOTHER PAGE ENDS-->
+
+<!-- Add scroll in table body in hardware page..................... -->
+<?php if(($currentProduct && $currentProduct && $isBundleProduct) || $isCategoryView):?>
+    <script>
+        (function($){
+            
+            function initFixTableCells(params){
+            
+                if(undefined === params){
+                    params = {};
+                }
+
+                $(".scrolltable").tableHeadFixer(params);     
+            }
+
+            $(document).ready(function(){
+                initFixTableCells({
+                    /*"z-index": 10,
+                    "foot": true,
+                    "left": 1*/
+                });
+            });
+
+        })(jQuery);
+    </script>
+<?php endif?>    
+
+<?php if($isCartPage):?>
+<!--clear cart button confirmation added[start]-->
+<script>
+    (function($){
+        $(document).ready(function() {
+            $('#empty_cart_button').on('click', function() {
+                var result = confirm("Are you sure you want to clear your cart? You will not be able to recover these items after they are removed.");
+                if(result){
+                   return true;
+               }
+               return false;
+            });
+          });  
+     })(jQuery);
+	
+</script>
+<?php endif?>
+

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Halox_Payment>
+            <version>1.0.0</version>
+        </Halox_Payment>
+    </modules>
+    <global>
+        <models>
+            <haloxpayment>
+                <class>Halox_Payment_Model</class>
+            </haloxpayment>
+        </models>
+        <blocks>
+            <haloxpayment>
+                <class>Halox_Payment_Block</class>
+            </haloxpayment>
+        </blocks>  
+    </global>
+    <default>
+        <payment> 
+            <achdebit>
+                <active>0</active>
+                <model>haloxpayment/method_achdebit</model>
+                <order_status>pending</order_status>
+                <title>ACH Debit</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+            </achdebit>	
+            <achcredit>
+                <active>0</active>
+                <model>haloxpayment/method_achcredit</model>
+                <order_status>pending</order_status>
+                <title>ACH Credit</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+            </achcredit>					
+        </payment>
+    </default>
+</config>

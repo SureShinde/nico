@@ -1,0 +1,91 @@
+
+.wire-transfer, .wire-transfer:hover, .ach-payment, .ach-payment:hover{
+    height: 136px;
+}
+.ui-dialog, #success-message-container {
+    width: 460px !important;
+}
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only, #success-message-container .ajaxbox .ajaxloadingbuttons button:first-child {
+    float: left !important;
+    margin-bottom: 0px;
+    width:auto;
+}
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only:last-child, #success-message-container .ajaxbox .ajaxloadingbuttons button:last-child{
+    float:right !important;
+    width:auto;
+}
+.t-c a{
+    width: auto;
+}
+.modal-dialog {
+    width: 350px;
+}
+.page-section li {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 49%;
+    border:0px;
+    margin-bottom: 0px;
+}
+#sticky-media-nav .btn-success {
+    width: 70%;
+}
+.navbar-right>li:first-child{
+    margin-right: 15px;
+}
+.navbar-nav {
+    margin: 5px 15px 0 0;
+    float: right;
+}
+/*.navbar-collapse.collapse {
+    padding-top: 12px;
+}*/
+.buttons-set button.button {
+    width: auto;
+}
+.my-account .fieldset{
+    padding:auto !important;
+}
+.manage-payment-method button.button > span > span, .manage-payment-method button.button:hover > span > span{
+    padding: 0px 30px;
+}
+.certification li{
+    width:50%;
+}
+.cms-page .section-content h3, .cms-page .product-header h3, .eve-title , .promotion h3, .promo-title {font-size:36px;}
+#horizontal-tabs .vertical-tabs-container .ui-widget-header li {
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+}
+.navbar-right .dropdown-menu {
+    right: 0px;
+    left: auto;
+}
+
+@media screen and (min-device-width: 480px) and (max-device-width: 767px) { 
+.videopage .video-item{
+    width: 50%;
+    float: left;
+}
+#shopping-cart-table button.button span span {
+    font-size: 16px;
+}
+.cart .totals button.button, .cart-table button.button{
+    width:auto;
+}
+.navbar-collapse{
+    padding-top:12px;
+}
+.navbar-brand > img {
+    max-width: 160px;
+    }
+.cart-table .btn-continue, .cart-table button.button:first-child {
+    float: left;
+}
+.cart .discount .buttons-set button.button, .cart .shipping .buttons-set button.button{
+    width:auto;
+}
+.video-name {
+    height: 92px;
+}
+}

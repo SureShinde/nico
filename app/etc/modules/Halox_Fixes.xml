@@ -1,0 +1,11 @@
+<config>
+    <modules>
+        <Halox_Fixes>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Catalog />
+            </depends>
+        </Halox_Fixes>
+    </modules>
+</config>

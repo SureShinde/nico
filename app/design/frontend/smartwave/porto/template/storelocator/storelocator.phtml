@@ -1,0 +1,226 @@
+<?php 
+/**
+ * Magestore
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magestore.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.magestore.com/license-agreement.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magestore
+ * @package    Magestore_Storelocator
+ * @copyright    Copyright (c) 2012 Magestore (http://www.magestore.com/)
+ * @license    http://www.magestore.com/license-agreement.html
+ */
+/**
+ * storelocator template
+ *
+ * @see Magestore_Storelocator_Block_Storelocator
+ */
+?>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=<?php echo $this->getGoogleApiKey(); ?>&sensor=false&libraries=geometry,places"></script>
+<?php  
+$countries = $this->getListCountry();
+$search_config = $this->getSearchConfig();
+$unit = $this->getUnitRadius();
+$sortDefault = $this->getSortDefaultContry();
+$deaultRadius = $this->chekRadiusDefault();
+$default_country = '';
+if($this->getDefaultCountry()) { 
+    $default_country = $this->getLatAndLng($this->getDefaultCountry());
+}
+?>
+<script>
+    function disiableRadius(text) {
+        if(text.length){
+            document.getElementById("radius").disabled  = false;
+              <?php if(!isset($_POST['radius'])): ?>
+                document.getElementById("radius").value  = '<?php echo $deaultRadius; ?>';
+             <?php endif; ?>
+        }else{
+            document.getElementById("radius").value  = '';
+            document.getElementById("radius").disabled  = true;
+        }
+    }
+</script>
+<div class="page-title">
+    <h1><?php echo $this->getPageTitle(); ?></h1>
+</div>
+<div id="store_search">
+    <form method="Post" action="<?php echo $this->getUrl('storelocator/index/index'); ?>" id="store_search" name="store_search">
+        <div class="fieldset">
+            <h2 class="legend"><?php echo $this->__('Search by Distance') ?></h2>
+            <ul class="form-list">
+                <li class="fields store-locator-list">
+                    <label for="address"><?php echo $this->__('Your location') ?></label>
+                    <input onkeyup="disiableRadius(this.value)" onblur="disiableRadius(this.value)" autocomplete="off" 
+                           id="address" class="input-text" name="address" type="text"
+                           value="<?php echo $this->getRequest()->getParam('address') ?>"/>
+
+                    <div style="clear:both;"></div>
+                    <div id="countryh"></div>
+                </li>
+                <script>
+                    new google.maps.places.Autocomplete(document.getElementById('address'), {});
+                </script>
+                <li class="fields store-locator-list">
+                    <label for="radius"><?php echo $this->__('Radius') ?></label>
+                    <input disabled="disabled" value="<?php echo $this->getRequest()->getParam('radius') ?>" name="radius" id="radius" class="input-text validate-input required-entry" /> (<?php echo $unit; ?>)
+                    <div style="clear:both;"></div>
+                </li>
+
+            </ul>
+
+        </div>
+        <?php if (($search_config != NULL) && (count($search_config)) && (!in_array(5, $search_config))): ?>
+            <div class="fieldset">
+
+                <h2 class="legend"><?php echo $this->__('Search by Area') ?></h2>
+                <ul class="form-list">
+
+                    <?php foreach ($search_config as $item): ?>
+                        <?php if ($item == 1): ?>
+                            <li class="fields store-locator-list">
+                                <label for="country"><?php echo $this->__('Country') ?></label>
+                                <select name="country" id="country" class="validate-select" style="width:305px;">
+                                    <option value="nothing" selected><?php echo $this->__('Select Country') ?></option>
+                                        <?php $selectCountry = $this->getRequest()->getParam('country') ? $this->getRequest()->getParam('country') : $this->getDefaultCountry() ?>
+                                        <?php foreach ($countries as $country): ?>
+                                            <option <?php if($selectCountry == $country['value']) echo 'selected ="selected"' ?> value="<?php echo $country['value'] ?>"><?php echo $country['label'] ?></option>
+                                        <?php endforeach; ?>
+                                </select>
+
+                                <div style="clear:both;"></div>
+                            </li>
+                        <?php
+                        elseif ($item == 2): ?>
+                            <li class="fields store-locator-list">
+                                <label for="state"><?php echo $this->__('State/Province') ?></label>
+                                <input id="state_province" class="input-text" name="state" type="text"
+                                       value="<?php echo $this->getRequest()->getParam('state') ?>"/>
+
+                                <div style="clear:both;"></div>
+                            </li>
+                        <?php
+                        elseif ($item == 3): ?>
+                            <li class="fields store-locator-list">
+                                <label for="city"><?php echo $this->__('City') ?></label>
+                                <input id="city" name="city" class="input-text" type="text"
+                                       value="<?php echo $this->getRequest()->getParam('city') ?>"/>
+
+                                <div style="clear:both;"></div>
+                            </li>
+                        <?php
+                        elseif ($item == 4) : ?>
+                            <li class="fields store-locator-list">
+                                <label for="zipcode"><?php echo $this->__('Zip Code') ?></label>
+                                <input class="input-text" id="zipcode" name="zipcode" type="text"
+                                       value="<?php echo $this->getRequest()->getParam('zipcode') ?>"/>
+
+                                <div style="clear:both;"></div>
+                            </li>
+
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                </ul>
+
+            </div>
+        <?php endif; ?>
+        <div class="clear"></div>
+      
+        <div style="float:right;margin-bottom:15px">
+
+            <button type="button" class="button" title="reset"
+                    onclick="setLocation('<?php echo $this->getUrl('storelocator/index/index') ?>');">
+                <span><span><?php echo $this->__('Reset') ?></span></span></button>
+            <button type="submit" class="button" title="search">
+                <span><span><?php echo $this->__('Search') ?></span></span></button>
+        </div>
+    </form>
+</div>
+
+<div id="store-content">
+
+    <!-- Map -->
+    <div  id="map"></div>
+    
+      <!-- Sidebar -->
+     <div class="store-box">
+        <div class="store-title"><?php echo $this->__('Store List'); ?></div>
+        <div id="store-loader">
+            <img  src="<?php echo $this->getSkinUrl('images/loader9.gif'); ?>">
+            </div>
+            <ul id="list-store">
+                
+            </ul>
+        
+    </div>
+    <div class="clear"></div>
+      
+<?php 
+    
+    $coordinates = $this->getCoordinatesCurrent();
+    $levleRadiusConvert = $this->getLeveRadiusConvert();
+    ?>
+<script>
+        var sort_store = '<?php echo $this->getSortDefaultContry(); ?>';
+         var params = Form.serializeElements($('store_search').select('input, select, textarea'));
+         var store_lat = '<?php echo $coordinates['lat'] ?>';
+         var store_lon = '<?php echo $coordinates['lng'] ?>'; 
+         var radius = parseInt('<?php echo $levleRadiusConvert; ?>');
+         var country_default = '';
+         <?php if($default_country): ?>
+          country_default= ['<?php echo $default_country[0]; ?>', '<?php echo $default_country[1]; ?>'];
+          <?php endif; ?>
+         
+        var url_icon = '<?php //echo Mage::getBaseUrl('media') . 'storelocator/images/icon/{id}/resize/{icon}'; ?>';
+        var urlStore = '<?php echo $this->getUrl('storelocator/index/loadstore'); ?>';
+        var unit = '<?php echo $unit; ?>';
+        
+       google.maps.event.addDomListener(window, 'load', initGoogleMap);
+       
+       var addressValue =  document.getElementById("address").value;
+        disiableRadius(addressValue);
+        function disiableRadius(text) {
+            if(text.length){
+                document.getElementById("radius").disabled  = false;
+                  <?php if(!isset($_POST['radius'])): ?>
+                    document.getElementById("radius").value  = '<?php echo $deaultRadius; ?>';
+                 <?php endif; ?>
+            }else{
+                document.getElementById("radius").value  = '';
+                document.getElementById("radius").disabled  = true;
+            }
+        }
+    </script>
+    
+   <?php $taglist = $this->getTagList(); ?> 
+    <?php if (count($taglist)): ?>
+            <div class="store-locator-tag">
+            <span class="store-locator-span-tag"><?php echo $this->__('Filter by Tags') ?></span>
+                <ul>
+                        <li style="float: left; margin-right: 10px">
+                                <a id="storelocator_tag_0" href="javascript:void(0)" class="tag_active" onclick="fillterByTag('all', 0)"><?php echo $this->__('Show All'); ?></a>
+                        </li>
+                        <?php $i = 1; ?>  
+                        <?php foreach ($taglist as $tag): ?> 
+                        <li style="float: left; margin-right: 10px">
+                                <a id="<?php echo 'storelocator_tag_'.$i;?>" href="javascript:void(0)" onclick="fillterByTag('<?php echo $tag['ids']; ?>',<?php echo $i; ?>)"><?php echo $tag['value']; ?></a>
+                        </li>
+                        <?php $i++; endforeach; ?>						
+                </ul>                    
+            
+        </div>        
+        <?php endif; ?>
+      
+</div>
+    
+
+    

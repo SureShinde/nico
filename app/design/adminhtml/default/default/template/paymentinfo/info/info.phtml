@@ -1,0 +1,15 @@
+<?php
+$params = Mage::app()->getRequest()->getParams();
+if(isset($params['order_id'])){
+    
+    $order = Mage::getModel('sales/order')->load($params['order_id']);
+    $paymentComment = $order->getPaymentComment();
+    if(!empty($paymentComment)){
+    ?>
+    <p><b>PO Reference Number</b>: <?php echo $paymentComment; ?></p>
+    <?php
+    }
+}
+
+
+?>

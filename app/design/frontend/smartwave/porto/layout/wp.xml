@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="top.links">
+            <action method="addLink" translate="label title" module="recentpost"><label>Blog</label><url>/blog</url><title>Blog</title><prepare/><urlParams/><position>51</position></action>
+        </reference>
+    </default>
+
+</layout>
+
+

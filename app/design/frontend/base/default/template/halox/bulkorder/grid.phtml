@@ -1,0 +1,128 @@
+<?php
+/**
+ * actual grid rendering template
+ */
+?>
+<?php if($this->getConfigurableAttributes()->count() == 2):?>
+	
+	<?php 
+	$_helper = $this->helper('catalog/output');
+
+	$baseAttributeX = $this->getBaseAttributeAxisX();
+	$baseAttributeY = $this->getBaseAttributeAxisY();
+	?>
+	
+	<?php if( $baseAttributeX && $baseAttributeY ):?>
+		<?php
+		$product = $this->getProduct();
+        
+		$xAxisAttributeOptions = $this->getAttributeOptionsAxisX();
+		$yAxisAttributeOptions = $this->getAttributeOptionsAxisY();
+		
+		?>
+		<div class="table-responsive">
+		<div class="scrolltable_base">
+		<table class="data-table scrolltable" id="bulkorder-grid">
+			<thead>
+				<tr>
+				<?php foreach($xAxisAttributeOptions as $optionX): ?>
+					<th>
+					<span title="<?php echo $baseAttributeX->getProductAttribute()->getStoreLabel($this->getCurrentStoreId())?>"><?php echo $optionX['store_label']?></span>
+					</th>
+				<?php endforeach?>
+					<th><span><?php echo $this->__('Price Per')?></span></th>
+					<th><span><?php echo $this->__('MSRP');?></span></th>
+					<th><span><?php echo $this->__('QTY')?></span></th>
+					<th><span><?php echo $this->__('Total')?></span></th>
+				</tr>
+			</thead>
+            <tbody>
+            <?php $ycounter = 0; foreach($yAxisAttributeOptions as $optionY):?>
+				<tr id="row-<?php echo $product->getId()?>-<?php echo $optionY['value_index']?>">
+				<?php $subtitleInfoPassed = false;?>
+				<?php $xcounter = 0; foreach($xAxisAttributeOptions as $optionX): ?>
+					
+					<td <?php if($optionX['value_index']):?>id="cell-<?php echo $optionX['value_index']?>"<?php endif?>>
+					<?php $cellProduct = $this->getProductByCellOptions($optionX, $optionY, array(
+						'name',
+						'subtitle',
+						'description',
+						'image'
+					));?>
+					<?php if($cellProduct->getId()):?>
+						<?php if( ! $subtitleInfoPassed):?>
+	                        <?php 
+	                        $rowSubtitle = $_helper->productAttribute($cellProduct, nl2br($cellProduct->getSubtitle()), 'subtitle');
+	                        $rowDescription = $_helper->productAttribute($cellProduct, nl2br($cellProduct->getDescription()), 'description');
+	                        $rowImage = $this->helper('catalog/image')->init($cellProduct, 'image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(250);
+	                        ?>	
+	                        <?php if(strlen($rowImage) > 0 || strlen($rowSubtitle) > 0 || strlen($rowDescription) > 0):?>
+	                            <?php $subtitleInfoPassed = true;?>	
+	                            <script type="text/javascript">
+	                                    bulkordertabs.bulkOrderGrid('initRowTitleData', {
+	                                            rowId: '<?php echo "row-" . $product->getId() . "-" . $optionY['value_index'];?>',
+	                                            title: <?php echo $this->helper("core")->jsonEncode($rowSubtitle)?>,
+	                                            description: <?php echo $this->helper("core")->jsonEncode($rowDescription)?>,
+	                                            image: '<?php echo $rowImage?>'
+	                                    });
+	                            </script>
+	                        <?php endif?>
+						<?php endif?>
+	                    <?php if($cellProduct->isSalable()):?>
+							<?php if($this->isQuoteItemToConfigure($cellProduct)):?>
+								<?php $quoteItem = $this->getQuoteItemByCell($cellProduct);?>
+								<?php if($quoteItem):?>
+									<input type="hidden" name="super_attribute[<?php echo $product->getId()?>][<?php echo $cellProduct->getId()?>][quote_item]" value="<?php echo $quoteItem->getId()?>"/>
+								<?php endif?>
+							<?php endif?>	
+							
+							<input type="hidden" name="super_attribute[<?php echo $product->getId()?>][<?php echo $cellProduct->getId()?>][<?php echo $baseAttributeY->getProductAttribute()->getId()?>]" value="<?php echo $optionY['value_index']?>"/>
+							<input type="hidden" name="super_attribute[<?php echo $product->getId()?>][<?php echo $cellProduct->getId()?>][<?php echo $baseAttributeX->getProductAttribute()->getId()?>]" value="<?php echo $optionX['value_index']?>"/>
+							
+							<input type="hidden" name="super_attribute[<?php echo $product->getId()?>][<?php echo $cellProduct->getId()?>][stock]" value="<?php echo $cellProduct->getStockItem()->getQty()?>">
+							<input class="qty" type="text" name="super_attribute[<?php echo $product->getId()?>][<?php echo $cellProduct->getId()?>][qty]" value="<?php if($this->isQuoteItemToConfigure($cellProduct)):?><?php echo $quoteItem->getQty()?><?php endif?>"/>
+						<?php else:?>
+							<?php echo $this->__('N/A')?>
+						<?php endif?>	
+					<?php elseif($xcounter == 0):?>
+						<span class="base-Y-label" title="<?php echo $baseAttributeY->getProductAttribute()->getStoreLabel($this->getCurrentStoreId())?>"><strong><?php echo $optionY['store_label'];?></strong></span>
+					<?php else: ?>	
+						<?php echo $this->__('N/A')?>
+					<?php endif?>	
+					</td>	
+				<?php $xcounter++; endforeach;?>
+					
+					<td><span class="row-unit-price" data-price="<?php echo $this->getBaseRowPrice();?>"><?php echo $this->helper('core')->currency($this->getBaseRowPrice(), true, false)?></span></td>
+					<td><span class="row-msrp">
+					<?php if($this->getBaseRowMsrp()):?>
+						<?php echo $this->helper('core')->currency($this->getBaseRowMsrp(), true, false)?>
+					<?php endif?>	
+					</span></td>
+	                <td><span class="row-qty">0</span></td>
+					<td><span class="row-total">$0.00</span></td>
+				</tr>
+			<?php $ycounter++; endforeach;?>
+			<tbody>
+			<tfoot>
+				<tr class="row-subtotal" id="bottle-count-row">
+					<td class="subtotal-label" colspan="<?php echo $this->getQtyColspan()?>"><span><strong><?php echo $this->__('Bottle Count')?></strong></span></td>
+					<td class="subtotal-value"><strong><span><?php echo '$0.00'?></span></strong></td>
+				</tr>	
+				<tr class="row-subtotal" id="subtotal-row">
+					<td class="subtotal-label" colspan="<?php echo $this->getSubtotalColspan()?>"><span><strong><?php echo $this->__('Subtotal')?></strong></span></td>
+					<td class="subtotal-value"><strong><span><?php echo '$0.00'?></span></strong></td>
+				</tr>	
+			</tfoot>
+		</table>
+		</div>
+		</div>
+	<?php else:?>
+		<p class="notice"><?php echo $this->__('Base attributes do not match product\'s super attributes.');?></p>
+	<?php endif;?>
+
+<?php else:?>
+	<p class="notice"><?php echo $this->__('Invalid main product configuration. Main product seems to have more than 2 super attribute.');?></p>
+<?php endif?>
+
+
+

@@ -1,0 +1,4 @@
+#smartlogin .dialog .content ul li, #smartlogin .dialog .title .background.right span {	zoom: 1; *display: inline;}
+#smartlogin .dialog .content {padding-top: 50px;}
+#smartlogin .dialog .content .field select {height:20px;border:none;}
+#smartlogin .dialog .content .checkbox-div {padding-top: 30px;}

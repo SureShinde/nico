@@ -1,0 +1,29 @@
+<?php
+/**
+ * Overridden template
+ */
+?>
+
+
+<?php $_product = $this->getProduct(); ?>
+<?php $allGridOptions = $_product->getData('halox_all_grid_options')?>
+<?php $buttonTitle = $this->getRequest()->getActionName() == 'configure' ? $this->__('Update Cart') : $this->__('Add to Cart')?>
+
+<?php if($allGridOptions):?>
+<style type="text/css">
+.product-view .product-options-bottom{width:100%;}
+.product-options > dl.split{width:100%;}
+.price-box-bundle{display: none;}
+</style>
+<?php endif;?>	
+
+<?php if($_product->isSaleable()): ?>
+    <div class="add-to-cart <?php if($allGridOptions):?>pull-right<?php endif?>">
+    	<?php if(!$_product->isGrouped() && ($this->isBundle($_product)) && ! $allGridOptions): ?>
+        <label for="qty"><?php echo $this->__('Qty:') ?></label>
+        <?php endif; ?>
+        <input type="text" style=<?php if(($this->isBundle($_product)) && $allGridOptions):?>"visibility: hidden;"<?php endif?> name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Qty')) ?>" class="input-text <?php if( ! $allGridOptions):?>qty<?php endif?>" />
+        <button type="button" title="<?php echo $buttonTitle ?>" id="product-addtocart-button" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+        <?php echo $this->getChildHtml('', true, true) ?>
+    </div>
+<?php endif; ?>

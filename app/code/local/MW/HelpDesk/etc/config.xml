@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MW_HelpDesk>
+            <version>3.3.4</version>
+        </MW_HelpDesk>
+    </modules>
+    <frontend>
+		<secure_url>
+    		<helpdesk>/helpdesk/</helpdesk>
+    	</secure_url>
+		
+        <routers>
+            <helpdesk>
+                <use>standard</use>
+                <args>
+                    <module>MW_HelpDesk</module>
+                    <frontName>helpdesk</frontName>
+                </args>
+            </helpdesk>
+        </routers>
+        <layout>
+            <updates>
+                <helpdesk>
+                    <file>mw_helpdesk.xml</file>
+                </helpdesk>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <MW_HelpDesk>
+                    <files>
+                        <default>MW_HelpdeskFrontend.csv</default>
+                    </files>
+                </MW_HelpDesk>
+            </modules>
+        </translate>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <hdadmin before="Mage_Adminhtml">MW_HelpDesk_Adminhtml</hdadmin>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+        <translate>
+            <modules>
+                <MW_HelpDesk>
+                    <files>
+                        <default>MW_HelpdeskBackend.csv</default>
+                    </files>
+                </MW_HelpDesk>
+            </modules>
+        </translate>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <helpdesk>
+                    <file>mw_helpdesk.xml</file>
+                </helpdesk>
+            </updates>
+        </layout>
+        
+        <translate>
+            <modules>
+                <MW_HelpDesk>
+                    <files>
+                        <default>MW_HelpdeskBackend.csv</default>
+                    </files>
+                </MW_HelpDesk>
+            </modules>
+        </translate>
+    </adminhtml>  
+    <global>
+        <models>
+            <helpdesk>
+                <class>MW_HelpDesk_Model</class>
+                <resourceModel>helpdesk_mysql4</resourceModel>
+            </helpdesk>
+            <helpdesk_mysql4>
+                <class>MW_HelpDesk_Model_Mysql4</class>
+                <entities>
+                    <member>
+                        <table>mw_members</table>
+                    </member>
+                    <department>
+                        <table>mw_departments</table>
+                    </department>
+                    <ticket>
+                        <table>mw_tickets</table>
+                    </ticket>
+                    <history>
+                        <table>mw_histories</table>
+                    </history>
+                    <deme>
+                        <table>mw_department_member</table>
+                    </deme>
+                    <gateway>
+                        <table>mw_gateways</table>
+                    </gateway>
+                    <template>
+                        <table>mw_templates</table>
+                    </template>
+                    <tag>
+                        <table>mw_tags</table>
+                    </tag>
+                    <spam>
+                        <table>mw_spam</table>
+                    </spam>
+					<rules>
+                        <table>mw_helpdesk_rules</table>
+                    </rules>
+					<ruleticket>
+                        <table>mw_helpdesk_rules_ticket</table>
+                    </ruleticket>
+					<shareinfo>
+                        <table>mw_helpdesk_shareinfo</table>
+                    </shareinfo>
+                    <ticketlog>
+                        <table>mw_helpdesk_log</table>
+                    </ticketlog>
+                </entities>
+            </helpdesk_mysql4>
+        </models>
+        <resources>
+            <helpdesk_setup>
+                <setup>
+                    <module>MW_HelpDesk</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </helpdesk_setup>
+            <helpdesk_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </helpdesk_write>
+            <helpdesk_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </helpdesk_read>
+        </resources>
+        <blocks>
+            <helpdesk>
+                <class>MW_HelpDesk_Block</class>
+            </helpdesk>
+            <!-- 
+            <adminhtml>
+	            <rewrite>
+	            	<sales_order_view_fraud>
+	            		helpdesk_Adminhtml_Block_Sales_Order_View_Fraud
+	            	</sales_order_view_fraud>
+	            </rewrite>
+            </adminhtml>
+            -->
+        </blocks>
+        <helpers>
+            <helpdesk>
+                <class>MW_HelpDesk_Helper</class>
+            </helpdesk>
+        </helpers>
+        <events>
+            <admin_system_config_changed_section_helpdesk>
+                <observers>
+                    <update_time>
+                        <type>singleton</type>
+                        <class>MW_HelpDesk_Model_Observer</class>
+                        <method>updateSchedule</method>
+                    </update_time>
+                </observers>
+            </admin_system_config_changed_section_helpdesk>
+			
+			<click_ticket_id>
+                <observers>
+                    <MW_HelpDesk_Model_Observer>
+                        <type>singleton</type>
+                        <class>MW_HelpDesk_Model_Observer</class>
+                        <method>clickTicketGrid</method>
+                    </MW_HelpDesk_Model_Observer>
+                </observers>
+            </click_ticket_id>
+			
+			<!--<controller_front_init_before>
+            	<observers>
+                    <helpdesk>
+                        <type>singleton</type>
+                        <class>helpdesk/observer</class>
+                        <method>checkLicense</method>
+                    </helpdesk>
+                </observers>
+			</controller_front_init_before> -->
+
+        </events>
+    	<!--<rewrite>
+        	<mw_credit_adminhtml_sales_order_invoice>
+        		<from><![CDATA[#^/contacts/index/#]]></from>
+                <to>/helpdesk/contacts_index/</to>
+        	</mw_credit_adminhtml_sales_order_invoice>
+        </rewrite>-->
+        <template>
+            <email>
+                <helpdesk_helpdesk_email_temp_new_ticket_customer translate="label" module="helpdesk">
+                    <label>Client New Ticket Template</label>
+                    <file>mw_helpdesk/client_new_ticket_template.html</file>
+                    <type>html</type>
+                </helpdesk_helpdesk_email_temp_new_ticket_customer>
+                <helpdesk_helpdesk_email_temp_reply_ticket_customer translate="label" module="helpdesk">
+                    <label>Staff Response Template</label>
+                    <file>mw_helpdesk/staff_reply_ticket_template.html</file>
+                    <type>html</type>
+                </helpdesk_helpdesk_email_temp_reply_ticket_customer>
+                <helpdesk_helpdesk_email_temp_new_ticket_operator translate="label" module="helpdesk">
+                    <label>Staff New Ticket Template</label>
+                    <file>mw_helpdesk/staff_new_ticket_template.html</file>
+                    <type>html</type>
+                </helpdesk_helpdesk_email_temp_new_ticket_operator>
+                <helpdesk_helpdesk_email_temp_reply_ticket_operator translate="label" module="helpdesk">
+                    <label>Client Response Template</label>
+                    <file>mw_helpdesk/client_reply_ticket_template.html</file>
+                    <type>html</type>
+                </helpdesk_helpdesk_email_temp_reply_ticket_operator>
+                <helpdesk_helpdesk_email_temp_reassign_ticket_operator translate="label" module="helpdesk">
+                    <label>Ticket Reassign Template</label>
+                    <file>mw_helpdesk/ticket_reassign_template.html</file>
+                    <type>html</type>
+                </helpdesk_helpdesk_email_temp_reassign_ticket_operator>
+                <helpdesk_helpdesk_email_temp_late_reply_ticket_operator translate="label" module="helpdesk">
+                    <label>Late Response Template</label>
+                    <file>mw_helpdesk/late_reply_ticket_template.html</file>
+                    <type>html</type>
+                </helpdesk_helpdesk_email_temp_late_reply_ticket_operator>
+                <helpdesk_helpdesk_email_temp_internal_note_notification translate="label" module="helpdesk">
+                    <label>Internal Note Notification Template</label>
+                    <file>mw_helpdesk/internal_note_notification_template.html</file>
+                    <type>html</type>
+                </helpdesk_helpdesk_email_temp_internal_note_notification>
+            </email>
+        </template>
+    </global>
+    <default>
+        <helpdesk>
+            <config>
+                <enabled>1</enabled>
+                <email_minute>10</email_minute>
+                <notice>24</notice>
+                <complete>24</complete>
+                <!--<delete_ticket_enabled>1</delete_ticket_enabled>-->
+               	<expried_time>90</expried_time>
+               	<delete_ticketlog>0</delete_ticketlog>
+               	<category_response>a:1:{s:18:"_1361326844128_128";a:2:{s:11:"id_category";s:7:"default";s:13:"name_category";s:7:"Default";}}</category_response>
+           	</config>
+           	
+           	<support_time>
+                <support>0</support>
+                <working_time>08:00-17:30</working_time>
+                <break_time>12:00-13:30</break_time>
+            </support_time>
+            
+            <client_config>
+                <department>1</department>
+				<default_sender>support@mage-world.com</default_sender>
+                <priority>1</priority>
+                <order>0</order>
+                <upload>1</upload>
+			
+                <max_upload>3</max_upload>
+           </client_config>
+           
+           <email_config>
+                <creticket_email>1</creticket_email>
+                <contact>0</contact>
+                <tag_html>strong;i;span;p;u;b;li;ol;ul;big;br</tag_html>
+			</email_config>
+			
+			<helpdesk_email_temp>
+                <enabled_new_ticket_customer>1</enabled_new_ticket_customer>
+                <enabled_reply_ticket_customer>1</enabled_reply_ticket_customer>
+                <enabled_new_ticket_operator>1</enabled_new_ticket_operator>
+                <enabled_reply_ticket_operator>1</enabled_reply_ticket_operator>
+                <enabled_reassign_ticket_operator>1</enabled_reassign_ticket_operator>
+                <enabled_late_reply_ticket_operator>1</enabled_late_reply_ticket_operator>
+                <enabled_internal_note_notification>1</enabled_internal_note_notification>
+				
+			    <new_ticket_customer>helpdesk_helpdesk_email_temp_new_ticket_customer</new_ticket_customer>
+				<reply_ticket_customer>helpdesk_helpdesk_email_temp_reply_ticket_customer</reply_ticket_customer>
+				<new_ticket_operator>helpdesk_helpdesk_email_temp_new_ticket_operator</new_ticket_operator>
+				<reply_ticket_operator>helpdesk_helpdesk_email_temp_reply_ticket_operator</reply_ticket_operator>
+				<reassign_ticket_operator>helpdesk_helpdesk_email_temp_reassign_ticket_operator</reassign_ticket_operator>
+				<late_reply_ticket_operator>helpdesk_helpdesk_email_temp_reply_ticket_operator</late_reply_ticket_operator>
+				<internal_note_notification>helpdesk_helpdesk_email_temp_internal_note_notification</internal_note_notification>
+            </helpdesk_email_temp>
+        </helpdesk>
+    </default>
+    <crontab>
+        <jobs>
+            <get_mail><schedule><cron_expr>*/5 * * * *</cron_expr></schedule><run><model>helpdesk/observer::runCron</model></run></get_mail>
+
+            
+            
+            
+            	
+			<set_null_staff_working_time>
+                <schedule>
+                    <cron_expr>*/15 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>helpdesk/observer::autoSetNullStaffWorkingTime</model>
+                </run>
+            </set_null_staff_working_time>
+    	</jobs>
+    </crontab>
+</config>

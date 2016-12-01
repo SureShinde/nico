@@ -1,0 +1,69 @@
+<!--custom code for tab-->
+<div class="product-tabs">
+<div class="tabs"> 
+<?php 
+ $productObject=Mage::registry('current_product');
+$_description = $productObject->getDescription();
+if($_description){      ?>
+    <div class="tab" id="tab_description_tabbed">
+   
+        <input type="radio" id="tab-1" name="tab-group-1" checked>
+        <label for="tab-1">Description</label>
+        <div class="content" id="tab_description_tabbed_contents">
+        <?php echo $this->getLayout()->createBlock('catalog/product_view_description')->setTemplate('catalog/product/view/description.phtml')->toHtml(); ?>
+         <?php /* Lab Result */?>
+                        <?php 
+                        $filename = $productObject->getUrlKey().".pdf";
+                        $file = Mage::getBaseDir(Mage_Core_Model_Store::URL_TYPE_MEDIA).'/lab_result/'.$filename; 
+                        $fileurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'lab_result/'.$filename;
+
+                        if (file_exists($file)) {?>
+                           <br/>
+                                As part of Halo's dedication to quality and higher standards, all of our e-liquids undergo independent testing: <a href="<?php echo $fileurl; ?>" title="<?php echo $filename; ?>" target="_blank"><?php echo $productObject->getName();?>'s test results</a>
+                            <?php }?>
+                        <?php /* Lab Result */?>  
+        </div> 
+    </div>
+    <?php      }?>
+    <div class="tab" id="tab_review_tabbed" >
+        <input type="radio" id="tab-2" name="tab-group-1" <?php if(!$_description): ?> checked <?php endif;?>>
+        <label for="tab-2">Reviews</label>
+        <div class="content" id="tab_review_tabbed_contents">
+        <?php //echo $this->getChildHtml('review_tab2'); ?>
+            <?php echo $this->getLayout()->createBlock('review/product_view_list')->setTemplate('review/product_info_ajax_review.phtml')->toHtml(); ?>  
+        </div> 
+    </div>
+    <!--<div class="tab" id="tab_additional_tabbed">
+        <input type="radio" id="tab-3" name="tab-group-1">
+        <label for="tab-3">Additional Information</label>
+        <div class="content" id="tab_additional_tabbed_contents">
+            <?php //echo $this->getLayout()->createBlock('catalog/product_view_attributes')->setTemplate('catalog/product/view/attributes.phtml')->toHtml(); ?>
+        </div> 
+    </div>-->
+    <?php
+    //added new tab specifications under product detail page 
+    
+    $productObject = Mage::registry('current_product');
+    $productAttributeSetId = $productObject->getAttributeSetId();
+    
+    if(isset($productAttributeSetId) && !empty($productAttributeSetId)){
+         $mappingCollection = Mage::getModel('halox_groupdisplay/mapping')->getCollection()
+            ->addFieldToFilter('attribute_set_id', $productAttributeSetId)
+            ->addFieldToFilter('show_on_frontend', 1);
+        $groupArr = $mappingCollection->getData();
+      }
+      if(isset($groupArr) && !empty($groupArr)){
+    ?>
+    <div class="tab" id="tab_specifications_tabbed">
+        <input type="radio" id="tab-4" name="tab-group-1">
+        <label for="tab-4">Specifications</label>
+        <div class="content" id="tab_specifications_tabbed_contents">
+            <?php echo $this->getLayout()->createBlock('halox_groupdisplay/catalog_product_view_groups')->setTemplate('halox/groupdisplay/catalog/product/view/groups.phtml')->toHtml(); ?>
+        </div> 
+    </div>
+    <?php
+      }
+    ?>
+    
+</div>
+</div>

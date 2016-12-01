@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Halox_ProductReviews>
+            <version>1.0</version>
+        </Halox_ProductReviews>
+    </modules>
+
+    <global>
+        <blocks>
+            <productreviews>
+                <class>Halox_ProductReviews_Block</class>
+            </productreviews> 
+            <review>
+                <rewrite>
+                        <product_view_list>Halox_ProductReviews_Block_Product_View</product_view_list>
+                </rewrite>
+             </review>
+	</blocks>       
+        <helpers>
+            <halox_productreviews>
+                <class>Halox_ProductReviews_Helper</class>
+            </halox_productreviews>
+        </helpers>
+        
+    </global>
+     <frontend>
+         <routers>
+	        <productreviews>
+                    <use>standard</use>
+                    <args>
+                        <module>Halox_ProductReviews</module>
+                        <frontName>productreviews</frontName>
+                    </args>
+		</productreviews>                      
+        </routers> 
+        <layout>
+            <updates>
+                <halox_productreviews>
+                    <file>productreviews.xml</file>
+                </halox_productreviews>
+            </updates>
+        </layout>
+     </frontend>  
+   
+</config>

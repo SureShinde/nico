@@ -1,0 +1,51 @@
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = $this->__('Add to Cart'); ?>
+<?php if($_product->isSaleable()): ?>
+    <div class="add-to-cart">
+    <?php if($_product->getAttributeText('show_rewards')):?>
+        <?php 
+            $session = Mage::getSingleton('customer/session');
+
+            //CHECK IF LOGGED IN
+
+            if(!$session->isLoggedIn()):
+            //if (Mage::getSingleton("customer/session")->isLoggedIn()==0):
+         ?> 
+            <button type="button" title="Login" class="button btn-cart" onclick="window.location.href ='<?php echo Mage::helper('customer')->getLoginUrl();?>'"><span><span>Login</span></span></button>
+            <span class="login-warning">You Must Be Logged In To Redeem Points</span>
+        <?php else: ?>
+            <?php if(!$_product->isGrouped()): ?>
+                <input type="hidden" name="qty" id="qty" maxlength="12" value="1"/>
+                
+            <?php endif; ?>
+                <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span>Add To Cart</span></span></button>
+            <?php echo $this->getChildHtml('', true, true) ?>
+
+         <?php endif;?>           
+    <?php else: ?>
+           <?php if(!$_product->isGrouped()): ?>
+            <div class="qty-holder">
+            <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+            <div class="qty-changer">
+                <a href="javascript:void(0)" class="qty_inc"><i class="icon-up-dir"></i></a>
+                <a href="javascript:void(0)" class="qty_dec"><i class="icon-down-dir"></i></a>
+            </div>
+        </div>
+        <?php endif; ?>
+            <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+        <?php echo $this->getChildHtml('', true, true) ?>
+     <?php endif;?>    
+     <!--<div class="config-price">
+         <?php //echo $this->getChildHtml('product_type_data'); ?> 
+        </div> -->
+    </div>
+<?php endif; ?>
+
+<?php 
+if(strpos( $_SERVER['HTTP_HOST'], 'demo.xhalocigsx.com') !== false){
+?>
+<script src="<?php echo Mage::getBaseUrl();?>/js/product/cartConfig1.js"></script>
+<?php }else { ?>
+<!--This file already added through the layout file local.xml-->
+<!--script src="<?php //echo Mage::getBaseUrl();?>/js/product/cartConfig2.js"></script-->
+<?php }?>

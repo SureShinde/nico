@@ -1,0 +1,75 @@
+<?php
+/**
+* Magento
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE_AFL.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@magentocommerce.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade Magento to newer
+* versions in the future. If you wish to customize Magento for your
+* needs please refer to http://www.magentocommerce.com for more information.
+*
+* @category   design_default
+* @package    Mage
+* @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+* @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*/
+?>
+<link rel="stylesheet" href="https://luis-almeida.github.io/jPages/css/jPages.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://luis-almeida.github.io/jPages/js/jPages.js"></script>
+
+
+<script type="text/javascript">
+    var jqyes = jQuery.noConflict(true); 
+    (function ($) {
+        $(document).ready(function () {
+            $("div.holder").jPages({
+                containerID  : "itemContainer",
+                perPage      : 2,
+                startPage    : 1,
+                startRange   : 1,
+                midRange     : 5,
+                endRange     : 1
+
+            });
+        });
+        }(jqyes));
+
+
+</script>
+
+
+<div class="holder">
+    <a class="jp-previous jp-disabled">? previous</a>
+    <a class="jp-current">1</a>
+    <span class="jp-hidden">...</span>         
+    <a class="jp-next">next ?</a>
+</div>
+<ul id="itemContainer">
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (1).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (2).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (3).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (4).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (5).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (6).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (7).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (1).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (2).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (3).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (4).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (5).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (6).jpg"></li>
+    <li><img alt="image" src="http://luis-almeida.github.io/jPages/img/img (7).jpg"></li>
+</ul>
+

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <printpage_general translate="title" module="pageprint">
+                                        <title>Print Page</title>
+                                        <sort_order>0</sort_order>
+                                    </printpage_general>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<Plumrocket_Urlmanager>
+			<version>1.2.6</version>
+			<wiki>http://wiki.plumrocket.com/wiki/Magento_URL_Manager_Extension_v1.x</wiki>
+		</Plumrocket_Urlmanager>
+	</modules>
+	
+	<frontend>
+		<routers>
+			<urlmanager>
+				<use>standard</use>
+				<args>
+					<module>Plumrocket_Urlmanager</module>
+					<frontName>urlmanager</frontName>
+				</args>
+			</urlmanager>
+		</routers>
+		<layout>
+		<updates>
+			<urlmanager>
+				<file>urlmanager.xml</file>
+			</urlmanager>
+		</updates>
+		</layout>
+	</frontend>
+	
+	<global>
+		<helpers>
+			<urlmanager>
+				<class>Plumrocket_Urlmanager_Helper</class>
+			</urlmanager>
+		</helpers>   
+
+		<blocks>
+			<urlmanager>
+				<class>Plumrocket_Urlmanager_Block</class>
+			</urlmanager>
+		</blocks>
+		
+		<models>
+			<urlmanager>
+				<class>Plumrocket_Urlmanager_Model</class>
+				<resourceModel>urlmanager_mysql4</resourceModel>
+			</urlmanager>
+			
+			<urlmanager_mysql4>
+				<class>Plumrocket_Urlmanager_Model_Mysql4</class>
+				<entities>
+					<rule>
+						<table>urlmanager_rules</table>
+					</rule>
+				</entities>
+			</urlmanager_mysql4>
+			
+			<core>
+				<rewrite>
+					<url_rewrite>Plumrocket_Urlmanager_Model_Override_Core_Url_Rewrite</url_rewrite>
+					<url_rewrite_request>Plumrocket_Urlmanager_Model_Override_Core_Url_Rewrite_Request</url_rewrite_request>
+					<url>Plumrocket_Urlmanager_Model_Override_Core_Url</url>
+					<store>Plumrocket_Urlmanager_Model_Override_Core_Store</store>
+				</rewrite>
+			</core>
+			<customer>
+				<rewrite>
+					<session>Plumrocket_Urlmanager_Model_Override_Customer_Session</session>
+				</rewrite>
+			</customer>
+		</models>
+		
+		<resources>
+			<urlmanager_setup>
+				<setup>
+					<module>Plumrocket_Urlmanager</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</urlmanager_setup>
+			<urlmanager_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</urlmanager_write>
+			<urlmanager_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</urlmanager_read>
+		</resources>	 
+   </global> 
+  
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<Plumrocket_Urlmanager_Adminhtml after="Mage_Adminhtml">Plumrocket_Urlmanager_Adminhtml</Plumrocket_Urlmanager_Adminhtml>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	
+	<adminhtml>
+		<layout>
+			<updates>
+				<urlmanager>
+					<file>urlmanager.xml</file>
+				</urlmanager>
+			</updates>
+		</layout>
+		<translate>
+            <modules>
+                <Plumrocket_Urlmanager>
+                    <files>
+                        <default>Plumrocket_Urlmanager.csv</default>
+                    </files>
+                </Plumrocket_Urlmanager>
+            </modules>
+        </translate>
+	</adminhtml>
+	
+	<default>
+		<urlmanager>
+			<general>
+				<enable>0</enable>
+			</general>
+			<open>                
+				<enable>0</enable>
+				<link>open</link>
+				<email>open-from-email</email>
+			</open>     
+		</urlmanager>
+	</default>
+	
+	<urlmanager>
+		<rules>
+			<rule_all>
+				<name>all</name>
+				<pattern>[\w\.\_\-\,/]*</pattern>
+			</rule_all>
+			<rule_numbers>
+				<name>numbers</name>
+				<pattern>[0-9]+</pattern>
+			</rule_numbers>
+			<rule_node>
+				<name>node</name>
+				<pattern>[a-zA-z\-\.\_\,0-9]+</pattern>
+			</rule_node>
+			<rule_ds>
+				<name>DS</name>
+				<pattern>[/]?</pattern>
+			</rule_ds>
+		</rules>
+	</urlmanager>
+
+</config>

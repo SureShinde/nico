@@ -1,0 +1,357 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<adminhtml_sales_order_view>
+        <reference name="sales_order_tabs">          
+            <action method="addTab">
+            <name>order_myticket</name>
+            <block>helpdesk/adminhtml_sales_order_view_tab_myticket</block>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+    
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">          
+            <action method="addTab">
+            <name>customer_myticket</name>
+            <block>helpdesk/adminhtml_customer_edit_tab_myticket</block>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+
+
+    <adminhtml_customer_edit>
+        <reference name="customer_edit">
+            <action method="addButton" module="helpdesk">
+                <name>Add Ticket</name>
+                <button helper="helpdesk/addTicketButton"/>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+	
+    <adminhtml_sales_order_view>
+        <reference name="sales_order_edit">
+            <action method="addButton" module="helpdesk">
+                <name>Add Ticket</name>
+                <button helper="helpdesk/addTicketButtonOrder"/>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+			<action method="addJs"><script>mw_js/jquery.js</script></action>
+			<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>		
+			
+            <action method="addJs">
+                <script>mw_helpdesk/helpdesk.validate.js</script>
+            </action>
+            <action method="addJs">
+                <script>mw_helpdesk/mw_helpdesk_validate.js</script>
+            </action>
+        </reference>
+    </adminhtml_system_config_edit>
+    
+    <adminhtml_hdadmin_ticket_new>
+        <reference name="head">
+			<action method="addJs"><script>mw_js/jquery.js</script></action>
+			<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>		
+			
+            <action method="addJs">
+                <script>mw_helpdesk/autocomplete/jq_frame_autocomplete_oder_ticket_new.js</script>
+            </action>
+            
+            <action method="addJs">
+                <script>mw_helpdesk/autocomplete/plugin_autocomplete_order_ticket_new.js</script>
+            </action>
+            
+            <action method="addJs">
+                <script>mw_helpdesk/autocomplete/autocomplete.js</script>
+            </action>
+            
+            <reference name="head">
+	        	<action method="setCanLoadExtJs"><flag>1</flag></action>
+	            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+	            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+	            <action method="addJs"><script>lib/flex.js</script></action>
+	            <action method="addJs"><script>lib/FABridge.js</script></action>
+	            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+	            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+	            <action method="addJs"><script>prototype/window.js</script></action>
+	            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action> 
+	            <!-- css for popup wysiwyg -->
+            	<action method="addCss"><stylesheet>mw_helpdesk/css/themes/magento.css</stylesheet></action>      
+        	</reference>
+        </reference>
+    </adminhtml_hdadmin_ticket_new>
+
+    <adminhtml_hdadmin_gateway_index>
+        <reference name="content">
+            <block type="helpdesk/adminhtml_gateway"/>
+        </reference>
+    </adminhtml_hdadmin_gateway_index>
+    
+    <adminhtml_hdadmin_gateway_edit>
+        <reference name="head">
+			<action method="addJs"><script>mw_js/jquery.js</script></action>
+			<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>
+        </reference>
+    </adminhtml_hdadmin_gateway_edit>
+    
+    
+    <adminhtml_hdadmin_department_index>
+    <!-- 
+    	<reference name="head">
+	    	<action method="addJs">
+	                <script>mw_helpdesk/save_order_dept.js</script>
+	        </action>
+    	</reference>
+     -->
+     	<reference name="js">
+            <block type="helpdesk/adminhtml_department" template="mw_helpdesk/grid.phtml" />
+        </reference>
+        
+        <reference name="content">
+            <block type="helpdesk/adminhtml_department"/>
+        </reference>
+    </adminhtml_hdadmin_department_index>
+
+	<!-- rules manager-->
+	<adminhtml_hdadmin_rules_index>
+        <reference name="content">
+            <block type="helpdesk/adminhtml_rules"/>
+        </reference>
+    </adminhtml_hdadmin_rules_index>
+
+ 	<adminhtml_hdadmin_rules_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadRulesJs"><flag>1</flag></action>
+        </reference>
+    </adminhtml_hdadmin_rules_edit>
+	
+	<adminhtml_hdadmin_rules_operator>
+    	<block type="core/text_list" name="root">
+    			<block type="helpdesk/adminhtml_rules_edit_tab_applyto" name="rules_edit_tab_applyto"/>
+	            <block type="helpdesk/adminhtml_rules_edit_tab_ticket_applyticket" name="rules_edit_tab_ticket_applyticket"/>
+	            <block type="adminhtml/widget_grid_serializer" name="upsell_grid_serializer">
+	                <reference name="upsell_grid_serializer">
+	                    <action method="initSerializerBlock">
+	                        <grid_block_name>rules_edit_tab_ticket_applyticket</grid_block_name>
+	                        <data_callback>getSelectedAddOperators</data_callback>
+	                        <hidden_input_name>addproduct[program]</hidden_input_name>
+	                        <reload_param_name>products_add</reload_param_name>
+	                    </action>
+	                    <action method="addColumnInputName">
+	                        <input_name>position</input_name>
+	                    </action>
+	                </reference>
+	            </block>
+	        </block>
+    </adminhtml_hdadmin_rules_operator>
+	<!-- end rules manager-->
+	
+	<adminhtml_hdadmin_ticketlog_index>
+        <reference name="content">
+            <block type="helpdesk/adminhtml_ticketlog"/>
+        </reference>
+    </adminhtml_hdadmin_ticketlog_index>
+
+    <adminhtml_hdadmin_department_operatorgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="helpdesk/adminhtml_department_edit_tab_grid" name="department_edit_tab_grid"/>
+        </block>
+    </adminhtml_hdadmin_department_operatorgrid>
+	
+    <adminhtml_hdadmin_department_operator>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="helpdesk/adminhtml_department_edit_tab_grid" name="department_edit_tab_grid"/>
+            <block type="adminhtml/widget_grid_serializer" name="department_grid_serializer">
+                <reference name="department_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>department_edit_tab_grid</grid_block_name>
+                        <data_callback>getSelectedAddOperators</data_callback>
+                        <hidden_input_name>addproduct[program]</hidden_input_name>
+                        <reload_param_name>products_add</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_hdadmin_department_operator>
+  
+    <adminhtml_hdadmin_department_edit>
+        <reference name="head">
+			<action method="addJs"><script>mw_js/jquery.js</script></action>
+			<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>		
+			
+            <action method="addJs">
+                <script>mw_helpdesk/ui/jquery.ui.core.js</script>
+            </action>
+            <action method="addJs">
+                <script>mw_helpdesk/ui/jquery.ui.widget.js</script>
+            </action>
+            <action method="addJs">
+                <script>mw_helpdesk/ui/jquery.ui.position.js</script>
+            </action>
+            <action method="addJs">
+                <script>mw_helpdesk/ui/jquery.ui.autocomplete.js</script>
+            </action>
+            <action method="addCss">
+                <stylesheet>mw_helpdesk/css/themes/base/jquery.ui.all.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <script>mw_helpdesk/autocomplete.js</script>
+            </action>
+			
+			<action method="addJs">
+                <script>mw_helpdesk/mw_depart_email.js</script>
+            </action>
+        </reference>
+    </adminhtml_hdadmin_department_edit>
+    
+    <adminhtml_hdadmin_member_index>
+        <reference name="content">
+            <block type="helpdesk/adminhtml_member"/>
+        </reference>
+    </adminhtml_hdadmin_member_index>
+    
+    <adminhtml_hdadmin_template_index>
+        <reference name="content">
+            <block type="helpdesk/adminhtml_template"/>
+        </reference>
+    </adminhtml_hdadmin_template_index>
+    <!--  -->
+    <adminhtml_hdadmin_template_edit>
+    	<reference name="head">
+        	<action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <!--
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action> 
+            -->
+            <!-- css for popup wysiwyg -->
+            <action method="addCss"><stylesheet>mw_helpdesk/css/themes/magento.css</stylesheet></action>    
+        </reference>
+    </adminhtml_hdadmin_template_edit>
+    
+    <adminhtml_hdadmin_ticket_index>
+        <reference name="head">
+			<action method="addJs"><script>mw_js/jquery.js</script></action>
+			<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>		
+			
+			<action method="addJs">
+                <script>mw_helpdesk/quick_note.js</script>
+            </action>
+            
+            <action method="addCss">
+            	<!-- change color row tickets processing and reading -->
+                <stylesheet>mw_helpdesk/grid.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="helpdesk/adminhtml_ticket"/>
+        </reference>
+    </adminhtml_hdadmin_ticket_index>
+    
+    <adminhtml_hdadmin_ticket_open>
+        <reference name="head">
+			<action method="addJs"><script>mw_js/jquery.js</script></action>
+			<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>		
+			
+			<action method="addJs">
+                <script>mw_helpdesk/quick_note.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="helpdesk/adminhtml_ticket"/>
+        </reference>
+    </adminhtml_hdadmin_ticket_open>
+    
+    <adminhtml_hdadmin_ticket_news>
+        <reference name="head">
+			<action method="addJs"><script>mw_js/jquery.js</script></action>
+			<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>		
+            <action method="addJs">
+            	<script>mw_helpdesk/mw_ticket_status.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="helpdesk/adminhtml_ticket"/>
+        </reference>
+    </adminhtml_hdadmin_ticket_news>
+    
+    <adminhtml_hdadmin_ticket_pending>
+		<action method="addJs"><script>mw_js/jquery.js</script></action>
+		<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>		
+			
+        <reference name="content">
+            <block type="helpdesk/adminhtml_ticket"/>
+        </reference>
+    </adminhtml_hdadmin_ticket_pending>
+  
+    <adminhtml_hdadmin_ticket_view>
+        <reference name="head">
+			<action method="addJs"><script>mw_js/jquery.js</script></action>
+			<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>		
+			
+            <action method="addJs">
+                <script>mw_helpdesk/ui/jquery.ui.core.js</script>
+            </action>
+            <action method="addJs">
+                <script>mw_helpdesk/ui/jquery.ui.widget.js</script>
+            </action>
+            <action method="addJs">
+                <script>mw_helpdesk/ui/jquery.ui.position.js</script>
+            </action>
+            <action method="addJs">
+                <script>mw_helpdesk/ui/jquery.ui.autocomplete.js</script>
+            </action>
+            <action method="addCss">
+                <stylesheet>mw_helpdesk/css/themes/base/jquery.ui.all.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <script>mw_helpdesk/autocomplete.js</script>
+            </action>
+            <action method="addJs">
+            	<script>mw_helpdesk/mw_validation.js</script>
+            </action>
+            
+        	<action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <!-- css for popup wysiwyg -->
+            <action method="addCss"><stylesheet>mw_helpdesk/css/themes/magento.css</stylesheet></action>       
+        </reference>
+    </adminhtml_hdadmin_ticket_view>
+   
+    <adminhtml_hdadmin_statistic_index>
+        <reference name="content">
+            <block type="helpdesk/adminhtml_statistic"/>
+        </reference>
+    </adminhtml_hdadmin_statistic_index>
+    
+    <adminhtml_hdadmin_ticket_manage_spam>
+        <reference name = "content">
+            <block type="helpdesk/adminhtml_spam"/>
+        </reference>
+    </adminhtml_hdadmin_ticket_manage_spam>
+    
+    <adminhtml_system_config_edit>
+          <reference name="head">
+          	<action method="addJs"><script>mw_helpdesk/mw_helpdesk_config_dept.js</script></action>
+          </reference>
+    </adminhtml_system_config_edit>
+</layout>

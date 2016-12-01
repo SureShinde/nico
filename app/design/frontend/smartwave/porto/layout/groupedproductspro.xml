@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Crius
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt
+ *
+ * @category   Crius
+ * @package    Crius_GroupedProductsPro
+ * @copyright  Copyright (c) 2011 Crius (http://www.criuscommerce.com)
+ * @license    http://www.criuscommerce.com/CRIUS-LICENSE.txt
+ */ 
+-->
+<layout version="0.1.0">
+
+    <PRODUCT_TYPE_grouped>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/tablekit.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/groupedproductspro.css</name></action>
+        </reference>
+        <reference name="product.info">
+            <action method="unsetChild"><name>product_type_data</name></action>
+            <block type="groupedproductspro/view" name="product.info.groupedpro" as="groupedproductspro" template="groupedproductspro/table.phtml">
+                <block type="core/text_list" name="product.info.grouped.extra" as="product_type_data_extra" translate="label">
+                    <label>Product Extra Info</label>
+                </block>
+                <action method="append"><block>product.info.addtocart</block></action>
+            </block>
+        </reference>
+    </PRODUCT_TYPE_grouped>
+    
+</layout>

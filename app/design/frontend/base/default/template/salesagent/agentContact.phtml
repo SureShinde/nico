@@ -1,0 +1,22 @@
+<?php
+	if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+		$customer = Mage::getSingleton('customer/session')->getCustomer();
+		$salesRepId = $customer->getSalesRep();
+		if (!empty($salesRepId)) {
+			$agent = Mage::getModel('halox_salesagent/agent')->load($salesRepId);
+			  
+		}
+	} 
+?>	
+<?php if(isset($agent) && $agent && $agent->getStatus() &&  $agent->getPhone()):?> 
+	<p>
+	<strong>Customer Service: </strong>
+	<br>
+	<?php echo $agent->getName();?>
+	<br>
+	<?php echo $agent->getPhone();?>
+	</p>
+<?php endif?>	
+
+
+

@@ -1,0 +1,860 @@
+<?php
+
+/**
+ * Sunovisio Extensions
+ * http://ecommerce.sunovisio.com
+ *
+ * @extension   Affiliate Network Connector
+ * @type        Utility
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category    Sunovisio
+ * @package     Sunovisio_AffiliateNetworkConnector
+ * @copyright   Copyright (c) 2012 Sunovisio (http://sunovisio.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class Sunovisio_AffiliateNetworkConnector_Helper_Data extends Mage_Core_Helper_Abstract {
+	
+	//------------------------------------
+	// General Settings
+	//------------------------------------	
+	//Extension Enabled
+    public function isEnabled() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/general/enabled', Mage::app()->getStore());
+    }
+	
+	// Default Network
+    public function getDefaultNetwork () {
+        return Mage::getStoreConfig('affiliatenetworkconnector/general/default_network', Mage::app()->getStore());
+    }
+	
+	// Network Priority
+    public function getNetworkPriority () {
+        return Mage::getStoreConfig('affiliatenetworkconnector/general/network_priority', Mage::app()->getStore());
+    }	
+	
+	// Network Switch To Indirect For Affiliate Override
+	public function isNetworkIndirectOverride() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/general/network_indirect_override', Mage::app()->getStore());
+    }		
+		
+	//------------------------------------
+	// Debug Mode
+	//------------------------------------
+	public function isDebugTracking () {
+        return Mage::getStoreConfig('affiliatenetworkconnector/debug/debug_tracking', Mage::app()->getStore());
+    }
+
+    public function isDebugPixel () {
+        return Mage::getStoreConfig('affiliatenetworkconnector/debug/debug_pixel', Mage::app()->getStore());
+    }
+	
+
+	//------------------------------------
+	// Share A Sale
+	//------------------------------------
+    public function isShareASaleEnabled() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_enabled', Mage::app()->getStore());
+    }
+
+    public function getShareASaleMerchantId() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_merchant_id', Mage::app()->getStore());
+    }
+
+    public function getShareASalePriority () {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_priority', Mage::app()->getStore());
+    }	
+		
+	public function getShareASaleAffiliateExpirationDays() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_affiliate_expiration_days', Mage::app()->getStore());
+    }
+			
+    public function isShareASaleShowZeroPixel() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_show_zero_pixel', Mage::app()->getStore());
+    }
+	
+	// Base Commission    
+	public function getShareASaleBaseCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_base_commission', Mage::app()->getStore());
+    }
+	
+	// Residual Commission    
+	public function isShareASaleResidualEnabled() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_residual_enabled', Mage::app()->getStore());
+    }	
+	
+    public function getShareASaleBaseCount() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_base_count', Mage::app()->getStore());
+    }	    
+	
+	public function getShareASaleResidualCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_residual_commission', Mage::app()->getStore());
+    }
+	
+	
+	// Indirect Commission
+    public function isShareASaleIndirectEnabled() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_indirect_enabled', Mage::app()->getStore());
+    }	
+		
+    public function getShareASaleIndirectBaseCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_indirect_base_commission', Mage::app()->getStore());
+    }		
+	
+    public function getShareASaleIndirectResidualCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_indirect_residual_commission', Mage::app()->getStore());
+    }	
+	
+    public function isShareASaleIndirectOverride() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_indirect_override', Mage::app()->getStore());
+    }		
+	
+	// Custom Commission   
+    public function isShareASaleCustomEnabled() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_custom_enabled', Mage::app()->getStore());
+    }	
+	
+	public function getShareASaleCustomBaseCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_custom_base_commission', Mage::app()->getStore());
+    }		
+	
+    public function getShareASaleCustomResidualCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_custom_residual_commission', Mage::app()->getStore());
+    }
+		
+    public function getShareASaleCustomIndirectBaseCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_custom_indirect_base_commission', Mage::app()->getStore());
+    }		
+	
+    public function getShareASaleCustomIndirectResidualCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/shareasale/shareasale_custom_indirect_residual_commission', Mage::app()->getStore());
+    }	
+	
+	
+	//------------------------------------
+	// Ebay Enterprise
+	//------------------------------------
+    public function isEbayEnterpriseEnabled() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_enabled', Mage::app()->getStore());
+    }
+
+    public function getEbayEnterpriseMerchantId() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_merchant_id', Mage::app()->getStore());
+    }
+	    
+	public function getEbayEnterprisePriority () {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_priority', Mage::app()->getStore());
+    }	
+	
+	public function getEbayEnterpriseAffiliateExpirationDays() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_affiliate_expiration_days', Mage::app()->getStore());
+    }
+		
+    public function isEbayEnterpriseShowZeroPixel() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_show_zero_pixel', Mage::app()->getStore());
+    }
+	
+	// Base Commission    
+	public function getEbayEnterpriseBaseCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_base_commission', Mage::app()->getStore());
+    }
+	
+	// Residual Commission    
+	public function isEbayEnterpriseResidualEnabled() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_residual_enabled', Mage::app()->getStore());
+    }	
+	
+    public function getEbayEnterpriseBaseCount() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_base_count', Mage::app()->getStore());
+    }	    
+	
+	public function getEbayEnterpriseResidualCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_residual_commission', Mage::app()->getStore());
+    }
+	
+	
+	// Indirect Commission
+    public function isEbayEnterpriseIndirectEnabled() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_indirect_enabled', Mage::app()->getStore());
+    }	
+		
+    public function getEbayEnterpriseIndirectBaseCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_indirect_base_commission', Mage::app()->getStore());
+    }		
+	
+    public function getEbayEnterpriseIndirectResidualCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_indirect_residual_commission', Mage::app()->getStore());
+    }	
+	
+    public function isEbayEnterpriseIndirectOverride() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_indirect_override', Mage::app()->getStore());
+    }	
+		
+	// Custom Commission   
+    public function isEbayEnterpriseCustomEnabled() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_custom_enabled', Mage::app()->getStore());
+    }	
+	
+	public function getEbayEnterpriseCustomBaseCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_custom_base_commission', Mage::app()->getStore());
+    }		
+	
+    public function getEbayEnterpriseCustomResidualCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_custom_residual_commission', Mage::app()->getStore());
+    }
+		
+    public function getEbayEnterpriseCustomIndirectBaseCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_custom_indirect_base_commission', Mage::app()->getStore());
+    }		
+	
+    public function getEbayEnterpriseCustomIndirectResidualCommission() {
+        return Mage::getStoreConfig('affiliatenetworkconnector/ebayenterprise/ebayenterprise_custom_indirect_residual_commission', Mage::app()->getStore());
+    }	
+	
+	
+	//------------------------------------
+	// Sale Tracking
+	//------------------------------------	
+	public function trackSale() {
+		
+		//Set Default Pixel
+		$pixel = "";
+		
+		if($this->isEnabled()){
+		
+			//--------------------------------
+			//General Default Values
+			//--------------------------------
+			$curdatetime = date('Y-m-d H:i:s');
+		
+			//--------------------------------
+			//Load Customer Information
+			//--------------------------------
+			$customerid = Mage::getSingleton('customer/session')->getCustomerId();
+			$customer = Mage::getModel('customer/customer')->load($customerid);
+        	$count = Mage::getResourceModel('sales/order_collection')->addFieldToSelect('entity_id')->addFieldToFilter('customer_id', $customerid)->count();
+
+			// Get Customer Database Values
+			if ($customerid) {
+				$affprimary = $customer->getAffprimary();				
+				$affnetwork = $customer->getAffnetwork();
+				$affid = $customer->getAffid();
+				$affoffer = $customer->getAffoffer();
+				$affurl = $customer->getAffurl();
+				$affdate = $customer->getAffdate();
+       		}
+
+			//------------------------------------------------------------------------------------------------
+			//Affiliate Update
+			//------------------------------------------------------------------------------------------------
+			//Update Variables and Customer Database If Indirect Sale (Late Coupon)
+			
+			//Get Session Affiliate Network
+			$magsession = Mage::getSingleton('core/session');			
+			$sess_affprimary = $magsession->getAffprimary();
+			$sess_affnetwork = $magsession->getAffnetwork();
+			$updateprimary = false;
+			$updatecustomer= false;
+
+			
+			//Check If Affiliate Network Updates Are Required
+			if ($count==1){
+				
+				//Share-A-Sale
+				if($sess_affnetwork=="Share-A-Sale" && $this->isShareASaleEnabled()==true){
+					if(($affprimary =="Affiliate" || $affprimary =="Affiliate (Override)") && $affnetwork=="Share-A-Sale" && $this->getShareASalePriority()=="Last"){
+						//Overwrite Affiliate (By Affiliate)
+						$updatecustomer = true;	
+						if($affprimary == "Affiliate" && $sess_affprimary == "Affiliate (Override)"){$updateprimary=true;}
+					}
+					elseif(($affprimary =="Affiliate" || $affprimary =="Affiliate (Override)") && $this->getNetworkPriority()=="Last" && !empty($affnetwork) ){
+						//Overwrite Affiliate (By Network)
+						$updatecustomer = true;		
+						if($affprimary == "Affiliate" && $sess_affprimary == "Affiliate (Override)"){$updateprimary=true;}
+					}				
+					elseif($affprimary =="Direct" && empty($affnetwork) && $this->isShareASaleIndirectEnabled()==true){
+						//Add Indirect Affiliate
+						$updatecustomer = true;			
+					}
+					elseif(($affprimary =="Direct" && $affnetwork=="Share-A-Sale" && $this->getShareASalePriority()=="Last" && $this->isShareASaleIndirectEnabled()==true)){
+						//Overwrite Indirect Affiliate (By Affiliate)
+						$updatecustomer = true;			
+					}
+					elseif($affprimary =="Direct"  && $this->getNetworkPriority()=="Last" && !empty($affnetwork) && $this->isShareASaleIndirectEnabled()==true){
+						//Overwrite Indirect Affiliate (By Network)
+						$updatecustomer = true;			
+					}
+				}
+				
+				//Ebay Enterprise			
+				if($sess_affnetwork=="Ebay Enterprise" && $this->isEbayEnterpriseEnabled()==true){
+					if(($affprimary =="Affiliate" || $affprimary =="Affiliate (Override)") && $affnetwork=="Ebay Enterprise" && $this->getEbayEnterprisePriority()=="Last"){
+						//Overwrite Affiliate (By Affiliate)
+						$updatecustomer = true;	
+						if($affprimary == "Affiliate" && $sess_affprimary == "Affiliate (Override)"){$updateprimary=true;}
+					}
+					elseif(($affprimary =="Affiliate" || $affprimary =="Affiliate (Override)") && $this->getNetworkPriority()=="Last" && !empty($affnetwork) ){
+						//Overwrite Affiliate (By Network)
+						$updatecustomer = true;		
+						if($affprimary == "Affiliate" && $sess_affprimary == "Affiliate (Override)"){$updateprimary=true;}
+					}				
+					elseif($affprimary =="Direct" && empty($affnetwork) && $this->isEbayEnterpriseIndirectEnabled()==true){
+						//Add Indirect Affiliate
+						$updatecustomer = true;			
+					}
+					elseif(($affprimary =="Direct" && $affnetwork=="Ebay Enterprise" && $this->getEbayEnterprisePriority()=="Last" && $this->isEbayEnterpriseIndirectEnabled()==true)){
+						//Overwrite Indirect Affiliate (By Affiliate)
+						$updatecustomer = true;			
+					}
+					elseif($affprimary =="Direct"  && $this->getNetworkPriority()=="Last" && !empty($affnetwork) && $this->isEbayEnterpriseIndirectEnabled()==true){
+						//Overwrite Indirect Affiliate (By Network)
+						$updatecustomer = true;			
+					}
+				}
+				
+			}
+			
+
+			//Update Variables and Customer If Required
+			if($updatecustomer){			
+			
+				//Update Primary If Required
+				if($updateprimary){
+					$affprimary = $magsession->getAffprimary();
+					$customer->setAffprimary($affprimary);
+				}
+					
+				//Replace Variables with Session Values
+				$affnetwork = $magsession->getAffnetwork();
+				$affid 		= $magsession->getAffid();
+				$affoffer 	= $magsession->getAffoffer();
+				$affurl 	= $magsession->getAffurl();
+				$affdate 	= $magsession->getAffdate();
+					
+				//Replace Customer Database Values with Session Values
+				$customer->setAffnetwork($affnetwork);
+				$customer->setAffid($affid);
+				$customer->setAffoffer($affoffer);
+				$customer->setAffurl($affurl);
+				$customer->setAffdate($affdate);
+				$customer->save();
+			}
+		
+			//------------------------------------------------------------------------------------------------
+			//Load Affiliate Network Defaults
+			//------------------------------------------------------------------------------------------------
+			if ($affnetwork == 'Share-A-Sale' && $this->isShareASaleEnabled()){
+				
+				//Affiliate Expiration
+				$affiliateexpirationdays = $this->getShareASaleAffiliateExpirationDays();
+				if(empty($affiliateexpirationdays)){$affiliateexpirationdays = 999999;}
+				$affiliateexpirationdate = date('Y-m-d H:i:s', strtotime($affdate . ' +' . $affiliateexpirationdays . 'days'));
+				
+				//Base Commission				
+				$basecommission = $this->getShareASaleBaseCommission();
+
+				//Residual Commission
+				$residualenabled = $this->isShareASaleResidualEnabled();				
+				$residualcommission = $this->getShareASaleResidualCommission();
+				$basecount = $this->getShareASaleBaseCount();
+
+				//Indirect Commission
+				$indirectenabled = $this->isShareASaleIndirectEnabled();
+				$indirectbasecommission = $this->getShareASaleIndirectBaseCommission();
+				$indirectresidualcommission = $this->getShareASaleIndirectResidualCommission();
+				
+				//Custom Commission				
+				$customenabled = $this->isShareASaleCustomEnabled();
+				$custombasecommission = $this->getCustomCommission($this->getShareASaleCustomBaseCommission(),$affid);				
+				$customresidualcommission = $this->getCustomCommission($this->getShareASaleCustomResidualCommission(),$affid);
+				$customindirectbasecommission = $this->getCustomCommission($this->getShareASaleCustomIndirectBaseCommission(),$affid);				
+				$customindirectresidualcommission = $this->getCustomCommission($this->getShareASaleCustomIndirectResidualCommission(),$affid);
+				
+				//Other Options
+				$showzeropixel = $this->isShareASaleShowZeroPixel();
+				
+				// Check Expiration Date
+				if (strtotime($affiliateexpirationdate) > strtotime($curdatetime)){
+					//Make Trackable
+					$trackable = true;
+				}
+				else {
+					$trackable = false;
+				}
+						
+			}
+			elseif ($affnetwork == 'Ebay Enterprise' && $this->isEbayEnterpriseEnabled()){
+				
+				//Affiliate Expiration
+				$affiliateexpirationdays = $this->getEbayEnterpriseAffiliateExpirationDays();
+				if(empty($affiliateexpirationdays)){$affiliateexpirationdays = 999999;}
+				$affiliateexpirationdate = date('Y-m-d H:i:s', strtotime($affdate . ' +' . $affiliateexpirationdays . 'days'));	
+				
+				//Base Commission				
+				$basecommission = $this->getEbayEnterpriseBaseCommission();
+
+				//Residual Commission
+				$residualenabled = $this->isEbayEnterpriseResidualEnabled();				
+				$residualcommission = $this->getEbayEnterpriseResidualCommission();
+				$basecount = $this->getEbayEnterpriseBaseCount();
+
+				//Indirect Commission
+				$indirectenabled = $this->isEbayEnterpriseIndirectEnabled();
+				$indirectbasecommission = $this->getEbayEnterpriseIndirectBaseCommission();
+				$indirectresidualcommission = $this->getEbayEnterpriseIndirectResidualCommission();
+				
+				//Custom Commission				
+				$customenabled = $this->isEbayEnterpriseCustomEnabled();
+				$custombasecommission = $this->getCustomCommission($this->getEbayEnterpriseCustomBaseCommission(),$affid);				
+				$customresidualcommission = $this->getCustomCommission($this->getEbayEnterpriseCustomResidualCommission(),$affid);
+				$customindirectbasecommission = $this->getCustomCommission($this->getEbayEnterpriseCustomIndirectBaseCommission(),$affid);				
+				$customindirectresidualcommission = $this->getCustomCommission($this->getEbayEnterpriseCustomIndirectResidualCommission(),$affid);
+				
+				//Other Options
+				$showzeropixel = $this->isEbayEnterpriseShowZeroPixel();
+				
+				// Check Expiration Date
+				if (strtotime($affiliateexpirationdate) > strtotime($curdatetime)){
+					//Make Trackable
+					$trackable = true;
+				}
+				else {
+					$trackable = false;
+				}
+								
+			}
+			else {
+				//Not A Trackable Network
+				$trackable = false;
+			}
+			
+			//------------------------------------------------------------------------------------------------
+			//Load Order Information
+			//------------------------------------------------------------------------------------------------
+			$orderId = Mage::getSingleton('checkout/session')->getLastOrderId();
+			$order = Mage::getModel('sales/order')->load($orderId);
+			$realorderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+			$_totalData = $order->getData();
+			$_sub = $_totalData['subtotal'];
+			$_discount = $_totalData['discount_amount'];
+			$_total = $_sub + $_discount;					
+			
+			//------------------------------------------------------------------------------------------------
+			//Update Magento Order
+			//------------------------------------------------------------------------------------------------
+						
+			if($trackable){
+				
+				//Determine If Commission Is Direct Or Indirect
+				if($affprimary=="Affiliate"){
+					$affreferral = "Direct";
+				}				
+				else{
+					//Includes Straight Indirects and Affiliate Override
+					$affreferral = "Indirect";
+				}
+				
+			
+				//Set Default Commissions
+				$affcommissiontype = "No Commission";
+				$affcommission = 0;
+				$newcustomer = 0;
+				
+				//Apply The Commission To The Order
+				if ($count <= $basecount){		
+				//----------------------------
+				//Base Commission
+				//----------------------------
+					$newcustomer = 1;
+					if($affreferral=="Indirect" && $indirectenabled){
+					//InDirect Affiliate Base Commission
+						if($customindirectbasecommission && $customenabled){
+							//InDirect Custom Base Commission
+							$affcommissiontype = "Base Commission (Custom)";
+							$affcommission = $customindirectbasecommission;
+						}
+						else{
+							//InDirect Standard Base Commission
+							$affcommissiontype = "Base Commission";
+							$affcommission = $indirectbasecommission;
+						}								
+						$affnote = "Indirect - First Order";
+						$affsku  = "INDORDER";
+					
+					}
+					elseif ($affreferral=="Direct"){
+					//Direct Affiliate Base Commission
+						if($custombasecommission && $customenabled){
+							//Direct Custom Base Commission
+							$affcommissiontype = "Base Commission (Custom)";
+							$affcommission = $custombasecommission;
+						}
+						else{
+							//Direct Standard Base Commission
+							$affcommissiontype = "Base Commission";
+							$affcommission = $basecommission;
+						}
+						$affnote = "Direct - First Order";
+						$affsku  = "DIRORDER";
+					}
+				}
+				
+				elseif ($residualenabled){
+				//----------------------------
+				//Residual Commission
+				//----------------------------
+					$newcustomer = 0;
+					if($affreferral=="Indirect" && $indirectenabled){
+					//InDirect Affiliate Residual Commission
+						if($customindirectresidualcommission && $customenabled){
+							//InDirect Custom Residual Commission
+							$affcommissiontype = "Residual Commission (Custom)";
+							$affcommission = $customindirectresidualcommission;
+						}
+						else{
+							//InDirect Standard Residual Commission
+							$affcommissiontype = "Residual Commission";
+							$affcommission = $indirectresidualcommission;
+						}
+						$affnote = "Indirect - Residual";	
+						$affsku  = "INDRESID";						
+					}
+					elseif ($affreferral=="Direct"){
+					//Direct Affiliate Residual Commission
+						if($customresidualcommission && $customenabled){
+							//Direct Custom Residual Commission
+							$affcommissiontype = "Residual Commission (Custom)";
+							$affcommission = $customresidualcommission;
+						}
+						else{
+							//Direct Standard Residual Commission
+							$affcommissiontype = "Residual Commission";
+							$affcommission = $residualcommission;
+						}
+						$affnote = "Direct - Residual";
+						$affsku  = "DIRRESID";		
+					}
+				}
+				
+				//Save The Order Information
+				$order->setAffnetwork($affnetwork);
+				$order->setAffid($affid);	
+				$order->setAffreferral($affreferral);
+				$order->setAffcommissiontype($affcommissiontype);
+				$order->setAffcommission(number_format($affcommission, 4, '.', ''));
+				$order->save();
+			}
+			else{
+				//Direct - No Network
+				//$order->setAffreferral("Direct");
+				$order->setAffcommission(0);
+				$order->save();	
+			}				
+			
+			
+			if($trackable){
+			//------------------------------------------------------------------------------------------------
+			//Show Tracking Pixel(s)
+			//------------------------------------------------------------------------------------------------
+				if($affnetwork == 'Share-A-Sale'){
+					//ShareASale Pixel (Live)
+					//if($affcommission > 0 || $showzeropixel==true){
+						$pixel = "<img src=\"https://shareasale.com/sale.cfm?tracking=" . $realorderId . "+" . urlencode($affnote) . "&amount=" . $_total . "&transtype=sale&newcustomer=" . $newcustomer . "&merchantID=" . $this->getShareASaleMerchantId() . "&cart=" . urlencode($affnote);
+						if ($affid){
+							$pixel = $pixel . "&userID=" . $affid;
+						}
+						$pixel = $pixel . "\" width=\"1\" height=\"1\">";
+					//}
+				}
+				else {
+					if($affnetwork == 'Ebay Enterprise'){
+					//Ebay Enterprise Pixel
+						if($affcommission > 0 || $showzeropixel==true){
+							$pixel = "<iframe src=\"https://t.pepperjamnetwork.com/track?PID=" . $this->getEbayEnterpriseMerchantId() . "&INT=ITEMIZED&ITEM1=". urlencode($affsku) . "&QTY1=1&AMOUNT1=" . $_total . "&OID=" . $realorderId;
+							$pixel = $pixel . "\" width=\"1\" height=\"1\" frameborder=\"0\" ></iframe>";
+						}
+					}
+				}
+				
+				//Create Tag if Debug Mode
+				if ($this->isDebugPixel()){
+					$pixel = "<br/><br/><strong>Tracking Pixel(s):</strong><br/>".htmlspecialchars($pixel);					
+				}				
+			}
+		}
+		
+		//Clear Cookies
+		//$this->clearCookie();
+		//Mage::log('Order#'.$realorderId.' Pixel: '.$pixel);
+		
+		//Return The Tracking Pixel
+		return $pixel;
+	}
+  
+    public function getCustomerNetwork() {
+        $_customerid = Mage::getSingleton('customer/session')->getCustomerId();
+        if ($_customerid) {
+			//Customer Checkout
+            $customer = Mage::getModel('customer/customer')->load($_customerid);
+		    $affnetwork = $customer->getAffnetwork();
+        }
+		else {
+			//Guest Checkout
+			$affnetwork = Mage::getSingleton('core/session')->getAffnetwork();
+		}
+		return $affnetwork;
+    }
+
+    public function getCustomerAffiliateId() {
+        $customerid = Mage::getSingleton('customer/session')->getCustomerId();
+
+        if ($customerid) {
+			//Customer Checkout
+            $customer = Mage::getModel('customer/customer')->load($customerid);
+            $affid = $customer->getAffid();
+        }
+		else {
+			//Guest Checkout
+			$affid = Mage::getSingleton('core/session')->getAffid();
+		}
+        return $affid;
+    }
+
+
+	public function clearCookie() {
+        //Removes All Affiliate Information
+		//In case another user of same computer places order
+		$magsession = Mage::getSingleton('core/session');
+		$magcookie = Mage::getSingleton('core/cookie');
+		
+		$affprimary = "Direct";
+		$affprimaryurl = "N/A";
+		$affprimarydate = Mage::getModel('core/date')->date('Y-m-d H:i:s');
+		$affnetwork = "N/A";
+		$affid = "N/A";
+		$affurl = "N/A";
+		$affoffer = "N/A";
+		$affdate = "N/A";
+		
+		//Clear Session
+		$magsession->setAffprimary($affprimary);
+		$magsession->setAffprimaryurl($affprimaryurl);
+		$magsession->setAffprimarydate($affprimarydate);
+		$magsession->setAffnetwork($affnetwork);
+		$magsession->setAffid($affid);
+		$magsession->setAffoffer($affoffer);
+		$magsession->setAffurl($affurl);
+		$magsession->setAffdate($affdate);
+		
+		//Clear Cookies
+		$magcookie->set("affprimary", $affprimary,  time() + 2000000000,"/");
+		$magcookie->set("affprimaryurl", $affprimaryurl,  time() + 2000000000,"/");
+		$magcookie->set("affprimarydate", $affprimarydate,  time() + 2000000000,"/");
+		$magcookie->delete("affnetwork");
+		$magcookie->delete("affid");
+		$magcookie->delete("affoffer");
+		$magcookie->delete("affurl");
+		$magcookie->delete("affdate");
+    }
+
+	public function getCustomCommission($string, $tagname) {
+		$pattern = "/<$tagname>(.*?)<\/$tagname>/";
+		if(preg_match($pattern, $string, $matches)){
+			return $matches[1];
+		}
+		else{
+			return false;
+		}
+    }
+	
+	public function showDebug(){
+		if ($this->isEnabled()){
+			if ($this->isDebugTracking()){
+				$magsession = Mage::getSingleton('core/session');
+				$magcookie = Mage::getSingleton('core/cookie');
+				
+				$customersession = Mage::getSingleton('customer/session', array('name'=>'frontend'));
+				$customerid = Mage::getSingleton('customer/session')->getCustomerId();
+				$customer = Mage::getModel('customer/customer')->load($customerid);
+				$count = Mage::getResourceModel('sales/order_collection')->addFieldToSelect('entity_id')->addFieldToFilter('customer_id', $customerid)->count();
+				
+				
+				//Hidden Debug Window
+				$debug = "<div style=\"position:relative;display: block;width:1000px;margin-left:auto;margin-right:auto;\">";
+				$debug = $debug."<a href=\"#\" style=\"position:absolute;top:-25px;right:-30px\" onclick=\"document.getElementById('debugwindow').style.display='block'\">X</a>";
+				$debug = $debug."</div>";
+				$debug = $debug."<div id=\"debugwindow\" style=\"display:none\">" ;
+
+
+				//Actual Debug Window
+				$debug = $debug."<div style=\"background-color:white\">";
+				$debug = $debug."<table><tr>";
+				
+				if(!$customersession->isLoggedIn() ||  $count==0){
+					//Referral Information from Session
+					$debug = $debug."<td style=\"vertical-align:top\">";
+					$debug = $debug."<table class=\"debug\">";
+					$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#999;padding:3px 6px 3px 6px;color:black\">Session/Cookie Data</td></tr>";
+					$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#CCC;padding:3px 6px 3px 6px;color:black\">First Referral</td></tr>";
+					$debug = $debug."<tr><td>Initial Referral:</td><td>".$magsession->getAffprimary()."</td></tr>";
+					$debug = $debug."<tr><td>Initial Referral URL:</td><td>".$magsession->getAffprimaryurl()."</td></tr>";
+					$debug = $debug."<tr><td>Initial Referral Date:</td><td>".$magsession->getAffprimarydate()."</td></tr>";
+					$debug = $debug."<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";	
+					$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#CCC;padding:3px 6px 3px 6px;color:black\">Commissioned Affiliate</td></tr>";
+					if($magsession->getAffnetwork()=="N/A"){
+						$debug = $debug."<tr><td colspan=\"2\">No Current Affiliate</td></tr>";
+					}
+					else{
+						$debug = $debug."<tr><td>Affiliate Network:</td><td>".$magsession->getAffnetwork()."</td></tr>";
+						$debug = $debug."<tr><td>Affiliate ID:</td><td>".$magsession->getAffid()."</td></tr>";
+						$debug = $debug."<tr><td>Affiliate Offer:</td><td>".$magsession->getAffoffer()."</td></tr>";
+						$debug = $debug."<tr><td>Affiliate URL:</td><td>".$magsession->getAffurl()."</td></tr>";
+						$debug = $debug."<tr><td>Affiliate Date:</td><td>".$magsession->getAffdate()."</td></tr>";
+					}
+					$debug = $debug."<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+					$debug = $debug."</table>";
+					$debug = $debug."</td>";
+				}
+				
+				//Referral Information from Cookie
+				//$debug = $debug."<td style=\"vertical-align:top\">";
+				//$debug = $debug."<table class=\"debug\">";
+				//$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#999;padding:3px 6px 3px 6px;color:black\">Cookie Data</td></tr>";
+				//$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#CCC;padding:3px 6px 3px 6px;color:black\">First Referral</td></tr>";
+				//$debug = $debug."<tr><td>Initial Referral:</td><td>".$magcookie->get("affprimary")."</td></tr>";
+				//$debug = $debug."<tr><td>Initial Referral URL:</td><td>".$magcookie->get("affprimaryurl")."</td></tr>";
+				//$debug = $debug."<tr><td>Initial Referral Date:</td><td>".$magcookie->get("affprimarydate")."</td></tr>";
+				//$debug = $debug."<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";	
+				//$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#CCC;padding:3px 6px 3px 6px;color:black\">Commissioned Affiliate</td></tr>";
+				//$debug = $debug."<tr><td>Affiliate Network:</td><td>".$magcookie->get("affnetwork")."</td></tr>";
+				//$debug = $debug."<tr><td>Affiliate ID:</td><td>".$magcookie->get("affid")."</td></tr>";
+				//$debug = $debug."<tr><td>Affiliate Offer:</td><td>".$magcookie->get("affoffer")."</td></tr>";
+				//$debug = $debug."<tr><td>Affiliate URL:</td><td>".$magcookie->get("affurl")."</td></tr>";
+				//$debug = $debug."<tr><td>Affiliate Date:</td><td>".$magcookie->get("affdate")."</td></tr>";
+				//$debug = $debug."</table>";
+				//$debug = $debug."</td>";
+			
+				//Customer Information from Magento
+				if($customersession->isLoggedIn() && $count>0){			
+					
+					$curdatetime = date('Y-m-d H:i:s');
+
+					$debug = $debug."<td style=\"vertical-align:top\">";
+					$debug = $debug."<table class=\"debug\">";
+					$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#999;padding:3px 6px 3px 6px;color:black\">Magento Customer Database</td></tr>";
+					$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#CCC;padding:3px 6px 3px 6px;color:black\">First Referral</td></tr>";
+					$debug = $debug."<tr><td>Initial Referral:</td><td>".$customer->getAffprimary()."</td></tr>";
+					$debug = $debug."<tr><td>Initial Referral URL:</td><td>".$customer->getAffprimaryurl()."</td></tr>";
+					$debug = $debug."<tr><td>Initial Referral Date:</td><td>".$customer->getAffprimarydate()."</td></tr>";				
+					$debug = $debug."<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";	
+					$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#CCC;padding:3px 6px 3px 6px;color:black\">Commissioned Affiliate</td></tr>";
+					$debug = $debug."<tr><td>Affiliate Network:</td><td>".$customer->getAffnetwork()."</td></tr>";
+					$debug = $debug."<tr><td>Affiliate ID:</td><td>".$customer->getAffid()."</td></tr>";
+					$debug = $debug."<tr><td>Affiliate Offer:</td><td>".$customer->getAffoffer()."</td></tr>";
+					$debug = $debug."<tr><td>Affiliate URL:</td><td>".$customer->getAffurl()."</td></tr>";
+					$debug = $debug."<tr><td>Affiliate Date:</td><td>".$customer->getAffdate()."</td></tr>";	
+					$debug = $debug."<tr><td>Current Date:</td><td>".$curdatetime."</td></tr>";			
+					$debug = $debug."<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+					$debug = $debug."</table>";	
+					$debug = $debug."</td>";
+				}
+				
+				//Status/Event Table
+				$debug = $debug."<td style=\"vertical-align:top\">";
+				$debug = $debug."<table class=\"debug\">";
+				$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#999;padding:3px 6px 3px 6px;color:black\">Status Monitor</td></tr>";
+
+				//Status Table				
+				$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#CCC;padding:3px 6px 3px 6px;color:black\">Current Status</td></tr>";
+
+				if(!$customersession->isLoggedIn() ||  $count==0){
+				//Customer Not Logged In Or An Order Hasnt been placed yet
+					if  ($magsession->getAffprimary()=="Affiliate"){
+						$debug = $debug."<tr><td style=\"vertical-align:top\" colspan=\"2\">" . $magsession->getAffnetwork() . " Affiliate (#" . $magsession->getAffid() . ") is scheduled to receive a Direct Commission."		;
+						$debug = $debug."</td></tr>";
+					}
+					elseif ($magsession->getAffprimary()=="Direct" && $magsession->getAffnetwork()!="N/A"){
+						$debug = $debug."<tr><td style=\"vertical-align:top\" colspan=\"2\">" . $magsession->getAffnetwork() . " Affiliate (#" . $magsession->getAffid() . ") is scheduled to receive an Indirect Commission.";		
+						$debug = $debug."</td></tr>";	
+					}
+					else 
+					{
+						$debug = $debug."<tr><td style=\"vertical-align:top\" colspan=\"2\">There are currently no Affiliates scheduled to receive a commission.</td></tr>";
+					}		
+					
+					//Event Table					
+					$debug = $debug."<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+					$debug = $debug."<tr><td colspan=\"2\" style=\"font-size:12px;background-color:#CCC;padding:3px 6px 3px 6px;color:black\">Last Page Load Event</td></tr>";
+					
+					$debugevent = "";
+					if($magsession->getAffcookieevent()!="No Event"){
+						$debugevent = $debugevent."<tr><td colspan=\"2\" style=\"vertical-align:top\">".$magsession->getAffcookieevent()."</td></tr>";
+						$debugevent = $debugevent."<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+					}
+					
+					if($magsession->getAffmagentoevent()!="No Event"){
+						$debugevent = $debugevent."<tr><td colspan=\"2\" style=\"vertical-align:top\">".$magsession->getAffmagentoevent()."</td></tr>";
+						$debugevent = $debugevent."<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+					}
+					
+					if($debugevent){
+						$debug = $debug.$debugevent;
+					}
+					else{
+						$debug = $debug."<tr><td colspan=\"2\" style=\"vertical-align:top\"><span style=\"color:blue\">No Change</span><br/>There were no Affiliate changes on the last Page Load.</td></tr>";
+					}
+					
+				}
+				else{
+				//Customer Affiliate Information Was Already Saved Permanently
+					if  ($customer->getAffprimary()=="Affiliate"){
+						$debug = $debug."<tr><td style=\"vertical-align:top\" colspan=\"2\"><span style=\"color:blue\">Assigned Affiliate</span><br/>The " . $customer->getAffnetwork() . "Affiliate (#" . $customer->getAffid() . ") has been permanently assigned to this customer and can no longer be replaced. <br/><br/>This affiliate will receive residual commissions based on the Direct Commission Structure.";
+						$debug = $debug."</td></tr>";
+					}
+					elseif  ($customer->getAffprimary()=="Affiliate (Override)"){
+						$debug = $debug."<tr><td style=\"vertical-align:top\" colspan=\"2\"><span style=\"color:blue\">Assigned Affiliate</span><br/>The " . $customer->getAffnetwork() . "Affiliate (#" . $customer->getAffid() . ") has been permanently assigned to this customer and can no longer be replaced. <br/><br/>This affiliate will receive residual commissions based on the Indirect Commission Structure.";
+						$debug = $debug."</td></tr>";
+					}
+					elseif ($customer->getAffprimary()=="Direct" && $customer->getAffnetwork()){
+						$debug = $debug."<tr><td style=\"vertical-align:top\" colspan=\"2\"><span style=\"color:blue\">Assigned Affiliate</span><br/>The " . $customer->getAffnetwork() . "Affiliate (#" . $customer->getAffid() . ") has been permanently assigned to this customer and can no longer be replaced. <br/><br/>This affiliate will receive residual commissions based on the Indirect Commission Structure.";
+						$debug = $debug."</td></tr>";	
+					}
+					else 
+					{
+						$debug = $debug."<tr><td style=\"vertical-align:top\" colspan=\"2\"><span style=\"color:blue\">No Affiliate Assigned</span><br/>There are no Affiliates assigned to this customer. <br/><br/>No future affiliates can be added, as the customer already placed their first order.</td></tr>";
+					}	
+				}	
+
+					
+
+				$debug = $debug."</table>";	
+				$debug = $debug."</td>";
+						
+				$debug = $debug."</tr></table>";
+				$debug = $debug."</div>";
+				
+				//End Hidden Debug Window
+				$debug = $debug."</div>";
+				
+				
+				//Clear Event Tracking
+				$magsession->setAffcookieevent("No Event");
+				$magcookie->set("affcookieevent", "No Event",  time() + 2000000000,"/");
+				$magsession->setAffmagentoevent("No Event");
+				$magcookie->set("affmagentoevent", "No Event",  time() + 2000000000,"/");
+				
+				return $debug;
+			}
+		}
+	}
+}
+?>

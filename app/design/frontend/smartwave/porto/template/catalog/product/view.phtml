@@ -1,0 +1,695 @@
+<?php
+$_helper = $this->helper('catalog/output');
+$helper_richsnippets = $this->helper('porto/richsnippets');
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+$layer = Mage::getSingleton('catalog/layer');
+$_category = $layer->getCurrentCategory();
+$currentCategoryId= $_category->getId(); 
+
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php
+$product_type = $_product->getTypeId();
+$enabled_richsnippets = ($helper_richsnippets->isEnabled() && $product_type !== "grouped");
+$price_properties = "";
+
+if($enabled_richsnippets){
+    $price_properties = $helper_richsnippets->getPriceProperties($_product);
+}
+
+$enable_addtocart_sticky = Mage::getStoreConfig("porto_settings/product_view/enable_addtocart_sticky",$code);
+$move_product_tab = Mage::getStoreConfig("porto_settings/product_view/move_product_tab",$code);
+?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view <?php if($move_product_tab): ?>moved-tab<?php endif;?>" <?php if($enabled_richsnippets): ?><?php echo $helper_richsnippets->getProductItemscope(); ?><?php endif; ?>>
+    <div class="product-essential">
+        <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <div class="no-display">
+                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+                <input type="hidden" name="related_product" id="related-products-field" value="" />
+            </div>
+            <?php
+            if($enable_addtocart_sticky){
+                ?>
+                <div class="sticky-product hide <?php echo $sticky_header; ?>">
+                    <div class="container">
+                        <?php
+                        $aspect_ratio = Mage::getStoreConfig("porto_settings/product_view/aspect_ratio", $code);
+                        $ratio_width = 600;
+                        $ratio_height = 600;
+                        if(Mage::getStoreConfig("porto_settings/product_view/ratio_width", $code))
+                            $ratio_width = Mage::getStoreConfig("porto_settings/product_view/ratio_width", $code);
+                        if(!$aspect_ratio){
+                            if(Mage::getStoreConfig("porto_settings/product_view/ratio_height", $code))
+                                $ratio_height = Mage::getStoreConfig("porto_settings/product_view/ratio_height", $code);
+                        }
+                        $ratio = $ratio_height / $ratio_width;
+                        $ratio_width = 50;
+                        $ratio_height = $ratio_width * $ratio;
+                        $sticky_header = "";
+                        if(!Mage::getStoreConfig("porto_settings/header/sticky_header", $code))
+                            $sticky_header = "no-sticky-header";
+                        ?>
+                        <div class="sticky-image">
+                            <img src="<?php if($aspect_ratio):?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(50);?><?php else: ?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                        </div>
+                        <div class="sticky-detail">
+                            <div class="product-name-area">
+                                <h2 class="product-name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>
+                                <?php echo $this->getPriceHtml($_product, false, '_clone') ?>
+                            </div>
+
+                            <?php 
+                            if (Mage::helper('catalog')->isModuleEnabled('Mage_Review')):
+                                if($_product->getRatingSummary()): 
+                                    ?>
+                                    <?php 
+                                    $review_html = $this->getReviewsSummaryHtml($_product, 'short');
+                                    if($review_html){
+                                        echo $review_html;
+                                    }else{
+                                        ?>
+                                        <div class="ratings">
+                                            <div class="rating-box">
+                                                <div class="rating" style="width:0"></div>
+                                            </div>
+                                        </div>
+                                        <?php                            
+                                    }
+                                    ?>
+                                    <?php else: ?>
+                                    <div class="ratings">
+                                        <div class="rating-box">
+                                            <div class="rating" style="width:0"></div>
+                                        </div>
+                                    </div>
+                                    <?php 
+                                    endif; 
+                                endif;
+                            ?>
+                            <?php if ($_product->isAvailable()): ?>
+                                <p class="availability in-stock"><span>(<?php echo $this->__('In stock') ?>)</span></p>
+                                <?php else: ?>
+                                <p class="availability out-of-stock"><span>(<?php echo $this->__('Out of stock') ?>)</span></p>
+                                <?php endif; ?>
+                        </div>
+						   <?php if($_product->isSaleable()): ?>
+                            <?php $buttonTitle = $this->__('Add to Cart'); ?>
+                            <div class="add-to-cart">
+                                <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" ontouchstart="productAddToCartForm.submit(this)" onclick="productAddToCartForm.submit(this)"><span><span><i class="icon-cart"></i><?php echo $buttonTitle ?></span></span></button>
+                            </div>
+                            <?php endif; ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+            <div class="row">
+                <div class="col-main col-sm-9">
+                    <div class="product-img-box col-sm-5">
+                        <?php echo $this->getChildHtml('media') ?>
+                    </div>
+                    <div class="product-shop col-sm-7">
+                        <?php
+                        if (Mage::getStoreConfig("porto_settings/product_view/prev_next",$code)){
+                            ?>
+                            <div class="prev-next-products">
+                                <?php $_prev = Mage::helper('porto')->getPreviousProduct(); ?>
+                                <?php $_next = Mage::helper('porto')->getNextProduct(); ?>
+
+                                <?php if($_prev): ?>
+                                    <div class="product-nav product-prev">
+                                        <a href="<?php echo $_prev->getProductUrl();?>" title="<?php echo $this->__("Previous Product"); ?>">
+                                            <?php echo Mage::getStoreConfig("porto_settings/product_view/prev_text",$code); ?>
+                                        </a>
+                                        <div class="product-pop theme-border-color">
+                                            <?php
+                                            $image_src = $this->helper('catalog/image')->init($_prev, 'image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(80);
+                                            ?>
+                                            <img class="product-image" src="<?php echo $image_src; ?>" alt="<?php echo $this->__('Previous');?>"/>
+                                            <h3 class="product-name"><?php echo $_helper->productAttribute($_prev, $_prev->getName(), 'name') ?></h3>
+                                        </div>
+                                    </div>
+                                    <?php endif; ?>
+                                <?php if($_next): ?>
+                                    <div class="product-nav product-next">
+                                        <a class="product-next" href="<?php echo $_next->getProductUrl();?>" title="<?php echo $this->__("Next Product"); ?>"><?php echo Mage::getStoreConfig("porto_settings/product_view/next_text",$code); ?></a>
+                                        <div class="product-pop theme-border-color">
+                                            <?php
+                                            $image_src = $this->helper('catalog/image')->init($_next, 'image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(80);
+                                            ?>
+                                            <img class="product-image" src="<?php echo $image_src; ?>" alt="<?php echo $this->__('Previous');?>"/>
+                                            <h3 class="product-name"><?php echo $_helper->productAttribute($_next, $_next->getName(), 'name') ?></h3>
+                                        </div>
+                                    </div>
+                                    <?php endif; ?>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                        <div class="product-name">
+                            <h1 <?php if($enabled_richsnippets): ?>itemprop="name"<?php endif; ?>><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                        </div>
+                        <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+                        <!--Points Section -->    
+                         <?php if(!Mage::getStoreConfigFlag('advanced/modules_disable_output/Magestore_RewardPointsRule') && Mage::getConfig()->getModuleConfig('Magestore_RewardPointsRule')->is('active', 'true') && $_product->getshow_points()) : ?>
+                            <div class="product-view-points">
+                                <div class="divider"></div>
+                                <div class="distri_section">
+                                    <div class="earnable">
+                                        <?php echo $_product->getAttributeText('show_points') ?>
+
+                                        <?php //echo str_replace("75","<span style=\"text-decoration:line-through;\">75</span><span style=\"color:#ec5215\"> 150</span>",str_replace("100","<span style=\"text-decoration:line-through;\">100</span><span style=\"color:#ec5215\"> 200</span>",$_product->getAttributeText('show_points'))); ?>
+                                    </div>
+                                </div> 
+                                <div class="divider"></div>   
+                            </div>
+                            <?php endif;?>  
+                        <?php if ($_product->getShortDescription()):?>
+                            <div class="short-description">
+                                <h2><?php echo $this->__('Quick Overview') ?></h2>
+                                <div class="std" <?php if($enabled_richsnippets): ?>itemprop="description"<?php endif; ?>><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
+                                </div> 
+                                <div id="swatches-update-attribute-short_description" <?php if($enabled_richsnippets): ?>itemprop="description"<?php endif; ?>></div>   
+                                <?php /* Lab Result */?>
+                        <?php 
+                       /* $filename = $_product->getUrlKey().".pdf";
+                        $file = Mage::getBaseDir(Mage_Core_Model_Store::URL_TYPE_MEDIA).'/lab_result/'.$filename; 
+                        $fileurl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'lab_result/'.$filename;
+
+                        if (file_exists($file)) {?>
+                           <br/>
+                                Lab Result: <a href="<?php echo $fileurl; ?>" title="<?php echo $filename; ?>" target="_blank">Click Here </a>
+                            <?php }*/?>
+                        <?php /* Lab Result */?>                            
+                            </div>                            
+                            <?php endif;?>
+                        
+
+                        <div class="product-info">
+                            <div <?php if($enabled_richsnippets) echo $helper_richsnippets->getOfferItemscope(); ?>>
+                                <?php   if($_product->getAttributeText('show_rewards')){?> 
+                                    <!--Points Section -->    
+                                    <?php if(!Mage::getStoreConfigFlag('advanced/modules_disable_output/TBT_Rewards') && Mage::getConfig()->getModuleConfig('TBT_Rewards')->is('active', 'true') && $_product->getshow_rewards()) : ?>
+                                        <div class="rewarditem">
+                                            <!--<div class="left"></div>
+                                            <div class="top"></div>
+                                            <span class="title">Halo Reward <span class="subtitle"><?php echo $_product->getAttributeText('show_rewards')?> Points</span></span>-->
+                                            <span class="description">Get this item for free when you earn <?php echo $_product->getAttributeText('show_rewards')?> Halo Points in your account.</span>
+                                        </div>
+                                        <?php endif;?>                   
+                                    <!--End Rewards -->
+                                    <?php }else{?>
+                                    <?php 
+                                    /*                    yesha */
+                                    /*$childPriceLowest = "";
+                                    $childPriceHighest = "";
+                                    $gId = Mage::getSingleton('customer/session')->getCustomerGroupId(); //get customer group id
+                                    $pricexz = "";//set price of child
+                                    $hasgid = false; //check product if set group price
+                                    if($_product->isConfigurable()){
+                                        $product = Mage::getModel('catalog/product')->load($_product->getId());
+                                        $childProducts = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null,$product);
+                                        foreach($childProducts as $child){
+                                            $_child = Mage::getModel('catalog/product')->load($child->getId());
+                                            foreach($_child['group_price'] as $index => $array) {
+                                                if ($array['cust_group'] == $gId) {
+                                                    if($array['price'] <= $_child->getFinalPrice()){
+                                                        $hasgid = true;
+                                                        break;
+                                                    }
+                                                }
+                                                else {
+                                                    $hasgid = false;
+                                                }
+                                            }
+                                            if($hasgid == true) {
+                                                foreach($_child['group_price'] as $index => $array) {
+                                                    $pricexz = $array['price'];
+                                                    break;
+                                                }
+                                            }
+                                            else {
+                                                $pricexz = $_child->getFinalPrice();
+                                            }
+
+                                            if($childPriceLowest == ''|| $childPriceLowest > $pricexz) //check if lowest price
+                                                $childPriceLowest =  $pricexz;
+
+                                            if($childPriceHighest ==''|| $childPriceHighest < $pricexz)
+                                                $childPriceHighest =  $pricexz;
+
+                                        }
+                                        
+                                        if($childPriceHighest==$childPriceLowest){
+                                             $specialprice = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialPrice();
+                                            $_specialPrice = $_product->getFinalPrice();
+                                            // with currency sign
+                                            $_formattedSpecialPrice = Mage::helper('core')->currency($_product->getFinalPrice(),true,false);
+
+                                            $pricels= Mage::helper('core')->currency($childPriceLowest);
+                                            if($specialprice){
+                                                echo "<div class='custom-price-box'><p class='minimal-price'><span class='old-price'>Was:".$pricels."</span><span class='new-price'><br>Now:".$_formattedSpecialPrice."</span></p></div>";
+                                            }else{
+                                                echo "<div class='custom-price-box'><p class='minimal-price'><span class='price'>".$pricels."</span></p></div>";
+                                            }
+                                            
+                                        }
+                                        else{
+                                            $specialprice = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialPrice(); 
+                                            $_specialPrice = $_product->getFinalPrice();
+                                            // with currency sign
+                                            $_formattedSpecialPrice = Mage::helper('core')->currency($_product->getFinalPrice(),true,false);
+
+
+ 
+                                            if($specialprice){
+                                            $priceLow=Mage::helper('core')->currency($childPriceLowest);
+                                            $priceHigh=Mage::helper('core')->currency($childPriceHighest);
+                                            echo "<div class='custom-price-box'><p class='price-range'><span class='price'>". $_formattedSpecialPrice ;
+                                            $attributes = ($_product->getTypeInstance(true)->getConfigurableAttributesAsArray($_product));
+if(count($attributes[0]['values']) > 0): 
+foreach($attributes[0]['values'] as $attribute):
+//echo $attribute['pricing_value'];
+$without_decimals = Mage::helper('core')->currency((float)($_product->getFinalPrice() + $attribute['pricing_value']),true,false); 
+//echo str_replace(".00", "", $without_decimals);
+//echo $without_decimals ;
+endforeach;
+endif;
+                                            echo "</span><span class='pricesep'>&nbsp;&#8208;&nbsp;</span><span class='price'>".$without_decimals."</span></p></div>";
+                                            }else{
+                                            $priceLow=Mage::helper('core')->currency($childPriceLowest);
+                                            $priceHigh=Mage::helper('core')->currency($childPriceHighest);
+                                            echo "<div class='custom-price-box'><p class='price-range'><span class='price'>". $priceLow ;
+                                            echo "</span><span class='pricesep'>&nbsp;&#8208;&nbsp;</span><span class='price'></span>". $priceHigh ."</p></div>";
+                                            }
+                                        }
+                                        
+                                        ?> 
+                                        <?php if ($_product->isAvailable()): ?>
+    <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+<?php else: ?>
+    <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+<?php endif; ?>
+                                        <?php 
+                                    }
+                                    else
+                                    {
+                                        // echo price manual code.
+                                        //Ex: echo $this->getChildHtml('price');
+                                        echo "<div class='custom-price-box'>".$this->getPriceHtml($_product, true)."</div>";
+                                    }*/
+
+                                    /*yesha*/
+                                   // if(!$_product->isConfigurable()){
+                                    echo $this->getChildHtml('product_type_data'); 
+                                   //  }
+                                    ?>
+
+                                    <?php } ?>
+                                <?php echo $this->getTierPriceHtml(); ?>
+                                <?php echo $price_properties; ?>
+                            </div>
+                            <?php echo $this->getChildHtml('extrahint') ?>
+                            <?php if ($this->canEmailToFriend()): ?>
+                                <p class="email-friend"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+                                <?php endif; ?>
+                            <?php if($sku = $_product->getSku()): ?>
+                                <?php if($enabled_richsnippets): ?>
+                                    <meta itemprop="productID" content="sku:<?php echo $sku; ?>" />
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php echo $this->getChildHtml('alert_urls') ?>
+                            <?php echo $this->getChildHtml('other');?>
+                        </div>
+                        <?php if (!$this->hasOptions()):?>
+                            <div class="clearer"></div>
+                            <div class="add-to-box">
+                                <?php if($_product->isSaleable()): ?>
+                                    <?php echo $this->getChildHtml('addtocart') ?>
+                                   
+                                    <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                <?php echo $this->getChildHtml('addto') ?>
+                            </div>
+                            <?php echo $this->getChildHtml('extra_buttons') ?>
+                            <?php elseif (!$_product->isSaleable()): ?>
+                            <div class="clearer"></div>
+                            <div class="add-to-box">
+                                <?php echo $this->getChildHtml('addto') ?>
+                            </div>
+                            <?php endif; ?>
+                                 
+                        <!--   Group product -->  
+                        <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                            <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                            <?php endif;?>  
+                            
+                        <!--   Group product -->  
+                         <!-- <div class="config-price"> <?php
+                if($_product->isConfigurable()){   
+                    echo $this->__('Total Price:');
+    echo $this->getChildHtml('product_type_data'); 
+                }
+?></div> --> 
+                        <?php echo $this->getChildHtml('smartwave_sharetool'); ?>
+                    </div>
+                </div>
+                <?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('product-right')->toHtml();?>
+                <!--custom Share script-->
+                <?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('product-right-social')->toHtml();?>
+                 <?php echo $this->getBlockHtml('product_right_social') ?>
+                <!--custom Share script-->
+                  
+            </div>
+
+            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+                <?php endif;?>
+                 
+        </form>
+        <div class="sharingtool-right">
+
+            <div id="refer" class="rewardreferform" style="display: none;">
+                <h3>Refer a Friend</h3>
+                <?php //$this->getChild('halo_product_refer_form')->setData('prodname', $_product->getName()); ?>
+                <?php //echo $this->getLayout()->createBlock('RewardPointsReferFriends/Rewardpointsreferfriends')->setTemplate('rewardpointsreferfriends/rewardpointsreferfriendsproduct.phtml')->toHtml(); ?>            </div>
+            <div id="fancybox-review-form" class="rewardreviewform" style="display: none;">
+            <h3>Write a Review</h3>
+             <?php echo $this->getLayout()->createBlock('rewardpointsbehavior/showrewardpoint')->setTemplate('rewardpointsbehavior/productpointinfo.phtml')->toHtml(); ?>
+                <div class="reward-wrap">
+                    <?php /*WDCA CODE BEGINS*/?>
+                    <?php //if(!Mage::getStoreConfigFlag('advanced/modules_disable_output/TBT_Rewards') 
+                        //&& Mage::getConfig()->getModuleConfig('TBT_Rewards')->is('active', 'true')) : ?>
+                        <?php //echo Mage::getBlockSingleton('rewards/special_review')->setTemplate("rewards/special/reviewform.phtml")->toHtml(); ?>
+                        <?php //endif;?>
+                    <?php /*WDCA CODE ENDS*/?> 
+                </div>
+                <?php if (!$this->helper('customer')->isLoggedIn()):?> 
+                    You must be logged in. <a class="modalbox" href="#customerlogin">Login Now</a>
+                    <?php else: ?>
+                    <?php //echo $this->getChildHtml('review_form') ?>
+                    <?php echo $this->getLayout()->createBlock('review/form')->setBlockId('product.review.form')->toHtml() ?>
+                    <?php endif;?>
+                    <?php //echo $this->getChildHtml('product_right_social_popup'); ?>
+            </div>
+            <div id="customerlogin" style="display: none;">
+                <?php echo $this->getLayout()->createBlock('customer/form_login')->setTemplate('customer/form/fancybox-login.phtml')->toHtml(); ?>
+            </div>
+            <div id="share" class="rewardshare" style="display: none;">
+                <h3>Share This Item</h3>
+                <div class="reward-wrap">
+                    <div class="rewards-special-review-form">Earn 15 Halo Points for Sharing This Item.</div>         
+                </div>
+                <?php if (!$this->helper('customer')->isLoggedIn()):?> 
+                    You must be logged in. <a class="modalbox" href="#customerlogin">Login Now</a>
+                    <?php else: ?>
+                    Just click the any of the Social Buttons at the bottom of this page, and earn 15 Halo Points. You can share this item on multiple social networks such as Facebook, Twitter, Google or even Pintrest. Please note that you will be awarded points for a maximum of one "share" per day per network, and points are not applied until they receive approval from Halo Staff.
+                    <?php endif;?>
+            </div>
+        </div>
+	<script type='text/javascript'>
+		//var $j = jQuery.noConflict();
+	</script>
+        <?php if(Mage::getStoreConfig('ajaxcart/addtocart/enableproduct') && (Mage::app()->getFrontController()->getRequest()->getModuleName() == "catalog") || (Mage::app()->getFrontController()->getRequest()->getModuleName() == "quickview")): ?>
+            <script type="text/javascript">
+                //<![CDATA[
+				
+                var productAddToCartForm = new VarienForm('product_addtocart_form');
+                productAddToCartForm.submit = function(button, url) {
+                    if (this.validator.validate()) {
+                        var form = this.form;
+                        var oldUrl = form.action;
+
+                        if (url) {
+                            form.action = url;
+                        }
+                        var e = null;
+                        if (!url) {
+                            url = jQuery('#product_addtocart_form').attr('action');
+                        }
+						
+                        if(url.indexOf("wishlist/index/cart") != -1){
+                            url = url.replace("wishlist/index/cart","ajaxcart/index/add"); // New Code
+                        } else {
+                            url = url.replace("checkout/cart","ajaxcart/index"); // New Code
+                        }
+                        url = url.replace("http://", "//");
+                        url = url.replace("https://", "//");
+
+                        var data = jQuery('#product_addtocart_form').serialize();
+                        data += '&isAjax=1';
+                        var is_quickview = false;
+                        if(jQuery("body").hasClass("quickview-index-view")){
+                            is_quickview = true;
+                        }
+                        if(is_quickview)
+                            window.parent.jQuery("#loading-mask").show();
+                        else
+                        jQuery('#loading-mask').show();
+						
+                        try {
+						   // alert("Inside The post");
+                            jQuery.ajax({
+                                url : url,
+                                dataType : 'json',
+                                type : 'post',
+                                data : data,
+                                success : function(data) {
+                                    if(is_quickview)
+                                        window.parent.jQuery('#loading-mask').hide();
+                                    else
+                                        jQuery('#loading-mask').hide();
+                                    if(data.status == 'ERROR'){
+                                        if(is_quickview)
+                                            window.parent.alert(data.message.replace("<br/>",""));
+                                        else
+                                            alert(data.message.replace("<br/>",""));
+                                    }
+									else{
+                                        if(is_quickview){
+                                            if(window.parent.jQuery('.header .mini-cart')){
+                                                window.parent.jQuery('.header .mini-cart').replaceWith(data.toplink);
+                                            }
+                                            if(window.parent.jQuery('.fixed-header .mini-cart')){
+                                                window.parent.jQuery('.fixed-header .mini-cart').replaceWith(data.toplink);
+                                            }
+                                            if(window.parent.jQuery('.sticky-header .mini-cart')){
+                                                window.parent.jQuery('.sticky-header .mini-cart').replaceWith(data.toplink);
+                                            }
+                                            if(window.parent.jQuery('.col-right .block.block-cart')){
+                                                window.parent.jQuery('.col-right .block.block-cart').replaceWith(data.cart_sidebar);
+                                            }
+										   
+                                            window.parent.jQuery('#after-loading-success-message #success-message-container .msg-box').html(data.message);
+                                            <?php $autoclose = Mage::getStoreConfig('ajaxcart/addtocart/autoclose', $code);?>
+                                            ajaxcart_sec = <?php echo ($autoclose && is_numeric($autoclose))?$autoclose:5; ?>;
+                                            timer_sec = ajaxcart_sec;
+                                            window.parent.jQuery('#after-loading-success-message').fadeIn(200);
+                                            ajaxcart_timer = setInterval(function(){
+                                                timer_sec --;
+                                                window.parent.jQuery('#after-loading-success-message .timer').html(timer_sec);
+                                                },1000)
+                                            setTimeout(function(){
+                                                window.parent.jQuery('#after-loading-success-message').fadeOut(200);
+                                                clearTimeout(ajaxcart_timer);
+                                                setTimeout(function(){
+                                                    window.parent.jQuery('#after-loading-success-message .timer').html(ajaxcart_sec);
+                                                   }, 1000);
+                                                },ajaxcart_sec*1000);
+                                        }
+                                        else {
+										   // comment for now
+                                            if(jQuery('.header .mini-cart')){
+                                                jQuery('.header .mini-cart').replaceWith(data.toplink);
+                                            }
+                                            if(jQuery('.fixed-header .mini-cart')){
+                                                jQuery('.fixed-header .mini-cart').replaceWith(data.toplink);
+                                            }
+                                            if(jQuery('.sticky-header .mini-cart')){
+                                                jQuery('.sticky-header .mini-cart').replaceWith(data.toplink);
+                                            }
+                                            if(jQuery('.col-right .block.block-cart')){
+                                                jQuery('.col-right .block.block-cart').replaceWith(data.cart_sidebar);
+                                            }
+                                            jQuery('#after-loading-success-message #success-message-container .msg-box').html(data.message);
+                                            <?php $autoclose = Mage::getStoreConfig('ajaxcart/addtocart/autoclose', $code);?>
+                                            ajaxcart_sec = <?php echo ($autoclose && is_numeric($autoclose))?$autoclose:5; ?>;
+                                            timer_sec = ajaxcart_sec;
+                                            jQuery('#after-loading-success-message').fadeIn(200);
+                                            ajaxcart_timer = setInterval(function(){
+                                                timer_sec --;
+                                                jQuery('#after-loading-success-message .timer').html(timer_sec);
+                                                },1000)
+                                            setTimeout(function(){
+                                                jQuery('#after-loading-success-message').fadeOut(200);
+                                                clearTimeout(ajaxcart_timer);
+                                                setTimeout(function(){
+                                                    jQuery('#after-loading-success-message .timer').html(ajaxcart_sec);
+                                                    }, 1000);
+                                                },ajaxcart_sec*1000);
+                                        }
+                                    }
+                                }
+                            });
+                        } catch (e) {
+						
+                        }                
+                        this.form.action = oldUrl;
+                        if (e) {
+                            throw e;
+                        }
+                    }
+                }.bind(productAddToCartForm);
+                //]]>
+            </script>
+            <?php else : ?>
+            <script type="text/javascript">
+                //<![CDATA[
+                var productAddToCartForm = new VarienForm('product_addtocart_form');
+                productAddToCartForm.submit = function(button, url) {
+                    if (this.validator.validate()) {
+                        var form = this.form;
+                        var oldUrl = form.action;
+
+                        if (url) {
+                            form.action = url;
+                        }
+                        var e = null;
+                        try {
+                            this.form.submit();
+                        } catch (e) {
+                        }
+                        this.form.action = oldUrl;
+                        if (e) {
+                            throw e;
+                        }
+
+                        if (button && button != 'undefined') {
+                            button.disabled = true;
+                        }
+                    }
+                }.bind(productAddToCartForm);
+                //]]>
+            </script>
+            <?php endif; ?>
+        <script type="text/javascript">
+            productAddToCartForm.submitLight = function(button, url){
+                if(this.validator) {
+                    var nv = Validation.methods;
+                    delete Validation.methods['required-entry'];
+                    delete Validation.methods['validate-one-required'];
+                    delete Validation.methods['validate-one-required-by-name'];
+                    // Remove custom datetime validators
+                    for (var methodName in Validation.methods) {
+                        if (methodName.match(/^validate-datetime-.*/i)) {
+                            delete Validation.methods[methodName];
+                        }
+                    }
+
+                    if (this.validator.validate()) {
+                        if (url) {
+                            this.form.action = url;
+                        }
+                        this.form.submit();
+                    }
+                    Object.extend(Validation.methods, nv);
+                }
+            }.bind(productAddToCartForm);
+        </script>
+    </div>
+
+    <div class="product-collateral">    
+        <?php //echo $this->getChildHtml('product_additional_data'); ?>
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('product-right')->toHtml() ?>
+        <?php /*WDCA CODE BEGINS*/ ?>
+<?php echo $this->getChildHtml('socialcustom'); ?>
+<?php /*WDCA CODE ENDS*/ ?>
+        <?php echo $this->getChildHtml('customtab'); ?>
+        <?php //echo $this->getLayout()->createBlock('core/template')->setTemplate('catalog/product/view/customtab.phtml')->toHtml(); ?>
+       
+    </div>
+    <?php echo $this->getChildHtml('upsell_products'); ?>
+</div>
+<script type="text/javascript">
+    jQuery(function($){
+        $("body.quickview-index-view .product-info a, body.quickview-index-view .no-rating a, body.quickview-index-view .ratings a").off('click').on("click",function(e){
+            window.parent.location.href = $(this).attr("href");
+            window.parent.jQuery.fancybox.close();
+        });
+        <?php
+        if($enable_addtocart_sticky){
+            ?>
+            p_scrolled = false;
+            $(window).scroll(function(){
+                if(400<$(window).scrollTop() && !p_scrolled){
+                    $('.sticky-product').removeClass("hide");
+                    p_scrolled = true;
+                }
+                if(400>=$(window).scrollTop() && p_scrolled){
+                    $('.sticky-product').addClass("hide");
+                    p_scrolled = false;
+                }
+            });
+            <?php
+        }
+        ?>
+        <?php
+        if($move_product_tab){
+            ?>
+            $(".product-info").before($(".product-tabs"));
+            <?php
+        }
+        ?>
+    });
+</script>
+<script type="text/javascript">
+
+    jQuery(document).ready(function($) {
+        //jQuery(function($){
+        //;(function($){
+        /* jQuery(".modalbox").fancybox({maxWidth: 435,maxHeight: 650,
+        'autoScale': true,
+        'autoDimensions': true,
+        'scrolling'     : 'yes',
+        'transitionIn'  : 'none',
+        'transitionOut' : 'none',
+        'autoSize' : true});*/
+
+        jQuery(".modalbox").fancybox({maxWidth: 435,maxHeight: 650,'autoScale': true,'autoDimensions': true,'autoSize' : true});
+        jQuery(".halo-tooltip").fancybox({maxWidth: 435,maxHeight: 650,'autoScale': true,'autoDimensions': true,'autoSize' : true,'showCloseButton': false})/*.hover(function () {
+            jQuery(this).click();
+
+            
+            //jQuery(".fancybox-overlay").mouseout(function() {
+//            jQuery.fancybox.close();
+//            });
+        })*/;
+        /*jQuery(".nicotine-leveltooltip").fancybox({maxWidth: 435,maxHeight: 650,'autoScale': true,'autoDimensions': true,'autoSize' : true,'showCloseButton': false}).hover(function() {
+            jQuery(this).click();
+        });
+        jQuery(".bottle-sizetooltip").fancybox({maxWidth: 435,maxHeight: 650,'autoScale': true,'autoDimensions': true,'autoSize' : true,'showCloseButton': false}).hover(function() {
+            jQuery(this).click();
+        });
+        jQuery(".battery-lengthtooltip").fancybox({maxWidth: 435,maxHeight: 650,'autoScale': true,'autoDimensions': true,'autoSize' : true,'showCloseButton': false}).hover(function() {
+            jQuery(this).click();
+        });*/
+        
+    });
+    
+    
+</script>
+<?php 
+if(strpos( $_SERVER['HTTP_HOST'], 'demo.xhalocigsx.com') !== false){
+?>
+<script src="<?php echo Mage::getBaseUrl();?>/js/product/config1.js"></script>
+<?php }else { ?>
+<!--This file already added through the layout file local.xml-->
+<!--script src="<?php //echo Mage::getBaseUrl();?>/js/product/config2.js"></script-->
+<?php }?>

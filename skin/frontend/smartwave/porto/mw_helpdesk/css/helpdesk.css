@@ -1,0 +1,101 @@
+/*	support-info	*/
+.support-online {
+	color:white; background-color: #3cb861;width: 40px;padding-left: 3px;
+}
+
+.support-offline {
+	color:white; background-color:#f55600; width: 38px;padding-left: 3px;
+}
+
+.support-line {
+	border-bottom: 1px solid #CFCFCF; margin: 30px 0 10px;
+}
+
+.support-font-backcolor {
+	background-color: #F3F3F3;
+}
+.support-font-paddingleft{
+	padding-left: 35px;
+}
+
+/*	ticket submit	*/
+.fields-hd-contacts-left {float:left;width: 50%;}
+.fields-hd-contacts-right {float:right;width: 39%;}
+
+.helpdesk_message label{clear:both}  
+.fjgfdlgj .input-box {
+    clear: both;
+    display: block;
+    width: 441px;
+}
+.form-list li.wide .input-box {
+    width: 394px;
+}
+.fjgfdlgj .input-box input.input-text {
+    width: 352px;
+}   
+.textarea-us{clear:both;}
+
+.form-list input.input-text {
+    width: 215px;
+}
+.hd_input_email_password input.input-text {
+	width: 160px;
+}
+.hd_input_email_password{
+	text-align: left;
+}
+.fields .hd_login_control{
+   	width: 166px;
+}
+.hd_login_control_mail{float:left !important;}
+.hd_login_control_password {
+    float: left !important;
+    margin-left: 20px;
+}
+.mw_login_helpdesk{float:right !important;}
+
+.mw_login_helpdesk{
+	float:right !important;
+	margin: 19px 0 0 !important;
+}
+
+.clear-both{clear:both;}
+.mw_body_login {
+    margin: 0 auto;
+    width: 420px;
+}
+.priority{
+	width: 80px !important;
+}
+.name_field{
+	width: 235px !important;
+}
+.form-list .view_order {
+    width: 100% !important;
+}
+
+.view-order-ticket{
+	width: 272px !important;
+	margin-right: 10px !important;
+}
+
+#content{
+	width: 116%; height: 150px;
+}
+
+
+
+/*	ticket container	*/
+
+.render-description{
+	width:596px; padding: 10px;
+}
+
+.login-required-select{
+	color: gray;
+}
+
+.img_loading_form{
+	text-align:center;display:none;
+}

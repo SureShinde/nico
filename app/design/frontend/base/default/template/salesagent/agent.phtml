@@ -1,0 +1,116 @@
+<?php
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+$salesRepId = $customer->getSalesRep();
+$customerId = $customer->getId();
+if (!empty($salesRepId)) {
+    $agent = Mage::getModel('halox_salesagent/agent')->load($salesRepId);
+    $profileImage = $agent->getImage();
+    $status = $agent->getStatus();
+    if ($status == 1) {
+        /* $messages = Mage::getModel('halox_salesagent/message')->getCollection()
+          ->addFieldToFilter('customer_id',$customerId); */
+        $collection = Mage::getModel('halox_salesagent/message')->getCollection();
+        $collection->getSelect()->join(array('agents' => 'halox_sales_agents'), 'agents.id = main_table.sales_agents_id and main_table.customer_id= "' . $customerId . '" ', array('agents.name','agents.image'))
+                                ->limit(100);
+        ?>
+        <h3>Sales Rep Details - </h3>
+        <ul class="list-group" style="max-width:500px;">
+
+            <?php
+            if (!empty($profileImage)) {
+                ?>
+                <li class="list-group-item">
+                    <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>profile_image/<?php echo $profileImage; ?>" style="height:200px;width:200px;">
+                </li>    
+                <?php
+            }
+            ?>
+
+            <li class="list-group-item"><b>Name</b> - <?php echo ucwords($agent->getName()); ?> </li>
+            <li class="list-group-item"><b>Email</b> - <?php echo $agent->getEmail(); ?></li>
+            <li class="list-group-item"><b>Phone</b> - <?php echo $agent->getPhone(); ?></li>
+        </ul>
+        <hr>
+        <h3 style="text-align:center;">Send Message</h3>
+        <hr>
+        <form role="form" action="<?php echo $this->getUrl('salesagent/agent/sendMessage') ?>" method="post">
+            <div class="form-group">
+                <label for="comment">Send Message:</label>
+                <textarea class="form-control" rows="5" name="message" id="comment"></textarea>
+            </div>
+            <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+            <button type = "submit" class = "btn btn-primary">Submit</button>
+        </form>
+
+        <!----***************Message Section Starts Here***************------->
+        <?php
+        $totalMsg = $collection->getSize();
+        if ($totalMsg > 0) {
+            ?>
+            <hr>
+            <h2>Messages(<?php echo $totalMsg; ?>)</h2>
+            <ul class="list-group" style="max-height:350px;overflow-y:scroll;">
+                <?php
+                foreach ($collection as $message) {
+                     ?>
+                     <li class="list-group-item"> 
+                    <?php
+                   
+                    if ($message->getSentBy() == 'customer') {
+                        $seenClass = 'glyphicon-arrow-up';
+                        if($message->getSeen() == 1){
+                           $seenClass = 'glyphicon-saved'; 
+                        }
+                        ?>   
+                            <span>
+                                <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>profile_image/default/profile.jpg" style="height:30px;width:30px;">
+                            </span> 
+                            <b>You</b> : <span style="color:#333;font-size:11px;"><?php echo $message->getMessage(); ?></span>
+                    <?php } else {
+                        if($message->getSeen() != '1'){
+                        Mage::helper('halox_salesagent')->updateSeen($message->getId());
+                        }
+                        ?>
+                            <span>
+                                <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>profile_image/<?php echo $message->getImage();?>" style="height:30px;width:30px;">
+                            </span> 
+                            <b><?php echo $message->getName(); ?></b> : <span style="color:#333;font-size:11px;"><?php echo $message->getMessage(); ?></span>     
+                        <?php
+                        $seenClass = 'glyphicon-arrow-down';
+                         if($message->getSeen() == 1){
+                                $seenClass = 'glyphicon-saved'; 
+                         }
+                    }?>
+                            <div style="width:10px;float:right;text-align:right;" ><span class="glyphicon <?php echo $seenClass;?>"></span></div>
+                            <span class='sent-at'><?php echo Mage::helper('halox_salesagent')->formatSentTime($message['sent_at']);  ?></span>              
+                    </li>
+                    <?php
+                }
+                ?>
+            </ul>
+            <?php
+        }
+        ?>
+        <!----***************Message Section Ends Here***************------->
+
+        <?php
+    } else {
+        ?>
+        <div style="color:red;">Sales Rep <span style="color: #0085ba;"><?php echo $agent->getName(); ?></span> is Disabled Please Contact Admin.</div>
+        <?php
+    }
+} else {
+    ?>
+    <div style="color:red;">No Sales Rep Assigned!</div>
+    <?php
+}
+?>
+    <style>
+    .sent-at{
+    font-size:9px !important;
+    margin-right:5px;
+    color:#999;
+    font-style:italic;
+    float:right;
+    }
+    </style>

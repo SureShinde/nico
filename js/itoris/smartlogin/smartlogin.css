@@ -1,0 +1,154 @@
+/* Overlay and loading-masks====================================================================================*/
+#smartlogin {text-align: left;}
+#smartlogin .overlay-modal			{position:fixed; top:0; left:0; z-index:10000; width:100%; height:100%; opacity:0.6; background:url(images/overlay-modal-background.png)  scroll 0 0 transparent; filter:alpha(opacity=60); }
+
+#smartlogin .loading-mask			{background-image:url(images/loading-mask-background.png); background-repeat:repeat; z-index:10004; border:none; position:fixed; overflow:visible; width:315px; left:50%; margin:-162px 0 0 -157px; }
+#smartlogin .loading-mask .corner-top-left, #smartlogin .loading-mask .corner-top-right, #smartlogin .loading-mask .corner-bottom-left, #smartlogin .loading-mask .corner-bottom-right {position: absolute;width: 5px;height: 5px;}
+#smartlogin .loading-mask .corner-top-left, #smartlogin .loading-mask .corner-top-right {top: -5px;}
+#smartlogin .loading-mask .corner-top-left {left: -5px;background-image: url(images/loading-mask-corner-top-left.png);}
+#smartlogin .loading-mask .corner-top-right {right: -5px;background-image: url(images/loading-mask-corner-top-right.png);}
+#smartlogin .loading-mask .corner-bottom-left, #smartlogin .loading-mask .corner-bottom-right {bottom: -5px;}
+#smartlogin .loading-mask .corner-bottom-left {left: -5px;background-image: url(images/loading-mask-corner-bottom-left.png);}
+#smartlogin .loading-mask .corner-bottom-right {right: -5px;background-image: url(images/loading-mask-corner-bottom-right.png);}
+#smartlogin .loading-mask .background-top, #smartlogin .loading-mask .background-left, #smartlogin .loading-mask .background-right, #smartlogin .loading-mask .background-bottom {position: absolute;background-image: url(images/loading-mask-background.png);background-repeat: repeat;}
+#smartlogin .loading-mask .background-top, #smartlogin .loading-mask .background-bottom {left: 0px;right: 0px;height: 5px;}
+#smartlogin .loading-mask .background-top {top: -5px;}
+#smartlogin .loading-mask .background-bottom {bottom: -5px;}
+#smartlogin .loading-mask .background-left, #smartlogin .loading-mask .background-right {top:0px;bottom:0px;width:5px;}
+#smartlogin .loading-mask .background-left {left: -5px;}
+#smartlogin .loading-mask .background-right {right: -5px;}
+#smartlogin .loading-mask-log		{margin:-152px 0 0 -157px; top:50%; height:290px;}
+#smartlogin .loading-mask-reg		{margin:-230px 0 0 -157px; height:456px; top:50%;}
+#smartlogin .loading-mask img	{position:absolute; margin:-16px; top:50%; left:50%; }
+#smartlogin .loading-mask-ret		{margin:-90px 0 0 -157px; height:170px; top:50%;}
+
+/* Smartform====================================================================================*/
+#smartlogin .smartform									{border:medium none; position:fixed; overflow:hidden; color:#333333; font-family:Arial,Tahoma,sans-serif; font-size:11px; font-weight:bold; z-index:10001; left:50%; top:50%; width:0; height:0;  }
+#smartlogin .smartform.dialog-log						{background:url(images/login-background.png) 0 0 transparent; /*#c7c7c6; */margin:-162px 0 0 -157px; }
+#smartlogin .smartform.dialog-reg						{margin:-262px 0 0 -157px; }
+#smartlogin .smartform.dialog-ret						{background:url(images/retrieve-background.png) 0 0 transparent; margin:-102px 0 0 -157px; }
+
+.calendar {z-index: 15000;}
+#smartlogin .smartform.dialog {background-image: url(images/form-background-top.png);background-repeat: repeat-x;background-position: top;background-color: #ffffff;/*	overflow: visible;*/}
+#smartlogin .smartform .corner-top {position: absolute;top: -15px;width: 15px;height: 15px;}
+#smartlogin .smartform .corner-top.left {left: -10px;background-image: url(images/form-background-corner-top-left.png);}
+#smartlogin .smartform .corner-top.right {right: -10px;background-image: url(images/form-background-corner-top-right.png);}
+#smartlogin .smartform.dialog .shadow-top {height: 15px;background-image: url(images/form-shadow-top.png);background-repeat: repeat-x;position: absolute;top: -15px;left: 5px;right: 5px;}
+#smartlogin .smartform .corner-bottom {position: absolute;bottom: -15px;width: 15px;height: 15px;}
+#smartlogin .smartform .corner-bottom.left {left: -10px;background-image: url(images/form-background-corner-bottom-left.png);}
+#smartlogin .smartform .corner-bottom.right {right: -10px;background-image: url(images/form-background-corner-bottom-right.png);}
+#smartlogin .smartform.dialog {position: absolute;}
+#smartlogin .smartform.dialog .shadow-bottom {height: 15px;background-image: url(images/form-shadow-bottom.png);background-repeat: repeat-x;position: absolute;bottom: -15px;left: 5px;right: 5px;}
+#smartlogin .smartform.dialog .shadow-left {top: 0px;bottom: 0px;left: -10px;width: 10px;position:absolute;background-image: url(images/form-shadow-left.png);background-repeat: repeat-y;}
+#smartlogin .smartform.dialog .shadow-right {position:absolute;top: 0px;bottom: 0px;right: -10px;width: 10px;background-image: url(images/form-shadow-right.png);background-repeat: repeat-y;}
+#smartlogin .dialog .title {position: absolute;top: -5px;height: 36px;background-image: url(images/form-title-background.png);}
+#smartlogin .dialog .title {font-family:Arial,Tahoma,sans-serif; font-size:17px; font-weight:bold; color:#666666;}
+#smartlogin .dialog .title .background {height: 36px;}
+#smartlogin .dialog .title .background.left {margin-left: -6px;float: left;width: 6px;	background-image: url(images/form-title-background-left.png);}
+#smartlogin .dialog .title .background.right {margin-right: -6px;background-image: url(images/form-title-background-right.png);background-position: right;background-repeat: no-repeat;padding: 0px 8px 0 0;}
+#smartlogin .dialog .title .background.right span{padding:4px 0;margin:0;display: inline-block;}
+#smartlogin .dialog .title span {margin: 5px 90px 5px 5px;}
+#smartlogin .dialog .content {width: 90%;margin: 50px auto;margin-bottom: 0;}
+#smartlogin .dialog .close {position: absolute;top: 0;right: 5px;margin: 0;}
+#smartlogin .dialog .content ul li {display: inline-block;height: 68px;margin-left: 18px;width: 226px;}
+#smartlogin .dialog .content ul li .label, #smartlogin .dialog .content ul li .field {margin-left: 0;}
+#smartlogin .dialog .required em {color: #FF9966;}
+#smartlogin .dialog .note {color: #999999;}
+#smartlogin .dialog .buttons {margin: 15px auto;width: 90%;}
+#smartlogin .dialog .checkbox-div input {margin-top:0;}
+#smartlogin .smartform.dialog .calendar-trig, #smartlogin .smartform.dialog .date-trig {position:absolute;cursor:pointer;top: 1px;right: 10px;width: 30px;height: 30px;background-image: url(images/calendar.png);}
+#smartlogin .smartform.dialog .date-trig {position: relative;width: 25px;height: 25px;left:-33px;top:5px;}
+
+#smartlogin .dialog .content .field input, #smartlogin .dialog .content .field select {	position: relative;}
+
+#smartlogin .smartform .field  {margin-left:18px; margin-top:4px; background:url(images/input-back-norm.png) no-repeat  0 0 transparent; height:33px; width:226px; border:0; position:relative;}
+
+#smartlogin .smartform .field *, #smartlogin .dialog.custom-reg-form .input-box *	{background:none;}
+#smartlogin .smartform .field input, #smartlogin .smartform .field select {position:absolute; top:9px; left:5px; margin-bottom:5px; margin-top:0; width:217px; height:15px; border:0; background:none repeat scroll 0 0 transparent; padding: 0 !important; color: #000000; }
+#smartlogin .smartform .field-error						{background:url(images/input-back-incorrectly.png) repeat-x scroll 0 0 transparent; }
+
+#smartlogin .smartform .field.dob input, #smartlogin .dialog.custom-reg-form .input-box input.date { width: 115px;}
+
+#smartlogin .smartform .dialog-header					{margin-left:111px; margin-top: 16px; float:left; font-family:Arial,Tahoma,sans-serif; font-size:17px; font-weight:bold; color:#666666;overflow: hidden;}
+#smartlogin .smartform .dialog-header.ret				{margin-left:61px}
+#smartlogin .smartform .smart-centre					{margin-top:65px; margin-left:24px; }
+#smartlogin .smartform .smart-centre .please-login		{color: #000000;text-align:left; margin-top:7px; margin-left:14px; overflow:hidden; height:15px; }
+#smartlogin .smartform .smart-centre .label, #smartlogin .dialog .content .label,
+#smartlogin .dialog.custom-reg-form .field label {text-align:left; margin-top:12px; margin-left:18px; font-size:12px; color:#000000;}
+#smartlogin .dialog.custom-reg-form .field label {margin-left: 0;}
+#smartlogin .smartform .smart-centre .label span,
+#smartlogin .dialog.custom-reg-form .field label em {color:#ff9966; }
+#smartlogin .smartform .smart-centre .reg				{margin-top:5px; }
+#smartlogin .smartform .smart-centre .checkbox-div		{margin-left:18px; margin-top:6px; vertical-align:middle;}
+#smartlogin .smartform .smart-centre .checkbox-div *	{margin:0; padding:0;}
+#smartlogin .smartform .smart-centre .checkbox-div *	{display:none;}
+#smartlogin .smartform .smart-centre .checkbox-div input,
+#smartlogin .smartform .smart-centre .checkbox-div span {display:inline; color:#444444; margin-top:0;}
+
+#smartlogin .smartform .smart-centre .req				{margin-top:10px; margin-left:18px; font-weight:bold; color:#999999; }
+#smartlogin .smartform .smart-centre .account-info      {margin-top:69px; height: 197px;}
+#smartlogin .smartform .smart-centre .account-password  {height: 115px;}
+
+#smartlogin .smartform .smart-centre a.forgot			{padding-top:10px; color:#ff6600; cursor:pointer; font:bold 11px Arial,Helvetica,sans-serif; margin-left:10px; }
+#smartlogin .smartform .smart-centre a.log-in			{margin-left:18px; color:#0099cc; cursor:pointer; font:bold 11px Arial,Helvetica,sans-serif; }
+#smartlogin .smartform .smart-footer .login-link		{margin-top:13px; }
+
+#smartlogin .smartform .smart-footer					{margin:15px 0px 10px 0px; width:245px; height:55px; }
+#smartlogin .smartform button.btn-submit				{background:none repeat scroll 0 0 transparent; border:0; cursor:pointer; margin-left:44px; margin-top:-8px; overflow:visible; padding:0; height:33px; text-align:left; width:81px; float:right; }
+#smartlogin .smartform button.btn-submit.retrievebutton	{margin-left: 20px; float:right;}
+#smartlogin .smartform button.btn-submit.loginbutton	{margin-left: 25px; float: right;}
+#smartlogin .smartform button.btn-submit span 			{cursor:pointer; background:url(images/button-normal.png) no-repeat scroll 0 0 transparent; border:none; color:#727272; display:block; font:bold 12px/19px Arial,Helvetica,sans-serif; width:61px; height:33px; padding:0 9px; text-align:center; white-space:nowrap; border-radius:7px; }
+#smartlogin .smartform button.btn-submit span span 		{background:none repeat scroll 0 0 transparent; height:15px; border:0 none; padding-top:7px; padding-left:0; padding-right:0; }
+#smartlogin .smartform button.btn-submit:hover span 	{background:url(images/button-active.png) no-repeat scroll 0 0 transparent; color:#ffffff; }
+#smartlogin .smartform button.btn-submit:hover span span{background:none repeat scroll 0 0 transparent; }
+
+/* Errorform====================================================================================*/
+#smartlogin .error							{border:none; position:fixed; overflow:visible; top:50%; text-align:center; font-size:14px; font-weight:bold; display:none; height:140px; left:50%; z-index:10008; margin-top:-70px; }
+#smartlogin .error .error-left				{background:url(images/error-window-left.png) no-repeat 0 0; display:block;height: 132px;width: 38px; float:left;}
+#smartlogin .error .error-right				{background:url(images/error-window-right.png) no-repeat 0 0; display:block;height: 132px;width: 39px; float:right;}
+#smartlogin .error .error-center			{background:url(images/error-window-center.png) repeat-x 0 0; display:block;height: 132px; margin-left:38px; margin-right:39px;}
+#smartlogin .error .error-center .error-text{margin: 0; color:#f25016;font-size:14px; font-weight:bold;padding-top: 55px;}
+
+#smartlogin button.close-error				{background:none repeat scroll 0 0 transparent; border:0; cursor:pointer; margin-top:15px; overflow:visible; padding:0; text-align:left; }
+#smartlogin button.close-error *			{background:none; border:0; margin:0; padding:0; }
+#smartlogin button.close-error div 		    {cursor:pointer; background:url(images/error-close-normal.png) no-repeat scroll 0 0 transparent; width:18px; height:18px; float:right;}
+#smartlogin button.close-error:hover div 	{background:url(images/error-close-active.png) no-repeat scroll 0 0 transparent; }
+#smartlogin .close-error  					{cursor:pointer; background:url(images/error-close-normal.png) no-repeat scroll 0 0 transparent; width:18px; height:18px; float:right; margin-top:15px; margin-right:17px; }
+#smartlogin .close-error:hover 			 	{background:url(images/error-close-active.png) no-repeat scroll 0 0 transparent; }
+#smartlogin a span {color: inherit}
+#smartlogin input {outline: none}
+
+#smartlogin .dialog.custom-reg-form input, #smartlogin .dialog.custom-reg-form select {
+	position:relative; margin:0; width:254px; height:20px; left: 0; top:0; border: 1px solid #B6B6B6;padding: 0; color: #000000;
+	height: 33px;
+}
+#smartlogin .dialog.custom-reg-form input[type=text], #smartlogin .dialog.custom-reg-form input[type=password], #smartlogin .dialog.custom-reg-form textarea{
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	background: url(images/input-background.png) repeat-x !important;
+}
+#smartlogin .dialog.custom-reg-form input[type=text], #smartlogin .dialog.custom-reg-form input[type=password] {text-indent:5px; line-height:28px;}
+#smartlogin .dialog.custom-reg-form select {
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	font-size:12px;
+	height: auto;
+	padding:8px !important;
+	background: url(images/input-background.png) repeat-x !important;
+}
+#smartlogin .dialog.custom-reg-form input[type=checkbox] {border:none;}
+#smartlogin .dialog.custom-reg-form input[type=file] {height:24px !important;}
+#smartlogin .dialog.custom-reg-form input.date {width: 234px;}
+#smartlogin .dialog.custom-reg-form .field {background: none; height:auto; width: 260px; margin-right: 10px;clear:none;float:left;}
+#smartlogin .dialog.custom-reg-form .content ul li {height: auto; width: 860px;}
+#smartlogin .dialog.custom-reg-form .field label {float:none;}
+#smartlogin .dialog.custom-reg-form .field .note {padding: 0;}
+#smartlogin .dialog.custom-reg-form a.log-in {color:#0099cc;}
+#smartlogin .dialog .field .reload-captcha {height: 16px; width: 16px;	background-image: url(images/refresh.gif); cursor: pointer; float: left;}
+#smartlogin .dialog.custom-reg-form .field-error {background: none; }
+#smartlogin .dialog.custom-reg-form .field-error input, #smartlogin .dialog .field-error select {border: 1px solid red;}
+#smartlogin .dialog.custom-reg-form input.itoris-smartlogin-form-checkbox {position: relative;margin-top: 4px;}
+#smartlogin .dialog.custom-reg-form .content ul li.itoris-smartlogin-form-2cols {width: 574px;}
+#smartlogin .dialog.custom-reg-form .content ul li.itoris-smartlogin-form-1col {width: 287px;}

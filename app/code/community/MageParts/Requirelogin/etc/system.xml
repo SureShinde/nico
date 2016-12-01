@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageParts
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This code is copyrighted by MageParts and may not be reproduced
+ * and/or redistributed without a written permission by the copyright 
+ * owners. If you wish to modify and/or redistribute this file please
+ * contact us at info@mageparts.com for confirmation before doing
+ * so. Please note that you are free to modify this file for personal
+ * use only.
+ *
+ * If you wish to make modifications to this file we advice you to use
+ * the "local" file scope in order to aviod conflicts with future updates. 
+ * For information regarding modifications see http://www.magentocommerce.com.
+ *  
+ * DISCLAIMER
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE 
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF 
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY 
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * @category   MageParts
+ * @package    MageParts_Requirelogin
+ * @copyright  Copyright (c) 2009 MageParts (http://www.mageparts.com/)
+ * @author     MageParts Crew
+ */
+-->
+<config>
+    <tabs>
+        <mageparts translate="label" module="core">
+            <label>MageParts</label>
+            <sort_order>9999999</sort_order>
+        </mageparts>
+    </tabs>
+    <sections>
+        <requirelogin translate="label" module="requirelogin">
+            <class>separator-top</class>
+            <label>Require Login</label>
+            <tab>mageparts</tab>
+            <sort_order>700</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label" module="requirelogin">
+                    <label>General Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <debug_enabled translate="label comment">
+                            <label>Debug Enabled</label>
+                            <comment>Please make sure that the standard log options are enabled under the Development section.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </debug_enabled>
+                        <url_exception_list translate="label">
+                            <label>Allows URL List</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <frontend_model>mageparts_base/adminhtml_system_config_form_field_urltable</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </url_exception_list>
+                    </fields>
+                </general>
+                <register translate="label" module="requirelogin">
+                    <label>Customer Registration Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <redirect_heading translate="label">
+                            <label>Redirect customers away from the registration page</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </redirect_heading>
+                        <redirect_enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </redirect_enabled>
+                        <redirect_type translate="label comment">
+                            <label>Redirect To</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>mageparts_base/system_config_source_redirect</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </redirect_type>
+                        <redirect_cms_page translate="label">
+                            <label>Redirect to CMS Page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_cms_page</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <redirect_type>cms_page</redirect_type>
+                            </depends>
+                        </redirect_cms_page>
+                        <redirect_custom_url translate="label">
+                            <label>Custom Redirect URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <redirect_type>custom_url</redirect_type>
+                            </depends>
+                        </redirect_custom_url>
+                    </fields>
+                </register>
+            </groups>
+        </requirelogin>
+    </sections>
+</config>

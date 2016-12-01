@@ -1,0 +1,115 @@
+<?xml version="1.0" ?>
+<config>
+    <tabs>
+        <halox_settings translate="label" module="halox_salesagent">
+            <label>Halox Settings</label>
+            <sort_order>0</sort_order>
+        </halox_settings>
+    </tabs>
+    <sections>
+        <salesagent module="halox_salesagent" translate="label">
+            <label>Sales Agent Settings</label>
+            <sort_order>349</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <tab>halox_settings</tab>
+            <groups>
+                <check translate="label">
+					<label>Enable/Disable Module</label>
+					<comment></comment>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>                        					
+                        <enabled translate="label tooltip comment">
+						    <label> - Select - </label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>  
+                          <comment>Use to enable/disable for the scope.</comment>
+                        </enabled>
+                    </fields>						
+                </check> 
+                <mails_group translate="label">
+					<label>Add Mail Config</label>
+					<comment></comment>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>  
+                        <admin_url translate="label tooltip comment">
+                            <label> - Add Admin URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+			             <comment>Add Admin Url to Reply Tickets</comment>
+                        </admin_url>					
+                        <cc_mails translate="label tooltip comment">
+                            <label> - Add Cc Mails</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+			             <comment>Add cc mails separated by -(;) example - abc@example.com;def@example.com.</comment>
+                        </cc_mails>
+                        <user_email_template>
+                            <label>User Email Template</label>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>2</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                        </user_email_template>
+                        <salesagent_email_template>
+                            <label>Sales Agent Email Template</label>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>3</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                        </salesagent_email_template>
+                     </fields>
+                </mails_group>
+				<role_permissions translate="label">
+					<label>Role Permissions</label>					
+                    <sort_order>3</sort_order>
+                    <show_in_default>3</show_in_default>
+                    <show_in_website>3</show_in_website>
+                    <show_in_store>3</show_in_store>
+                    <fields>                        					
+                       <block_list translate="label">
+                            <label>Add Roles</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+							<comment>Add comma(,) separated roles to block - Add, edit, delete functionality</comment>
+                        </block_list>
+						<block_action translate="label">
+                            <label>Permissions Blocked</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>2</show_in_default>
+                            <show_in_website>2</show_in_website>
+                            <show_in_store>2</show_in_store>
+							<comment>Add comma(,) separated Actions to block(Add,Edit,Delete,Reset,Back,Massaction Select to block)</comment>
+                        </block_action>
+                    </fields>						
+                </role_permissions> 
+                </groups>
+            </salesagent>
+            
+    </sections>
+</config>

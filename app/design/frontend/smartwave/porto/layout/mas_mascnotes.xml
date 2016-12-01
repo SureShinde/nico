@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mas_Mascnotes extension by Makarovsoft.com
+ * 
+ * @category   	Mas
+ * @package		Mas_Mascnotes
+ * @copyright  	Copyright (c) 2014
+ * @license		http://makarovsoft.com/license.txt
+ * @author		makarovsoft.com
+ */
+-->
+<layout>
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action ifconfig="mascnotes/customer/enabled" method="addLink" translate="label" module="mascnotes"><name>mascnotes</name><path>mascnotes/index</path><label>Admin Notes</label></action>
+        </reference>
+    </customer_account>	
+    <mascnotes_index_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="mascnotes/notes" name="mascnotes.notes" template="mas_mascnotes/notes.phtml"/>
+        </reference>
+    </mascnotes_index_index>
+
+</layout>

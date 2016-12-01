@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Crius
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt
+ *
+ * @category   Crius
+ * @package    Crius_GroupedProductsPro
+ * @copyright  Copyright (c) 2011 Crius (http://www.criuscommerce.com)
+ * @license    http://www.criuscommerce.com/CRIUS-LICENSE.txt
+ */ 
+-->
+<config>
+    <modules>
+        <Crius_GroupedProductsPro>
+            <version>0.1.0</version>
+        </Crius_GroupedProductsPro>
+    </modules>
+    <global>
+        <models>
+            <groupedproductspro>
+                <class>Crius_GroupedProductsPro_Model</class>
+            </groupedproductspro>
+        </models>
+        <helpers>
+            <groupedproductspro>
+                <class>Crius_GroupedProductsPro_Helper</class>
+            </groupedproductspro>
+        </helpers>
+        <blocks>
+            <groupedproductspro>
+                <class>Crius_GroupedProductsPro_Block</class>
+            </groupedproductspro>
+        </blocks>
+        <resources>
+            <groupedproductspro_setup>
+                <setup>
+                    <module>Crius_GroupedProductsPro</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+            </groupedproductspro_setup>
+        </resources>
+        <events>
+            <adminhtml_catalog_product_attribute_edit_prepare_form>
+                <observers>
+                    <groupedproductspro_observer>
+                        <class>groupedproductspro/observer</class>
+                        <method>addGroupedTableAttributeFields</method>
+                    </groupedproductspro_observer>
+                </observers>
+            </adminhtml_catalog_product_attribute_edit_prepare_form>
+        </events>
+    </global>
+    <frontend>
+        <translate>
+            <modules>
+                <Crius_GroupedProductsPro>
+                    <files>
+                        <default>Crius_GroupedProductsPro.csv</default>
+                    </files>
+                </Crius_GroupedProductsPro>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <groupedproductspro>
+                    <file>groupedproductspro.xml</file>
+                </groupedproductspro>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Crius_GroupedProductsPro>
+                    <files>
+                        <default>Crius_GroupedProductsPro.csv</default>
+                    </files>
+                </Crius_GroupedProductsPro>
+            </modules>  
+        </translate>
+        <acl>
+  			<resources>
+  				<all>
+  					<title>Allow Everything</title>
+  				</all>
+  				<admin>
+  					<children>
+  						<system>
+  							<children>
+  								<config>
+  									<children>
+  										<groupedproductspro>
+  											<title>Grouped Products Pro</title>
+  										</groupedproductspro>
+  									</children>
+  								</config>
+  							</children>
+  						</system>
+  					</children>
+  				</admin>
+  			</resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <groupedproductspro>
+            <settings>
+                <add_row_to_cart>1</add_row_to_cart>
+                <add_all_to_cart>0</add_all_to_cart>
+                <show_quantity>1</show_quantity>
+                <image_width>80</image_width>
+                <image_height>80</image_height>
+            </settings>
+        </groupedproductspro>
+    </default>
+</config>

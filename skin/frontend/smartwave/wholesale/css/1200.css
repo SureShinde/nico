@@ -1,0 +1,399 @@
+.cart, .empty-cart, .checkout-onepage-success .col-main {
+    width: 1170px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.page-title p:nth-child(2){
+    font-weight:normal;
+    line-height: 1.5;
+}
+.login-container {
+    margin-right: 124px;
+}
+.shipping-form .form-list li, .gray-bg, .tabs-section, .empty-cart {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.error-msg {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+fieldset.amcustomerattr {
+    border: 0px;
+    padding: 0px;
+}
+#wholasale_date_established {
+    width: 90% !important;
+}
+.width50, .widthowner, .widthcity{
+    float:left;              
+    width:50%;
+}
+
+/* Other page css...........................................................*/
+.cart_total_price span, .account span{
+    display:inline;
+}
+.account span{
+    padding-left:5px;
+}
+.welcome-text h3 {
+    font-size: 48px;
+}
+.padd5lt{
+    padding-left:5px;
+}
+.padd5rt{
+    padding-right:5px;
+}
+.header-container.type4 .menu-icon{
+    margin-right:15px;
+}
+#im_interested_in .amorderattr_img_checkbox{
+    width:33.3333%;
+}
+.t-c {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+}
+#LoadingImage{
+    position: absolute;
+    bottom: 40px;
+    left: 170px;
+}
+.title-buttons h1 {
+    width: 67%;
+}
+/*Menu bar..................................................................*/
+.my-nav .navbar-nav {
+    margin-left: 40px;
+    float: left;
+    padding-top: 1px;
+}
+.my-nav .navbar-nav.navbar-right {
+    margin-left: 0px;
+    margin-top: 0px;
+    padding-top: 18px;
+}
+#menu-top .right-nav {
+    margin-right: -30px;
+    clear: none;
+}
+.fig-detail{
+    margin-bottom:0px;
+}
+.navbar-nav:first-child{
+    width: auto;
+}
+.navbar-right>li>.dropdown>a:after {
+    content: '\e81c';
+    font-family: porto;
+    width: auto;
+    height: auto;
+    bottom: 0px;
+    left: 10px;
+    position: relative;
+}
+.navbar-right>li>.dropdown:hover>a:after {
+    content: '\e81c';
+    color: #3fae2a;
+}
+
+/* Cart page.................................................................*/
+.col-right{
+    margin-top: 60px;
+}
+.cart .cart-table-wrap {
+    padding: 30px;
+}
+.product-name {
+    font-size: 1.2em;
+}
+.icon-pencil, .btn-remove::before {
+    font-size:16px;
+}
+/*Hardware page...............................................................*/
+
+.details-area p, .details-area{
+    font-size:18px;
+    line-height:25px;
+}
+.col-main .category-products .products-grid.columns3 li.item {
+    border-bottom:0px solid #ccc;
+    margin-top:20px;
+}
+.col-main .category-products .products-grid li.item .details-area .product-name a, .products-list .details-area .product-name a {
+    font-size: 36px;
+}
+.product-shop{
+    padding-top:50px;
+    padding-left:0px;
+}
+.product-view .product-shop .short-description, .description {
+    font-size: 14px;
+    line-height:25px;
+}
+#bulkorder-widget .ui-widget p{
+    margin-top:45px;
+    margin-bottom:30px;
+}
+
+
+.item:nth-child(odd) .product-image-area, .education_resource:nth-child(odd) .promotion-image, .current_promotions .promotion-image{
+    padding-right:90px;
+}
+.item:nth-child(even) .product-image-area, .event-image, .education_resource:nth-child(even) .promotion-image{
+    padding-left:90px;
+}
+.item:nth-child(odd) .details-area{
+    padding-left:10px;
+    padding-top:40px;
+}
+.item:nth-child(even) .details-area{
+    padding-right:10px;
+    padding-top:40px;
+}
+
+
+.col-main .category-products .products-grid.columns3 li.item{
+    min-height:1px;
+}
+
+.ui-widget p, .category-name, .step-title>span, .msg{
+    font-size: 21px;
+}
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    font-size: 24px;
+}
+#horizontal-tabs .step-title{margin-top:60px;}
+#horizontal-tabs .ui-widget-header li {
+    padding: 15px;
+}
+.vertical-tabs-container {
+    padding: 10px;
+    border: 1px solid #e6e6e6;
+}
+.col1-layout .product-options-bottom {
+   /*margin: 25px;*/
+}
+.contact form{
+    width:50%;
+}
+.contact .buttons-set {
+    width: 243px;
+    float: right;
+}
+.navbar > .container-fluid .navbar-brand {
+    margin-left: 0px;
+}
+#products-list .short-desc, .products-list .details-area .short-desc{
+    font-size: 14px;
+    line-height: 25px;
+}
+.cms-page .page-header {
+    padding: 140px 15px;
+}
+.promos-img img{
+    height: 235px;
+        width:auto;
+}
+.eve-heading, .eve-details, .promos-heading{
+    padding:30px;
+}
+.date-city {
+    margin-bottom: 40px;
+}
+.eve-details {
+    padding-top: 40px;
+}
+.navbar-right>li:first-child{
+    margin-right: 40px;
+}
+.navbar-collapse.collapse {
+    margin-top: 0px;
+    padding-top:0px;
+}
+
+/*Slider css..................................................................*/
+.webslider-container{
+    margin:0 auto;
+    width:100%;
+    /*max-width:1498px;*/
+    padding-left:50px;
+    padding-right:50px;
+}
+.eve-schedule{margin-top:100px;}
+.eve-schedule .details-area{text-align:right;}
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    padding: .7em 1em;
+    font-size: 20px;
+}
+.modal-body {
+    padding: 10px 50px 50px;
+    text-align: left;
+}
+.media-body, .media-left, .media-right {
+    display: table-cell;
+}
+.modal-body .media-body, .modal-header {
+    padding-left: 50px;
+}
+.promos-details{
+    padding:20px 15px 0px 30px;
+    min-height:235px;
+}
+.promos-title {
+    font-size: 30px;
+    line-height: 30px;
+}
+.cms-page .page-header .content{
+    font-size:14px;
+    line-height:25px;
+}
+/*.promos-details a.learnmore{
+    bottom: 20px;
+    }*/
+.cms-page .page-header h3{
+    font-size:36px;
+}
+.container-fluid .product-header{
+    padding-left:300px;
+    padding-right:300px;
+    margin-bottom:50px;
+}
+.section-content{text-align: right;}
+.promos-img {
+    padding-right: 15px;
+}
+dl.last, ._promotions, ._events, .cms-page{
+    padding-left:0;
+    padding-right:0;
+}
+.add-to-cart button.button{
+    padding-right:0px;
+}
+.add-to-cart button.button {
+    margin-right: 0px;
+}
+section {
+    padding: 120px 40px;
+}
+#logos>.col-md-5, #logos>.col-md-7, #social-media-images>.col-md-5, #social-media-images>.col-md-7{
+    padding-left:15px;
+    padding-right:15px;
+}
+#social-media-images .section-content, #logos .section-content, #certification-section .section-content {
+    text-align: right;
+    margin-right: 30px;
+}
+.section-content .content{margin-bottom:65px;}
+
+.jcarousel li {
+    border: 0px;
+    padding: 0 10px;
+}
+.jcarousel-control-prev {
+    left: -45px;
+}
+.jcarousel-control-next {
+    right: -45px;
+}
+hr{
+    width: 100%;
+}
+.step-title{ /*padding-right:25px; padding-left:25px;*/}
+.videopage {
+    padding-top: 90px;
+}
+
+.cart-table .btn-empty, .cart-table .btn-update, .cart-table button.button:last-child{
+    float: none;
+}
+.form-list .width50:nth-child(odd){
+    padding-right:5px;
+}
+.form-list .width50:nth-child(even){
+    padding-left:5px;
+}
+.form-list .width50:nth-child(18){
+    padding-right:5px;
+    padding-left:30px;
+}
+.form-list .width50:nth-child(19){
+    padding-left:5px;
+    padding-right:30px;
+}
+.header-container .header-wrapper {
+    display: block;
+}
+.menu-icon{
+    display: none;
+}
+body.mobile-nav-shown .mobile-nav.side-block{left:-260px}
+body.mobile-nav-shown .mobile-nav-overlay {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@media screen and (max-width: 1280px) and (min-width: 1200px) {
+    .header-container .main-nav ul.menu > li.menu-item-has-children > a{
+        padding-right: 25px;
+    }
+    .header-container.type4 .main-nav ul.menu > li > a{
+        font-size:14px;
+    }
+    .navbar-brand > img {
+        max-width: 180px;
+    }
+    .navbar-right > li:first-child {
+        margin-right: 30px;
+    }
+}
+.jcarousel-wrapper {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#wholesale_date_established {
+    width: 91%;
+}
+.wire-transfer, .wire-transfer:hover, .ach-payment, .ach-payment:hover{
+    height: 136px;
+}
+.ft-content {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+input.qty {
+    font-size: 16px;
+}
+.fig-detail .btn-new {
+    padding: 10px 50px;
+    min-width: 290px;
+}
+.icon-text{
+    padding-left:15px;
+    padding-right:15px;
+}
+.mid-img-banner .fig-detail {
+    margin-bottom: 0px;
+}
+.data-table .option-heading span, .data-table thead th div.option-section {
+    padding: 18px 40px;
+}
+.col-main .page-title h1 {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 25px;
+}
+.dropdown{
+    padding-bottom: 15px;
+}
+.cms-page .page-header hr {
+    width: 35%;
+}
+.form-list .customer-name-middlename .name-firstname{
+    padding-right: 5px;
+}
+.product-list a.btn-list {
+    font-size: 18px;
+}

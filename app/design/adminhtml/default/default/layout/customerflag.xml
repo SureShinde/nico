@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_customerflag_index_index>
+        <reference name="content">
+            <block type="customerflag/adminhtml_customerflag" name="customerflag" />
+        </reference>
+    </adminhtml_customerflag_index_index>
+</layout>

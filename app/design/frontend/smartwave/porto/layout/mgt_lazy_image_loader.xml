@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <!--Enxtend the lazy load functionality to CMS, Product & Cart page-->
+    <checkout_cart_index>
+        <reference name="head">
+            <!--JQuery is already included so this one is not needed-->
+            <!--action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/jquery-1.7.2.min.js</name></action-->
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/lazy-image-loader.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/common.js</name></action>
+        </reference>
+    </checkout_cart_index>
+    <cms_page>
+        <reference name="head">
+            <!--JQuery is already included so this one is not needed-->
+            <!--action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/jquery-1.7.2.min.js</name></action-->
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/lazy-image-loader.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/common.js</name></action>
+        </reference>
+    </cms_page>
+
+    <attributeswatches_product_view>
+        <reference name="head">
+            <!--JQuery is already included so this one is not needed-->
+            <!--action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/jquery-1.7.2.min.js</name></action-->
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/lazy-image-loader.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/common.js</name></action>
+        </reference>
+    </attributeswatches_product_view>
+    <!--Enxtend the lazy load functionality to CMS, Product & Cart page Ends-->
+    <catalog_category_default translate="label">
+        <reference name="head">
+            <!--JQuery is already included so this one is not needed-->
+            <!--action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/jquery-1.7.2.min.js</name></action-->
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/lazy-image-loader.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/common.js</name></action>
+        </reference>
+       <!-- <reference name="left">
+            <block type="catalog/navigation" name="catalog.leftcat" template="catalog/navigation/sidenav.phtml" before="-"/>
+        </reference>-->
+    </catalog_category_default>
+    <catalog_category_layered translate="label">
+        <reference name="head">
+            <!--JQuery is already included so this one is not needed-->
+            <!--action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/jquery-1.7.2.min.js</name></action-->
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/lazy-image-loader.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/common.js</name></action>
+        </reference>
+         <!--<reference name="left">
+            <block type="catalog/navigation" name="catalog.leftcat" template="catalog/navigation/sidenav.phtml" before="-"/>
+        </reference>-->
+    </catalog_category_layered>
+    <catalogsearch_result_index translate="label">
+        <reference name="head">
+            <!--JQuery is already included so this one is not needed-->
+            <!--action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/jquery-1.7.2.min.js</name></action-->
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/lazy-image-loader.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/mgt_lazy_image_loader/common.js</name></action>
+        </reference>
+         <!--<reference name="left">
+            <block type="catalog/navigation" name="catalog.leftcat" template="catalog/navigation/sidenav.phtml" before="-"/>
+        </reference>-->
+    </catalogsearch_result_index>
+</layout>

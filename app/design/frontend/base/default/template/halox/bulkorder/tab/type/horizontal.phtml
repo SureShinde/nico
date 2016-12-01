@@ -1,0 +1,42 @@
+<?php 
+/**
+ * render horizontal tabs on AJAX
+ */
+?>
+
+<?php 
+
+$_products = $this->getChildren($this->getCurrentEntity(), array(
+	'name'
+));
+
+?>
+<?php if($_products->count() > 0):?>
+	<div class="step-title">
+		<?php if( ! $this->isMultiStep()):?>
+		<span><?php echo $this->__('Select a flavor and quantity for each item.')?></span>
+		<?php else:?>
+		<span><?php echo $this->__('<strong>Step 2:</strong> Select a flavor and quantity for each item.')?></span>
+		<?php endif?>	
+		<?php if( ! $this->getActiveQuoteItem()):?>
+			<button class="button" type="submit"><span><span><?php echo $this->__('Add to Cart')?></span></span></button>
+		<?php else:?>
+			<button class="button" type="submit"><span><span><?php echo $this->__('Update Cart')?></span></span></button>	
+		<?php endif?>	
+	</div>
+	<div class="vertical-tabs-container">
+		<div class="vertical-tabs ui-widget-content ui-tabs" id="vertical-tabs-<?php echo $this->getCurrentEntity()->getId()?>">
+			<ul class="ui-tabs-nav ui-widget-header">
+			<?php $tabIndex = 0; foreach($_products as $_product):?>
+				<li id="vertical-tab-<?php echo $this->getCurrentEntity()->getId()?>-<?php echo $_product->getId()?>" data-tab-index="<?php echo $tabIndex++ ?>">
+					<a class="ui-tabs-anchor" href="<?php echo $this->getTabLoadUrl($_product, Halox_BulkOrder_Helper_Data::GRID_TAB_TYPE_VERTICAL)?>">
+					<span><?php echo $_product->getName()?></span>
+					</a>
+				</li>
+			<?php endforeach;?>
+			</ul>
+		</div>
+	</div>	
+<?php else:?>
+<p class="notice"><?php echo $this->__('No products to show for the current tab.')?></p>	
+<?php endif?>

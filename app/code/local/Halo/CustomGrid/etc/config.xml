@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Halo_CustomGrid>
+         <version>0.1.0</version>
+      </Halo_CustomGrid>
+   </modules>
+   
+   <adminhtml>
+      <layout>
+         <updates>
+            <customgrid>
+               <file>customgrid.xml</file>
+            </customgrid>
+         </updates>
+      </layout>
+   </adminhtml>
+   <global>
+      <blocks> 
+         <customgrid>
+            <class>Halo_CustomGrid_Block</class>
+         </customgrid>
+      </blocks>
+      <helpers>
+         <customgrid>
+            <class>Halo_CustomGrid_Helper</class>
+         </customgrid>
+      </helpers>
+   </global>
+</config>

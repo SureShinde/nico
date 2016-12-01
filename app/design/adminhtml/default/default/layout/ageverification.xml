@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_ageverification_index>
+        <reference name="content">
+            <block type="ageverification/adminhtml_ageverification" name="ageverification" />
+        </reference>
+    </adminhtml_ageverification_index>
+    
+    <!-- For adding tab in customer dashboard -->
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTabAfter" ifconfig="age_verify_general/ageverification_options/is_age_ageverification_enabled">
+                <name>ageverification_tab</name>
+                <block>ageverification/adminhtml_customer_tab</block>
+                <after>orders</after>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+</layout>

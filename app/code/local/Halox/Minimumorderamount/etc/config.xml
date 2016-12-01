@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Halox_Minimumorderamount>
+            <version>0.1.0</version>
+        </Halox_Minimumorderamount>
+    </modules>
+    <global>  
+      <resources>
+            <halox_minimumorderamount_setup>
+                <setup>
+                    <module>Halox_Minimumorderamount</module>
+                    <class>Halox_Minimumorderamount_Model_Resource_Setup</class>
+                </setup>
+            </halox_minimumorderamount_setup>            
+        </resources>
+   </global>  
+    <frontend>
+        <routers>
+            <minimumorderamount>
+                <use>standard</use>
+                <args>
+                    <module>Halox_Minimumorderamount</module>
+                    <frontName>minimumorderamount</frontName>
+                </args>
+            </minimumorderamount>
+             <checkout>
+                 <args>
+                         <modules>
+                                 <halox_minimumorderamount before="Mage_Checkout">Halox_Minimumorderamount</halox_minimumorderamount>
+                         </modules>
+                 </args>
+            </checkout>
+         </routers>
+       
+         <events>
+            <controller_action_predispatch_checkout_onepage_index>
+                <observers>
+                    <Halox_Minimumorderamount_Model_Observer>
+                        <type>singleton</type>
+                        <class>Halox_Minimumorderamount_Model_Observer</class>
+                        <method>checkMinimumOrderAmount</method>
+                    </Halox_Minimumorderamount_Model_Observer>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_index>
+        </events>
+    </frontend>
+    
+</config>

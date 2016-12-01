@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageParts
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This code is copyrighted by MageParts and may not be reproduced
+ * and/or redistributed without a written permission by the copyright 
+ * owners. If you wish to modify and/or redistribute this file please
+ * contact us at info@mageparts.com for confirmation before doing
+ * so. Please note that you are free to modify this file for personal
+ * use only.
+ *
+ * If you wish to make modifications to this file we advice you to use
+ * the "local" file scope in order to aviod conflicts with future updates. 
+ * For information regarding modifications see http://www.magentocommerce.com.
+ *  
+ * DISCLAIMER
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE 
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF 
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY 
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * @category   MageParts
+ * @package    MageParts_RestrictCategories
+ * @copyright  Copyright (c) 2009 MageParts (http://www.mageparts.com/)
+ * @author 	   MageParts Crew
+ */
+-->
+<config>
+    <modules>
+        <MageParts_RestrictCategories>
+            <version>1.0.0</version>
+        </MageParts_RestrictCategories>
+    </modules>
+    
+    <global>
+        <models>
+            <restrictcategories>
+                <class>MageParts_RestrictCategories_Model</class>
+                <resourceModel>restrictcategories_mysql4</resourceModel>
+            </restrictcategories>
+            <restrictcategories_mysql4>
+            	<class>MageParts_RestrictCategories_Model_Mysql4</class>
+            	<entities>
+            		<rule>
+            			<table>mageparts_restrictcategories_rule</table>
+            		</rule>
+            		<rule_store>
+            			<table>mageparts_restrictcategories_rule_store</table>
+            		</rule_store>
+            		<rule_customer_group>
+            			<table>mageparts_restrictcategories_rule_customer_group</table>
+            		</rule_customer_group>
+            	</entities>
+            </restrictcategories_mysql4>
+	        <catalog>
+		        <rewrite>
+			        <layer_filter_category>MageParts_RestrictCategories_Model_Catalog_Layer_Category</layer_filter_category>
+		        </rewrite>
+	        </catalog>
+        </models>
+        <helpers>
+        	<restrictcategories>
+        		<class>MageParts_RestrictCategories_Helper</class>
+        	</restrictcategories>
+        </helpers>
+        <blocks>
+        	<restrictcategories>
+        		<class>MageParts_RestrictCategories_Block</class>
+        	</restrictcategories>
+        	<catalog>
+        		<rewrite>
+        			<navigation>MageParts_RestrictCategories_Block_Catalog_Navigation</navigation>
+        			<product_list_toolbar>MageParts_RestrictCategories_Block_Catalog_Product_Toolbar</product_list_toolbar>
+        		</rewrite>
+        	</catalog>
+        	<page>
+        		<rewrite>
+        			<html_pager>MageParts_RestrictCategories_Block_Catalog_Product_Pager</html_pager>
+        		</rewrite>
+        	</page>
+        </blocks>
+        <resources>
+            <restrictcategories_setup>
+                <setup>
+                    <module>MageParts_RestrictCategories</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </restrictcategories_setup>
+            <restrictcategories_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </restrictcategories_write>
+            <restrictcategories_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </restrictcategories_read>
+        </resources>
+    </global>
+    
+    <adminhtml>
+    	<acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                            	<config>
+                            		<children>
+		                                <restrictcategories>
+		                                    <title>MageParts - Restrict Categories Section</title>
+		                                    <sort_order>900</sort_order>
+		                                </restrictcategories>
+		                    		</children>
+		                    	</config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        
+        <translate>
+            <modules>
+                <MageParts_RestrictCategories>
+                    <files>
+                        <default>MageParts_RestrictCategories.csv</default>
+                    </files>
+                </MageParts_RestrictCategories>
+            </modules>
+        </translate>
+        
+        <events>
+			<catalog_category_prepare_save>
+				<observers>
+					<mageparts_restrictcategories_observer>
+						<type>singleton</type>
+						<class>MageParts_RestrictCategories_Model_Observer</class>
+						<method>saveRestrictCategoryRules</method>
+					</mageparts_restrictcategories_observer>
+				</observers>
+			</catalog_category_prepare_save>
+			<customer_save_after>
+				<observers>
+					<mageparts_restrictcategories_observer>
+						<type>singleton</type>
+						<class>MageParts_RestrictCategories_Model_Observer</class>
+						<method>saveCustomerRecord</method>
+					</mageparts_restrictcategories_observer>
+				</observers>
+			</customer_save_after>
+			<adminhtml_catalog_category_tabs>
+				<observers>
+					<mageparts_restrictcategories_observer>
+						<type>singleton</type>
+						<class>MageParts_RestrictCategories_Model_Observer</class>
+						<method>addRestrictionsTab</method>
+					</mageparts_restrictcategories_observer>
+				</observers>
+			</adminhtml_catalog_category_tabs>
+		</events>
+    </adminhtml>
+    
+    <frontend>
+    	<events>
+			<catalog_product_collection_load_before>
+				<observers>
+					<mageparts_restrictcategories_observer>
+						<type>singleton</type>
+						<class>MageParts_RestrictCategories_Model_Observer</class>
+						<method>beforeProductCollectionLoad</method>
+					</mageparts_restrictcategories_observer>
+				</observers>
+			</catalog_product_collection_load_before>
+			<catalog_category_load_before>
+				<observers>
+					<mageparts_restrictcategories_observer>
+						<type>singleton</type>
+						<class>MageParts_RestrictCategories_Model_Observer</class>
+						<method>beforeCategoryLoad</method>
+					</mageparts_restrictcategories_observer>
+				</observers>
+			</catalog_category_load_before>
+			<catalog_product_load_before>
+				<observers>
+					<mageparts_restrictcategories_observer>
+						<type>singleton</type>
+						<class>MageParts_RestrictCategories_Model_Observer</class>
+						<method>beforeProductLoad</method>
+					</mageparts_restrictcategories_observer>
+				</observers>
+			</catalog_product_load_before>
+			<customer_login>
+				<observers>
+					<mageparts_restrictcategories_observer>
+						<type>singleton</type>
+						<class>MageParts_RestrictCategories_Model_Observer</class>
+						<method>resetCustomerSessionData</method>
+					</mageparts_restrictcategories_observer>
+				</observers>
+			</customer_login>
+			<customer_logout>
+				<observers>
+					<mageparts_restrictcategories_observer>
+						<type>singleton</type>
+						<class>MageParts_RestrictCategories_Model_Observer</class>
+						<method>resetCustomerSessionData</method>
+					</mageparts_restrictcategories_observer>
+				</observers>
+			</customer_logout>
+			<customer_save_after>
+				<observers>
+					<mageparts_restrictcategories_observer>
+						<type>singleton</type>
+						<class>MageParts_RestrictCategories_Model_Observer</class>
+						<method>saveCustomerRecord</method>
+					</mageparts_restrictcategories_observer>
+				</observers>
+			</customer_save_after>
+		</events>
+		
+		<layout>
+            <updates>
+                <restrictcategories>
+                    <file>mageparts/restrictcategories.xml</file>
+                </restrictcategories>
+            </updates>
+        </layout>
+    </frontend>
+    
+    <default>
+		<restrictcategories>
+			<general>
+				<enabled>1</enabled>
+				<restrict_products>1</restrict_products>
+				<error_redirect_page>no-route</error_redirect_page>
+			</general>
+			<cache>
+				<enabled>1</enabled>
+			</cache>
+	    </restrictcategories>
+    </default>
+</config>

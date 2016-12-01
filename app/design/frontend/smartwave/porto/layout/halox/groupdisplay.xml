@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<layout version="0.1.0">
+    <attributeswatches_product_view>
+        <reference name="head" >
+           <!-- <action method="addLinkRel">
+                <rel>stylesheet</rel>
+                <href>http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css</href>
+            </action>-->
+           
+          <!-- <action method="addItem">
+                <type>external_js</type>
+                <name>https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js</name>
+                <params/>
+            </action> -->
+          <!--  <action method="addItem">
+                <type>external_js</type>
+                <name>http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js</name>
+                <params/>
+            </action> -->
+            <action method="addJs">
+                <script>smartwave/jquery/jquery-noconflict.js</script>
+            </action>
+            <action method="addJs">
+                <script>smartwave/jquery/jquery-1.10.2.min.js</script>
+            </action> 
+        </reference>
+    </attributeswatches_product_view>
+</layout>

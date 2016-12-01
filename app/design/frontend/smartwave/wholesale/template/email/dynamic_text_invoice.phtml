@@ -1,0 +1,29 @@
+<?php
+   
+$payment_type = $this->getData('order')->getPayment()->getMethodInstance()->getCode();
+$mybaseUrl = Mage::getBaseUrl();
+$skinUrl = $mybaseUrl.'skin/frontend/smartwave/wholesale/images/paid-invoice.jpg';
+If(isset($payment_type) && !empty($payment_type)){
+	
+if($payment_type=='checkmo'){
+	echo"<p>We have received your check and it has successfully cleared, thank you for your payment. Please keep this invoice for your records as receipt of payment. Your order has already been sent to the shipping department for fulfillment and will be shipped as soon as possible. Once your order has been shipped, you will receive a follow-up email with detailed tracking information.</p><img src='$skinUrl' />";
+	
+}elseif($payment_type=='authnetcim'){
+	echo"<p>We have successfully charged your credit card and this order is now paid in full. Please keep this invoice for your records as receipt of payment. Your order has already been sent to the shipping department for fulfillment and will be shipped as soon as possible. Once your order has been shipped, you will receive an additional email with detailed tracking information.</p><img src='$skinUrl' />";
+	
+}elseif($payment_type=='banktransfer'){
+	echo"<p>We have received your wire transfer, thank you for your payment. Please keep this invoice for your records as receipt of payment. Your order has already been sent to the shipping department for fulfillment and will be shipped as soon as possible. Once your order has been shipped, you will receive a follow-up email with detailed tracking information.</p><img src='$skinUrl' />";
+	
+}elseif($payment_type=='purchaseorder'){
+	echo"<p>We have reviewed your account and this order has now been approved for payment terms. Your order has already been sent to the shipping department for fulfillment and will be shipped as soon as possible. Once your order has been shipped, you will receive a follow-up email with detailed tracking information. </p>";
+	
+}elseif($payment_type=='achdebit'){
+	echo"<p>We have processed your ACH transfer, thank you for your payment. Please keep this invoice for your records as receipt of payment. Your order has already been sent to the shipping department for fulfillment and will be shipped as soon as possible. Once your order has been shipped, you will receive a follow-up email with detailed tracking information. </p><img src='$skinUrl' />";
+	
+}elseif($payment_type=='achcredit'){
+	echo"<p>We have received your ACH transfer, thank you for your payment. Please keep this invoice for your records as receipt of payment. Your order has already been sent to the shipping department for fulfillment and will be shipped as soon as possible. Once your order has been shipped, you will receive a follow-up email with detailed tracking information.</p><img src='$skinUrl' />";
+	
+}
+
+}
+?>

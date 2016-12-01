@@ -1,0 +1,67 @@
+<div class="account-login">
+    <div class="page-title">
+        <h1><?php echo $this->__('Login or Create an Account') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
+        <?php echo $this->getBlockHtml('formkey'); ?>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="new-users form-wrap">
+                    <div class="content">
+                        <h2><?php echo $this->__('NEW CUSTOMERS') ?></h2>
+                        <p><?php echo $this->__('If this is your first time shopping with Halo, please create an account to proceed. Creating an account offers:') ?></p>
+                        <ul>
+                            <li><i class="fa fa-check-square fa-2x">&nbsp;</i> Fast and easy check out</li>
+                            <li><i class="fa fa-check-square fa-2x">&nbsp;</i> Access to your order history and status</li>
+                            <li><i class="fa fa-check-square fa-2x">&nbsp;</i> Ability to earn Halo Points and redeem Free Gifts</li>
+                        </ul>
+                        <p class="required">&nbsp;</p>
+                    </div>
+                    <div class="buttons-set">
+                        <button type="button" title="<?php echo $this->__('Create an Account') ?>" class="button" onclick="window.location='<?php echo Mage::helper('persistent')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';"><span><span><?php echo $this->__('Create an Account') ?></span></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="registered-users form-wrap">
+                    <div class="content">
+                        <h2><?php echo $this->__('EXISTING CUSTOMERS') ?></h2>
+                        <h5><?php echo $this->__('Login To Your Account') ?></h5>
+                        <p><?php echo $this->__('If you are an existing Halo customer, please login using your email address and password. Once logged in you will be able to checkout while earning Halo Points.') ?></p>
+                        <ul class="form-list">
+                            <li>
+                                <label for="email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                                <div class="input-box">
+                                    <input type="text" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
+                                </div>
+                            </li>
+                            <li>
+                                <label for="pass" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                                <div class="input-box">
+                                    <input type="password" name="login[password]" class="input-text required-entry validate-password" id="pass" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" title="<?php echo $this->__('Password') ?>" />
+                                </div>
+                            </li>
+                            <?php echo $this->getChildHtml('form.additional.info'); ?>
+                            <?php echo $this->getChildHtml('persistent.remember.me'); ?>
+                        </ul>
+                        <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
+                        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                    </div>
+                    <div class="buttons-set">
+                        <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
+                        <button type="submit" class="button" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if (Mage::helper('checkout')->isContextCheckout()): ?>
+            <input name="context" type="hidden" value="checkout" />
+            <?php endif; ?>
+    </form>
+    <script type="text/javascript">
+        //<![CDATA[
+        var dataForm = new VarienForm('login-form', true);
+        //]]>
+    </script>
+</div>

@@ -1,0 +1,7 @@
+ <?php if (!$this->helper('customer')->isLoggedIn()):?> 
+                    You must be logged in. <a class="modalbox" href="#customerlogin">Login Now</a>
+                    <?php else: ?>
+                
+                    <?php //echo $this->getChildHtml('review_form'); ?>
+                    <?php echo $this->getLayout()->createBlock('review/form')->setBlockId('product.review.form')->toHtml() ?>
+                    <?php endif;?>

@@ -1,0 +1,138 @@
+<?php
+/**
+ * This layout has been changed to show cart items in natural order based on their names.
+ * for the wholesale store
+ */
+?>
+
+<?php 
+
+$_items = array();
+
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+
+$_itemsCollection = $quote->getItemsCollection();
+foreach ($_itemsCollection as $item) {
+    
+    if (!$item->isDeleted()) {
+        
+        if($item->hasParentItemId()){
+            $parentItem = $_itemsCollection->getItemById($item->getParentItemId());
+            if($parentItem->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+                $_items[] = $item;
+            }
+        }elseif($item->getProductType() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+            $_items[] = $item;
+        }
+
+        
+    }
+}
+
+//sort cart items in natural order(CASE-INSENSITIVE)
+usort($_items, function($a, $b){
+    return strnatcasecmp($a->getName(),$b->getName());
+});
+?>
+<?php echo $this->getChildHtml('items_before'); ?>
+<div id="checkout-review-table-wrapper">
+    <table class="data-table" id="checkout-review-table">
+        <?php if ($this->helper('tax')->displayCartBothPrices()): $colspan = $rowspan = 2; else: $colspan = $rowspan = 1; endif; ?>
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+        <col width="1" />
+        <col width="1" />
+        <?php endif; ?>
+        <thead>
+            <tr>
+                <th rowspan="<?php echo $rowspan ?>"><?php echo $this->__('Product Name') ?></th>
+                <th colspan="<?php echo $colspan ?>" class="a-center"><?php echo $this->__('Price') ?></th>
+                <th rowspan="<?php echo $rowspan ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
+                <th colspan="<?php echo $colspan ?>" class="a-center"><?php echo $this->__('Subtotal') ?></th>
+            </tr>
+            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                <tr>
+                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                </tr>
+            <?php endif; ?>
+        </thead>
+        <?php echo $this->getChildHtml('totals'); ?>
+        <tbody>
+        <?php foreach($_items as $_item): ?>
+            <?php //echo $this->getItemHtml($_item)?>
+
+            <?php
+            $renderer = $this->getItemRenderer($_item->getProductType()); 
+            //if cart item is child of a bundle item use bundle item renderer 
+            //instead of default one
+            if($_item->hasParentItemId()){
+                $parentItem = $quote->getItemById($_item->getParentItemId());
+                if($parentItem->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+                    $renderer = $this->getItemRenderer(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
+                }
+            }
+
+            $renderer->setItem($_item);  
+            ?>
+
+            <?php echo $renderer->toHtml()?>   
+
+        <?php endforeach ?>
+
+        </tbody>
+    </table>
+</div>
+<?php echo $this->getChildHtml('items_after'); ?>
+<script type="text/javascript">
+//<![CDATA[
+    decorateTable('checkout-review-table');
+    truncateOptions();
+//]]>
+</script>
+<?php
+
+$specialShippingComment = $quote->getShippingAddress()->getCustomerNotes();
+//exit;
+?>
+<br/>
+<table cellspacing="0" cellpadding="10" border="0" width="auto">
+<thead>
+<tr>
+	<th align="left" width="900" bgcolor="#EAEAEA" style="padding:5px 9px 6px 9px; line-height:1em;">Special Shipping Instruction:</th>
+	
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td valign="top" style="padding:7px 9px 9px 9px; border-left:1px solid #EAEAEA; border-bottom:1px solid #EAEAEA; border-right:1px solid #EAEAEA;">
+	<table cellspacing="0" cellpadding="0" border="0">
+	<tr>
+	<td><?php if(!empty($specialShippingComment)){echo $specialShippingComment; }else{ echo""; } ?></td>
+	</tr>
+	</table>
+	</td>
+</tr>
+</tbody>
+</table>
+
+<div id="checkout-review-submit">
+    <?php echo $this->getChildHtml('agreements') ?>
+    <div class="buttons-set" id="review-buttons-container">
+        <p class="f-left"><?php echo $this->__('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Your Cart') ?></a></p>
+        <?php echo $this->getChildHtml('button') ?>
+        <span class="please-wait" id="review-please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo Mage::helper('core')->quoteEscape($this->__('Submitting order information...')) ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Submitting order information...')) ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
+        </span>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        review = new Review('<?php echo $this->getUrl('checkout/onepage/saveOrder', array('form_key' => Mage::getSingleton('core/session')->getFormKey())) ?>', '<?php echo $this->getUrl('checkout/onepage/success') ?>', $('checkout-agreements'));
+    //]]>
+    </script>
+</div>

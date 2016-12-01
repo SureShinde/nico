@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<layout version="1.0">
+	
+	<BULK_ORDER_FORM_HANDLE>
+		
+		<reference name="root">
+			<action ifconfig="halox_bulkorder/general_settings/enabled" method="setTemplate">
+				<template>page/1column.phtml</template>
+			</action>
+		</reference>
+
+		<reference name="head">
+			<action ifconfig="halox_bulkorder/general_settings/enabled" method="addItem">
+				<type>js_css</type>
+				<file>halox/bulkorder/css/bulkorder.css</file>
+			</action>
+			<action ifconfig="halox_bulkorder/general_settings/enabled" method="addJs">
+				<script>halox/bulkorder/grid.js</script>
+			</action>
+		</reference>
+
+		<reference name="category.products">
+			<action ifconfig="halox_bulkorder/general_settings/enabled" method="setTemplate">
+				<template>halox/bulkorder/catalog/category/view.phtml</template>
+			</action>
+			
+			<block ifconfig="halox_bulkorder/general_settings/enabled" type="halox_bulkorder/form" name="bulk.order.form" template="halox/bulkorder/form.phtml">
+				<block type="halox_bulkorder/grid" name="bulk.order.grid" template="halox/bulkorder/grid.phtml"/>
+			</block>
+
+		</reference>
+		
+	</BULK_ORDER_FORM_HANDLE>
+
+	<bulkorder_grid_tab_HORIZONTAL>
+		
+		<remove name="right"/>
+        <remove name="left"/>
+
+		<block ifconfig="halox_bulkorder/general_settings/enabled" type="halox_bulkorder/tab_type_horizontal" name="root" output="toHtml" template="halox/bulkorder/tab/type/horizontal.phtml">
+		</block>	
+	</bulkorder_grid_tab_HORIZONTAL>
+	
+	<bulkorder_grid_tab_VERTICAL>
+
+		<remove name="right"/>
+        <remove name="left"/>
+
+		<block ifconfig="halox_bulkorder/general_settings/enabled" type="halox_bulkorder/tab_type_vertical" name="root" output="toHtml" template="halox/bulkorder/tab/type/vertical.phtml">
+			<block type="halox_bulkorder/grid" name="bulk.order.grid" template="halox/bulkorder/grid.phtml"/>
+		</block>
+		
+	</bulkorder_grid_tab_VERTICAL>
+
+</layout>

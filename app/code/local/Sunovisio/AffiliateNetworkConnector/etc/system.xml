@@ -1,0 +1,656 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <sunovisio translate="label" module="affiliatenetworkconnector">
+            <label>Sunovisio</label>
+            <sort_order>99999</sort_order>
+        </sunovisio>
+    </tabs>
+    <sections>
+        <affiliatenetworkconnector translate="label" module="affiliatenetworkconnector">
+            <label>Affiliate Network Connector</label>
+            <tab>sunovisio</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store> 
+            <groups>
+                <general>
+                    <label>General Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>				
+						<enabled>
+							<label>Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</enabled>
+						<default_network>
+                            <label>Default Network</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<validate>required-entry</validate>
+                            <comment>
+                                Value which will be displayed in customer view if not referred from affiliate network
+                            </comment>
+                        </default_network>
+						<network_priority>
+                            <label>Network Priority</label>
+                            <frontend_type>select</frontend_type>
+ 							<source_model>affiliatenetworkconnector_adminhtml/system_config_source_networkpriority</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<validate>required-entry</validate>
+                            <comment>
+                                Which network in the ClickStream will receive commission if multiple network referrals
+                            </comment>
+                        </network_priority>
+						<network_indirect_override>
+                            <label>Network Indirect Override</label>
+                            <frontend_type>select</frontend_type>
+ 							<source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<validate>required-entry</validate>
+                            <comment>
+								Whether affiliate referrals  should be switched to Indirect when overidden by an Affiliate from another network
+                            </comment>
+                        </network_indirect_override>
+						<direct_expiration_days>
+                            <label>Direct Expiration (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<validate>required-entry validate-digits</validate>						
+							<comment>Days after last order that a new affiliate may re-capture customer (When First Order was not from Affiliate)</comment>
+                        </direct_expiration_days>						
+                    </fields>
+                </general>	
+ 				<debug>
+                    <label>Debug Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+						<debug_tracking>
+							<label>Debug Tracking</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</debug_tracking>    
+						<debug_pixel>
+							<label>Debug Pixel</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</debug_pixel>											
+					</fields>
+                </debug>
+                <cake translate="label">
+                    <label>Cake</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <cake_enabled>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cake_enabled>
+						<cake_merchant_id>
+                            <label>Merchant ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <cake_enabled>1</cake_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>
+                        </cake_merchant_id>
+						<cake_priority>
+                            <label>Affiliate Priority</label>
+                            <frontend_type>select</frontend_type>
+ 							<source_model>affiliatenetworkconnector_adminhtml/system_config_source_affiliatepriority</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <cake_enabled>1</cake_enabled>
+                            </depends>
+							<validate>required-entry</validate>
+                            <comment>
+                                Which affiliate in the ClickStream will receive commission
+                            </comment>
+                        </cake_priority>
+						<cake_affiliate_expiration_days>
+                            <label>Affiliate Expiration (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+								<cake_enabled>1</cake_enabled>
+								<cake_residual_enabled>1</cake_residual_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>						
+							<comment>Days after last order that a new affiliate may re-capture customer</comment>
+                        </cake_affiliate_expiration_days>
+						<cake_show_zero_pixel>
+                            <label>Show Zero Commission Pixel</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <cake_enabled>1</cake_enabled>
+                            </depends>
+                        </cake_show_zero_pixel>
+						<cake_indirect_heading translate="label">
+							<label>Indirect</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends>
+                                <cake_enabled>1</cake_enabled>
+                            </depends>
+						</cake_indirect_heading> 						
+						<cake_indirect_enabled>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <cake_enabled>1</cake_enabled>
+                            </depends>
+                        </cake_indirect_enabled>
+						<cake_organic_indirect_override>
+                            <label>Organic Indirect Override</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>75</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <cake_enabled>1</cake_enabled>
+								<cake_indirect_enabled>1</cake_indirect_enabled>
+                            </depends>
+                            <comment>
+                                Whether organic referrals should be switched to Indirect when overidden by Affiliate
+                            </comment>
+						</cake_organic_indirect_override>
+						<cake_affiliate_indirect_override>
+                            <label>Affiliate Indirect Override</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <cake_enabled>1</cake_enabled>
+								<cake_indirect_enabled>1</cake_indirect_enabled>
+                            </depends>
+                            <comment>
+                                Whether overrides of Direct Affiliates should be switched to Indirect
+                            </comment>
+						</cake_affiliate_indirect_override>
+						<cake_commission_heading translate="label">
+							<label>Residual Commissions</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>90</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends>
+                                <cake_enabled>1</cake_enabled>
+                            </depends>
+						</cake_commission_heading>           
+						<cake_residual_enabled>
+                            <label>Resdiual Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <cake_enabled>1</cake_enabled>
+                            </depends>
+                        </cake_residual_enabled>	
+						<cake_residual_expiration_days_01>
+                            <label>Residual01 Expiration</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+								<cake_enabled>1</cake_enabled>
+								<cake_residual_enabled>1</cake_residual_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>						
+							<comment>Days before Residual01 expires</comment>
+                        </cake_residual_expiration_days_01>						
+						<cake_residual_expiration_days_02>
+                            <label>Residual02 Expiration</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+								<cake_enabled>1</cake_enabled>
+								<cake_residual_enabled>1</cake_residual_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>						
+							<comment>Days before Residual02 expires</comment>
+                        </cake_residual_expiration_days_02>							
+					</fields>
+                </cake>				
+				
+                <shareasale translate="label">
+                    <label>Share-A-Sale</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <shareasale_enabled>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shareasale_enabled>
+						<shareasale_merchant_id>
+                            <label>Merchant ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <shareasale_enabled>1</shareasale_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>
+                        </shareasale_merchant_id>
+						<shareasale_priority>
+                            <label>Affiliate Priority</label>
+                            <frontend_type>select</frontend_type>
+ 							<source_model>affiliatenetworkconnector_adminhtml/system_config_source_affiliatepriority</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <shareasale_enabled>1</shareasale_enabled>
+                            </depends>
+							<validate>required-entry</validate>
+                            <comment>
+                                Which affiliate in the ClickStream will receive commission
+                            </comment>
+                        </shareasale_priority>
+						<shareasale_affiliate_expiration_days>
+                            <label>Affiliate Expiration (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+								<shareasale_enabled>1</shareasale_enabled>
+								<shareasale_residual_enabled>1</shareasale_residual_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>						
+							<comment>Days after last order that a new affiliate may re-capture customer</comment>
+                        </shareasale_affiliate_expiration_days>
+						<shareasale_show_zero_pixel>
+                            <label>Show Zero Commission Pixel</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <shareasale_enabled>1</shareasale_enabled>
+                            </depends>
+                        </shareasale_show_zero_pixel>						
+						<shareasale_indirect_heading translate="label">
+							<label>Indirect</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends>
+                                <shareasale_enabled>1</shareasale_enabled>
+                            </depends>
+						</shareasale_indirect_heading> 						
+						<shareasale_indirect_enabled>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <shareasale_enabled>1</shareasale_enabled>
+                            </depends>
+                        </shareasale_indirect_enabled>	
+						<shareasale_organic_indirect_override>
+                            <label>Organic Indirect Override</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>75</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <shareasale_enabled>1</shareasale_enabled>
+								<shareasale_indirect_enabled>1</shareasale_indirect_enabled>
+                            </depends>
+                            <comment>
+                                Whether organic referrals should be switched to Indirect when overidden by Affiliate
+                            </comment>
+						</shareasale_organic_indirect_override>						
+						<shareasale_affiliate_indirect_override>
+                            <label>Affiliate Indirect Override</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <shareasale_enabled>1</shareasale_enabled>
+                                <shareasale_indirect_enabled>1</shareasale_indirect_enabled>
+                            </depends>
+                            <comment>
+                                Whether overrides of Direct Affiliates should be switched to Indirect
+                            </comment>
+						</shareasale_affiliate_indirect_override>
+						<shareasale_commission_heading translate="label">
+							<label>Residual Commissions</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>90</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends>
+                                <shareasale_enabled>1</shareasale_enabled>
+                            </depends>
+						</shareasale_commission_heading>           
+						<shareasale_residual_enabled>
+                            <label>Residual Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <shareasale_enabled>1</shareasale_enabled>
+                            </depends>
+                        </shareasale_residual_enabled>	
+						<shareasale_residual_expiration_days_01>
+                            <label>Residual01 Expiration</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+								<shareasale_enabled>1</shareasale_enabled>
+								<shareasale_residual_enabled>1</shareasale_residual_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>						
+							<comment>Days before Residual01 expires</comment>
+                        </shareasale_residual_expiration_days_01>						
+						<shareasale_residual_expiration_days_02>
+                            <label>Residual02 Expiration</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+								<shareasale_enabled>1</shareasale_enabled>
+								<shareasale_residual_enabled>1</shareasale_residual_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>						
+							<comment>Days before Residual02 expires</comment>
+                        </shareasale_residual_expiration_days_02>							
+					</fields>
+                </shareasale>
+				
+                <ebayenterprise translate="label">
+                    <label>Ebay Enterprise</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <ebayenterprise_enabled>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ebayenterprise_enabled>
+						<ebayenterprise_merchant_id>
+                            <label>Merchant ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <ebayenterprise_enabled>1</ebayenterprise_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>
+                        </ebayenterprise_merchant_id>
+						<ebayenterprise_priority>
+                            <label>Affiliate Priority</label>
+                            <frontend_type>select</frontend_type>
+ 							<source_model>affiliatenetworkconnector_adminhtml/system_config_source_affiliatepriority</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <ebayenterprise_enabled>1</ebayenterprise_enabled>
+                            </depends>
+							<validate>required-entry</validate>
+                            <comment>
+                                Which affiliate in the ClickStream will receive commission
+                            </comment>
+                        </ebayenterprise_priority>
+						
+						<ebayenterprise_affiliate_expiration_days>
+                            <label>Affiliate Expiration (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+								<ebayenterprise_enabled>1</ebayenterprise_enabled>
+								<ebayenterprise_residual_enabled>1</ebayenterprise_residual_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>						
+							<comment>Days after last order that a new affiliate may re-capture customer</comment>
+                        </ebayenterprise_affiliate_expiration_days>		
+						<ebayenterprise_show_zero_pixel>
+                            <label>Show Zero Commission Pixel</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ebayenterprise_show_zero_pixel>																
+						<ebayenterprise_indirect_heading translate="label">
+							<label>Indirect</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends>
+                                <ebayenterprise_enabled>1</ebayenterprise_enabled>
+                            </depends>
+						</ebayenterprise_indirect_heading> 
+						<ebayenterprise_indirect_enabled>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <ebayenterprise_enabled>1</ebayenterprise_enabled>
+                            </depends>
+                        </ebayenterprise_indirect_enabled>	
+						<ebayenterprise_organic_indirect_override>
+                            <label>Organic Indirect Override</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>75</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <ebayenterprise_enabled>1</ebayenterprise_enabled>
+								<ebayenterprise_indirect_enabled>1</ebayenterprise_indirect_enabled>
+                            </depends>
+                            <comment>
+                                Whether organic referrals should be switched to Indirect when overidden by Affiliate
+                            </comment>
+						</ebayenterprise_organic_indirect_override>							
+						<ebayenterprise_affiliate_indirect_override>
+                            <label>Affiliate Indirect Override</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <ebayenterprise_enabled>1</ebayenterprise_enabled>
+								<ebayenterprise_indirect_enabled>1</ebayenterprise_indirect_enabled>
+                            </depends>
+                            <comment>
+                                Whether overrides of Direct Affiliates should be switched to Indirect
+                            </comment>
+						</ebayenterprise_affiliate_indirect_override>	
+						<ebayenterprise_commission_heading translate="label">
+							<label>Residual Commissions</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>90</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends>
+                                <ebayenterprise_enabled>1</ebayenterprise_enabled>
+                            </depends>
+						</ebayenterprise_commission_heading>               
+						<ebayenterprise_residual_enabled>
+                            <label>Residual Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<depends>
+                                <ebayenterprise_enabled>1</ebayenterprise_enabled>
+                            </depends>
+                        </ebayenterprise_residual_enabled>
+						<ebayenterprise_residual_expiration_days_01>
+                            <label>Residual01 Expiration</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+								<ebayenterprise_enabled>1</ebayenterprise_enabled>
+								<ebayenterprise_residual_enabled>1</ebayenterprise_residual_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>						
+							<comment>c</comment>
+                        </ebayenterprise_residual_expiration_days_01>						
+						<ebayenterprise_residual_expiration_days_02>
+                            <label>Residual02 Expiration</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+								<ebayenterprise_enabled>1</ebayenterprise_enabled>
+								<ebayenterprise_residual_enabled>1</ebayenterprise_residual_enabled>
+                            </depends>
+							<validate>required-entry validate-digits</validate>						
+							<comment>Days before Residual02 expires</comment>
+                        </ebayenterprise_residual_expiration_days_02>						
+
+					</fields>
+                </ebayenterprise>				
+
+            </groups>
+        </affiliatenetworkconnector>
+    </sections> 
+</config>

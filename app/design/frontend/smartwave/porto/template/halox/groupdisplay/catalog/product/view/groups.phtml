@@ -1,0 +1,138 @@
+<!--custom code for tab and list view on product detail page-->
+
+<?php
+/**
+ * @category    design
+ * @package     default_default
+ */
+$productObject = Mage::registry('current_product');
+$productAttributeSetId = $productObject->getAttributeSetId();
+$productId = $productObject->getEntityId();
+$_product = Mage::getModel('catalog/product')->load($productId);
+$_helper = $this->helper('catalog/output');
+If (isset($productAttributeSetId) && !empty($productAttributeSetId)) {
+    $mappingCollection = Mage::getModel('halox_groupdisplay/mapping')->getCollection()
+            ->addFieldToFilter('attribute_set_id', $productAttributeSetId)
+            ->addFieldToFilter('show_on_frontend', 1);
+
+    $groupArr = $mappingCollection->getData();
+    $template = Mage::getStoreConfig('groupdisplay/show_frontend/groupdisplay_template', Mage::app()->getStore());
+    if (isset($groupArr) && !empty($groupArr)) {
+
+        if ($template == 2) {
+
+            foreach ($groupArr as $index => $groupSubArr) {
+                $groupId = $groupSubArr['group_id'];
+                $groupObj = Mage::getModel('eav/entity_attribute_group')->load($groupId);
+                $groupName = $groupObj->getData('attribute_group_name');
+                ?>
+                <div id="<?php echo $groupId; ?>">
+                    <br/> <strong> 
+                    <span class="listpageattributeset">  <?php echo $groupName; ?> </span> 
+                    </strong>
+                    <br/>
+                    <?php
+                    $attributes = Mage::getResourceModel('catalog/product_attribute_collection')
+                            ->setAttributeGroupFilter($groupId)
+                            ->addVisibleFilter()
+                            ->addFieldToFilter('is_visible_on_front', 1)
+                            ->getData();
+
+                    if (isset($attributes) && !empty($attributes)) {
+                        ?>
+                        <table class="data-table" id="product-attribute-specs-table">
+                            <col width="25%" />
+                            <col />
+                            <tbody>
+                                <?php
+                                foreach ($attributes as $attributeSubArr):
+                                    $attributeCode = $attributeSubArr['attribute_code'];
+                                    ?>
+                                    <tr>
+                                        <th><?php echo $this->escapeHtml($this->__($attributeSubArr['frontend_label'])) ?></th>
+                                        <td class="data"><?php echo $_product->getResource()->getAttribute("$attributeCode")->getFrontend()->getValue($_product); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+
+                        <?php
+                    }
+                    ?>
+
+                </div>
+
+                <?php
+            }
+        }elseif ($template == 1) {
+            ?>
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs spec-xs-tab">
+                    <?php
+                    $count = 1;
+                    foreach ($groupArr as $index => $groupSubArr) {
+                        $groupId = $groupSubArr['group_id'];
+                        $groupObj = Mage::getModel('eav/entity_attribute_group')->load($groupId);
+                        $groupName = $groupObj->getData('attribute_group_name');
+                        ?>
+                        <li <?php if ($count == 1) { ?>class="active" <?php } ?>>
+                        <a class="remove_style" data-toggle="tab" href="#group_<?php echo $groupId; ?>" > <?php echo $groupName; ?></a></li>
+                        <?php
+                        $count++;
+                    }
+                    ?>
+
+                </ul>
+                <div class="tab-content tab-width">
+                    <?php
+                    $count = 1;
+                    foreach ($groupArr as $index => $groupSubArr) {
+                        $groupId = $groupSubArr['group_id'];
+                        $groupObj = Mage::getModel('eav/entity_attribute_group')->load($groupId);
+                        $groupName = $groupObj->getData('attribute_group_name');
+                        $attributes = Mage::getResourceModel('catalog/product_attribute_collection')
+                                ->setAttributeGroupFilter($groupId)
+                                ->addVisibleFilter()
+                                ->addFieldToFilter('is_visible_on_front', 1)
+                                ->getData();
+                        if (isset($attributes) && !empty($attributes)) {
+                            ?>
+                            <div id="group_<?php echo $groupId; ?>" <?php if ($count == 1) { ?>class="tab-pane fade in active" <?php } else { ?>class="tab-pane fade in"<?php } ?> >
+
+                                <table class="data-table" id="product-attribute-specs-table">
+                                    <col width="25%" />
+                                    <col />
+                                    <tbody>
+                                        <?php
+                                        foreach ($attributes as $attributeSubArr):
+                                            $attributeCode = $attributeSubArr['attribute_code'];
+                                            ?>
+                                            <tr>
+                                                <th ><?php echo $this->escapeHtml($this->__($attributeSubArr['frontend_label'])) ?></th>
+                                                <td class="data"><?php echo $_product->getResource()->getAttribute("$attributeCode")->getFrontend()->getValue($_product); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>   
+
+                            </div>
+
+                            <?php
+                            $count++;
+                        }
+                    }
+                    ?>  
+
+                </div>
+            </div>
+<!--<script type="text/javascript">
+ jQuery(".remove_style").click(function(){
+ jQuery(".remove_style").css('display','block');
+});
+</script>    -->
+            <?php
+        }
+    }
+}
+?>
+ 

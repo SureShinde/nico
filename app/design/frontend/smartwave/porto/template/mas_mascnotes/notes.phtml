@@ -1,0 +1,89 @@
+<?php
+$hlp = Mage::helper('mascnotes');
+?>
+<div class="page-title title-buttons">
+    <h1><?php echo $hlp->__('Admin Notes');?></h1>    
+</div>
+
+<style>
+.notes li .notes-body .post-header {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f1f5fc;
+}
+
+.notes li .notes-body .post-footer {
+    padding-top: 5px;
+    border-top: 1px solid #f1f5fc;
+}
+
+.notes { 
+	list-style: none;
+    margin: 0;
+}
+
+.notes li {
+	margin-bottom: 15px;
+}
+
+.notes-body {
+	position: relative;
+    font-size: 11px;
+    padding: 10px;
+    border: 1px solid #f1f5fc;
+    box-shadow: 0 1px 1px rgba(0,0,0,.5);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.5);
+        background: #fff;
+}
+.notes-holder {	
+	padding: 10px 0px;
+}
+.notes-holder textarea {
+	width: 99%;
+}
+.masoitems-text {
+		padding: 10px;
+		background: #fff;
+		border-left: 2px solid #ff9933;
+		margin-bottom: 10px;
+}
+</style>
+<?php $t = Mage::getStoreConfig('mascnotes/customer/text_above');?>
+<?php if ($t != ''):?>
+	<div class="masoitems-text"><?php echo $t?></div>
+<?php endif;?>
+<?php $notes = $this->getCollection();?>
+<div class="notes-holder">
+<div class="notes-message">
+<?php if (count($notes) > 0):?>
+
+<?php
+	$helper = Mage::helper('cms');
+	$processor = $helper->getPageTemplateProcessor();
+?>
+
+						<ul class="notes">
+<?php foreach ($notes as $note):?>
+<li class="clearfix">								
+								<div class="notes-body clearfix">
+									<div class="post-header">
+										<strong class="primary-font"><?php echo $note->getFirstname()?></strong>
+										<small class="text-muted"><?php echo $hlp->__('Added: %s', $note->getCreatedAt())?></small>
+										<?php if ($note->getUpdatedAt() != ''):?>
+                                            &nbsp;
+                                            <small class="text-muted"><?php echo $hlp->__('Updated: %s',$note->getUpdatedAt())?></small>
+										<?php endif;?>
+									</div>
+									<p>
+										<?php echo $processor->filter($note->getNote());?>										
+									</p>
+								</div>
+							</li>
+<?php endforeach;?>
+</ul>
+<?php else:?>
+<h3><?php echo $hlp->__('Admin Notes List is empty');?></h3>    
+<?php endif;?>
+</div>
+</div>
+

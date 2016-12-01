@@ -1,0 +1,54 @@
+<?php
+class MW_Helpdesk_Block_Adminhtml_Rules_Edit_Tab_Actions
+    extends Mage_Adminhtml_Block_Widget_Form
+{
+	public function __construct()
+    {
+        parent::__construct();
+    }
+
+    protected function _prepareForm()
+    {
+    	$id     = $this->getRequest()->getParam('id');
+		$model  = Mage::getModel('helpdesk/rules')->load($id);
+		
+        $form = new Varien_Data_Form();
+
+        $form->setHtmlIdPrefix('rule_');
+
+        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>Mage::helper('helpdesk')->__('Update rule items using following information')));
+
+        $fieldset->addField('stop_rules_processing', 'select', array(
+            'label'     => Mage::helper('helpdesk')->__('Stop Further Rules Processing'),
+            'title'     => Mage::helper('helpdesk')->__('Stop Further Rules Processing'),
+            'name'      => 'stop_rules_processing',
+            'options'    => array(
+                '1' => Mage::helper('helpdesk')->__('Yes'),
+                '0' => Mage::helper('helpdesk')->__('No'),
+            ),
+        ));
+        
+		$form->setValues($model->getData());
+		  
+        $this->setForm($form);
+
+    	if ( Mage::getSingleton('adminhtml/session')->getRuleData() )
+      	{
+	          $form->setValues(Mage::getSingleton('adminhtml/session')->getRuleData());
+	          Mage::getSingleton('adminhtml/session')->getRuleData(null);
+      	} elseif ( Mage::registry('rule_data') ) {
+          	$form->setValues(Mage::registry('rule_data')->getData());
+      	}
+      	
+        return parent::_prepareForm();
+    }
+	
+//    protected function _prepareLayout()
+//    {
+//    	
+//        $this->setChild('grid',
+//            $this->getLayout()->createBlock('helpdesk/adminhtml_rules_edit_tab_actionsstaff_staff','memberGrid')
+//        );
+//        return parent::_prepareLayout();
+//    }
+}

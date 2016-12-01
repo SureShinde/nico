@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <helpdesk module="helpdesk">
+            <title>Help Desk Pro</title>
+            <sort_order>71</sort_order>               
+            <children>
+                <ticket module="helpdesk">
+                    <title>Manage Tickets</title>
+                    <sort_order>10</sort_order>
+                    <action>adminhtml/hdadmin_ticket/index</action>
+                    <!--  
+                    <children>
+                        <openticket module="helpdesk">
+                            <title>Active Tickets</title>
+                            <sort_order>5</sort_order>
+                            <action>adminhtml/hdadmin_ticket/open</action>
+                        </openticket>
+                        <allticket module="helpdesk">
+                            <title>All Tickets</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/hdadmin_ticket/index</action>
+                        </allticket>
+                    </children>
+                    -->
+                </ticket>
+                <member module="helpdesk">
+                    <title>Manage Staff</title>
+                    <sort_order>20</sort_order>
+                    <action>adminhtml/hdadmin_member</action>
+                </member>
+                <department>
+                    <title>Manage Departments</title>
+                    <sort_order>30</sort_order>
+                    <action>adminhtml/hdadmin_department</action>
+                </department>
+                <gateway module="helpdesk">
+                    <title>Manage Email Gateways</title>
+                    <sort_order>40</sort_order>
+                    <action>adminhtml/hdadmin_gateway</action>
+                </gateway>
+                <tempalte module="helpdesk">
+                    <title>Manage Quick Response Templates</title>
+                    <sort_order>50</sort_order>
+                    <action>adminhtml/hdadmin_template</action>
+                </tempalte>
+                <spam module="helpdesk">
+                    <title>Spam Email List</title>
+                    <sort_order>60</sort_order>
+                    <action>adminhtml/hdadmin_spam/index</action>
+                </spam>
+				<helpdeskrule module="helpdesk">
+                    <title>Manage Rules</title>
+                    <sort_order>70</sort_order>
+                    <action>adminhtml/hdadmin_rules/index</action>
+                </helpdeskrule>
+                <statistic module="helpdesk">
+                    <title>Ticket Statistics</title>
+                    <sort_order>80</sort_order>
+                    <action>adminhtml/hdadmin_statistic</action>
+                </statistic>
+                <helpdeskticketlog module="helpdesk">
+                    <title>Ticket Logs</title>
+                    <sort_order>90</sort_order>
+                    <action>adminhtml/hdadmin_ticketlog/index</action>
+                </helpdeskticketlog>
+                <helpdesk module="helpdesk">
+                    <title>Configuration</title>
+                    <action>adminhtml/system_config/edit/section/helpdesk</action>
+                    <sort_order>100</sort_order>
+                </helpdesk>
+            </children>
+        </helpdesk>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <helpdesk module="helpdesk">
+                        <title>Help Desk Pro Module</title>
+                        <sort_order>71</sort_order>
+                        <children>
+                            <ticket module="helpdesk">
+                                <title>Manage Tickets</title>
+                                <sort_order>10</sort_order>
+                                <children>
+								<!--
+                                    <openticket module="helpdesk">
+                                        <title>Open Tickets</title>
+                                        <sort_order>5</sort_order>
+                                    </openticket>
+                                    <allticket module="helpdesk">
+                                        <title>All Tickets</title>
+                                        <sort_order>10</sort_order>
+                                    </allticket>
+								-->
+									<deleteticket module="helpdesk">
+                                        <title>Delete Tickets</title>
+                                        <sort_order>15</sort_order>
+                                    </deleteticket>
+                                </children>
+                            </ticket>
+							<member module="helpdesk">
+								<title>Manage Staff</title>
+								<sort_order>20</sort_order>
+							</member>
+                            <department>
+								<title>Manage Departments</title>
+								<sort_order>30</sort_order>
+							</department>
+							<gateway module="helpdesk">
+								<title>Manage Email Gateways</title>
+								<sort_order>40</sort_order>
+							</gateway>
+							<tempalte module="helpdesk">
+								<title>Manage Quick Response Templates</title>
+								<sort_order>50</sort_order>
+							</tempalte>
+							<spam module="helpdesk">
+								<title>Spam Email List</title>
+								<sort_order>60</sort_order>
+							</spam>
+							<helpdeskrule module="helpdesk">
+								<title>Manage Rules</title>
+								<sort_order>70</sort_order>
+							</helpdeskrule>
+							<statistic module="helpdesk">
+								<title>Ticket Statistics</title>
+								<sort_order>80</sort_order>
+							</statistic>
+							<helpdeskticketlog module="helpdesk">
+			                    <title>Ticket Logs</title>
+			                    <sort_order>90</sort_order>
+			                </helpdeskticketlog>
+							<helpdesk module="helpdesk">
+								<title>Configuration</title>
+								<sort_order>100</sort_order>
+							</helpdesk>
+                        </children>
+                    </helpdesk>	
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <helpdesk translate="title" module="helpdesk">
+                                        <title>Help Desk Pro</title>
+                                    </helpdesk>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

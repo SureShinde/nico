@@ -1,0 +1,47 @@
+<?php if (Mage::getStoreConfig('helpdesk/support_time/support')): ?>
+    <!-- <div class="fieldset"> -->
+        <table cellspacing="10" cellpadding="10">
+            <tbody><tr>
+               	<td width ="100px"><b><?php echo Mage::helper('helpdesk')->__('Support Time')?></b></td>
+                	<td>
+                        <?php echo $this->displayWorkingDays(); ?>
+                        </td>
+                        <?php //echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; ?>            
+                        <td style="padding-left: 35px;">
+                        <font style="background-color: #F3F3F3;">
+                        <?php echo $this->displayWorkingTimes() ?>
+                        </font>
+                   	</td>
+                </tr>
+                <tr>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Current Time:') ?></b></td>
+                    <td>
+                    <?php echo $this->displayNow(); ?>
+                    </td>
+                    <?php //echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; ?>
+                    <td style="padding-left: 35px;"><font style="background-color: #F3F3F3;">
+                    <?php echo date('g:i A', Mage::getSingleton('core/date')->timestamp()); ?>
+                    <?php echo $this->displayGmt(); ?> 
+                    </font>
+                    </td>
+                </tr><tr>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Support Status:')?></b></td>
+                    <td>
+
+                        <?php if ($this->checkStatus()) { ?>
+                            <div style="color:white; background-color: #3cb861;width: 40px;padding-left: 3px;" ><?php echo Mage::helper('helpdesk')->__('Online')?></div>
+                        <?php } else { ?>
+                            <div style="color:white; background-color:#f55600; width: 38px;padding-left: 3px;" ><?php echo Mage::helper('helpdesk')->__('Offline')?></div>
+                        <?php } ?>
+                    </td>
+                </tr>
+                <?php if($this->getDayOff()):?>
+                <tr>
+                    <td><b><?php echo Mage::helper('helpdesk')->__('Day Off: ') ?> </b></td>
+                    <td><?php echo $this->getDayOff();?></td>
+                </tr>
+                <?php endif ?>
+            </tbody></table>
+    <!-- </div>  -->
+    <div style="border-bottom: 1px solid #CFCFCF; margin: 30px 0 10px;"></div>
+<?php endif; ?>

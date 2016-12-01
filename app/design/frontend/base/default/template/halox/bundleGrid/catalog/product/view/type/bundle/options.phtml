@@ -1,0 +1,35 @@
+<?php 
+/**
+ * bundle options with add to cart button
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_options = Mage::helper('core')->decorateArray($this->getOptions()); ?>
+<?php if ($_product->isSaleable()):?>
+
+    <?php if($_product->getData('halox_all_grid_options')):?>
+        <?php if($this->getRequest()->getActionName() == 'configure'):?>
+            <?php $addToCartText = $this->__('Update Cart')?>
+        <?php else:?>
+            <?php $addToCartText = $this->__('Add to Cart')?>
+        <?php endif?>    
+        <div class="add-to-cart pull-right">
+            <button type="button" title="<?php echo $addToCartText ?>" id="product-addtocart-button" class="button btn-cart" onclick="productAddToCartForm.submit(this)">
+                <span><span><?php echo $addToCartText ?></span></span>
+            </button>
+        </div>
+    <?php endif?>    
+    
+    <?php if (count($_options)): ?>
+        <dl>
+        <?php foreach ($_options as $_option): ?>
+            <?php if (!$_option->getSelections()): ?>
+                <?php continue; ?>
+            <?php endif; ?>
+            <?php echo $this->getOptionHtml($_option) ?>
+        <?php endforeach; ?>
+        </dl>
+    <?php else: ?>
+        <p><?php echo $this->__('No options of this product are available.') ?></p>
+    <?php endif; ?>
+<?php endif;?>

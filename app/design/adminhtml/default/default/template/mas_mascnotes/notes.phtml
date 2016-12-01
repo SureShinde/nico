@@ -1,0 +1,96 @@
+<?php
+$hlp = Mage::helper('mascnotes');
+?>
+<style>
+.notes li .notes-body .post-header {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f1f5fc;
+}
+    .notes li .notes-body .post-footer {
+    padding-top: 5px;
+    border-top: 1px solid #f1f5fc;
+}
+.notes { 
+    list-style: none;
+    margin: 0;
+}
+.notes li {
+margin-bottom: 15px;
+}
+    .notes-body {
+    position: relative;
+    font-size: 11px;
+    padding: 10px;
+    border: 1px solid #f1f5fc;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        background: #fff;
+    }
+    .notes-holder {
+    background: #E7EFEF;
+    padding: 10px;
+    }
+    .notes-holder textarea {
+        width: 99%;
+    }
+    </style>
+    
+<?php $notes = $this->getCollection();
+
+?>
+<div class="notes-holder">
+<div class="notes-message">
+<?php if (count($notes) > 0):?>
+
+                        <ul class="notes">
+<?php foreach ($notes as $note):?>
+<li class="clearfix">                                
+                                <div class="notes-body clearfix">
+                                    <div class="post-header">
+                                        <strong class="primary-font"><?php echo $note->getFirstname()?></strong>
+                                        <small class="text-muted"><?php echo $hlp->__('Added: %s', $note->getCreatedAt())?></small>
+                                        <?php if ($note->getUpdatedAt() != ''):?>
+                                            &nbsp;
+                                            <small class="text-muted"><?php echo $hlp->__('Updated: %s',$note->getUpdatedAt())?></small>
+                                        <?php endif;?>
+                                        &nbsp;
+                                        <?php if (!$this->getIsOrder()):?>
+                                            <a href="#" onclick="document.getElementById('mascnotes_note_<?php echo $note->getId();?>').style.display = 'block';return false;"><?php echo $hlp->__('Edit')?></a>
+                                        <?php endif;?>
+                                    </div>
+                                    <p>
+                                        <?php echo $note->getNote();?>
+                                        <textarea name="mascnotes_note[<?php echo $note->getId()?>][note]" id="mascnotes_note_<?php echo $note->getId();?>" style="display: none;"><?php echo $note->getNote()?></textarea>
+                                    </p>
+                                    <?php if (!$this->getIsOrder()):?>
+                                    <div class="post-footer">
+                                        <input type="hidden" name="mascnotes_note[<?php echo $note->getId();?>][status]" value="0" />
+                                        <label for="mastnotes_status_<?php echo $note->getId();?>"><input id="mastnotes_status_<?php echo $note->getId();?>" <?php if ($note->getStatus() == 1):?>checked<?php endif;?> type="checkbox" name="mascnotes_note[<?php echo $note->getId();?>][status]" value="1" />&nbsp;<?php echo $hlp->__('Show To Customer');?></label>&nbsp;
+                                        <label for="mastnotes_delete_<?php echo $note->getId();?>"><input id="mastnotes_delete_<?php echo $note->getId();?>" type="checkbox" name="mascnotes_note[<?php echo $note->getId();?>][delete]">&nbsp;<?php echo $hlp->__('Delete');?></label>                                        
+                                    </div>
+                                    <?php endif;?>
+                                </div>
+                            </li>
+<?php endforeach;?>
+</ul>
+<?php else:?>
+<?php if ($this->getIsOrder()):?>
+<button type="button" onclick="window.location = '<?php echo $this->getUrl('*/customer/edit', array('tab' => 'customer_notes', 'id' => $this->getCustomerId()))?>';">
+<span><span><?php echo $hlp->__('Add New Note On Customer')?></span></span>
+</button>
+<?php endif;?>
+<?php endif;?>
+<?php if (!$this->getIsOrder()):?>
+<div>
+<b><?php echo $hlp->__('New Note')?></b><br />
+<textarea name="mascnotes_new[0][note]"></textarea>
+<br />
+<input type="hidden" name="mascnotes_new[0][status]" value="0" />
+<label for="mastnotes_new"><input id="mastnotes_new" type="checkbox" name="mascnotes_new[0][status]" value="1" />&nbsp;<?php echo $hlp->__('Show To Customer');?></label><br />
+<small><?php echo $hlp->__('Save to add note or apply changes')?></small>
+</div>
+<?php endif;?>
+</div>
+</div>
+

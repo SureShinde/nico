@@ -1,0 +1,56 @@
+/*
+
+    _____   ______    ______          ______    ______    ______  
+   |     \ /      \  /      \        /      \  /      \  /      \ 
+    \$$$$$|  $$$$$$\|  $$$$$$\      |  $$$$$$\|  $$$$$$\|  $$$$$$\
+      | $$| $$__| $$| $$ __\$$      | $$   \$$| $$___\$$| $$___\$$
+ __   | $$| $$    $$| $$|    \      | $$       \$$    \  \$$    \ 
+|  \  | $$| $$$$$$$$| $$ \$$$$      | $$   __  _\$$$$$$\ _\$$$$$$\
+| $$__| $$| $$  | $$| $$__| $$      | $$__/  \|  \__| $$|  \__| $$
+ \$$    $$| $$  | $$ \$$    $$       \$$    $$ \$$    $$ \$$    $$
+  \$$$$$$  \$$   \$$  \$$$$$$         \$$$$$$   \$$$$$$   \$$$$$$ 
+                                                                  
+                                                                                                                                  
+*/
+
+
+
+/* JAG PAGE CONTAINER STYLES PRINT PAGE
+-------------------------------------------------------------------*/
+.pageprint-index-index{padding:10px 20px; font-size:9pt}
+.pageprint-index-index .page{padding: 0px 0px;}
+.pageprint-index-index .buttons-set{float:right; display: inline-block;}
+.pageprint-index-index .print-head{display: block;}
+.pageprint-index-index .print-head img{margin-bottom: 2px; display:block;}
+.pageprint-index-index #shopping-cart-totals-table{float:right;}
+.pageprint-index-index .page .form-group {margin-bottom:5px;}
+
+
+.pageprint-index-index #shopping-cart-table td,.pageprint-index-index #shopping-cart-table th{font-size: 9pt;}
+.pageprint-index-index .page .print-cart-content .totals{padding-top: 20px;}
+ 
+ .pageprint-index-index .data-table.cart-table tbody td{display: table-cell;}
+   .pageprint-index-index .data-table.cart-table tbody td{text-align: left !important;}
+ .pageprint-index-index  #shopping-cart-table th, .pageprint-index-index  #shopping-cart-table td{ width:55%;}
+  .pageprint-index-index  #shopping-cart-table th + th, .pageprint-index-index  #shopping-cart-table td + td{width: 15%;}
+  .pageprint-index-index  #shopping-cart-table th + th + th, .pageprint-index-index  #shopping-cart-table td + td + td {width: 15%;  text-align: center !important;}
+   .pageprint-index-index  #shopping-cart-table th + th + th + th,.pageprint-index-index  #shopping-cart-table td + td + td + td {width: 15%;}
+   .pageprint-index-index #shopping-cart-table.data-table tr th{padding: 16px 10px 10px 6px; text-transform: uppercase;}
+ .pageprint-index-index #shopping-cart-totals-table tr.summary-total .summary-collapse {float: right; text-align: right;}
+   
+   @media (min-width: 1200px){
+    .pageprint-index-index .main.container-fluid {
+    width: 90%;
+}
+   }
+   
+   @media print {
+    .pageprint-index-index .main.container-fluid {margin: 10px 30px;}
+}
+
+.pageprint-index-index .data-table tbody td {
+    background-color: rgba(238, 238, 238, 0.43);
+}
+
+.pageprint-index-index .product-name a{color: #2d8e1a;}
+.pageprint-index-index .print-head address{ font-size: 12px; margin-bottom: 5px;}

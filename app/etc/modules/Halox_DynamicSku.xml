@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Halox_DynamicSku>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <!--Amasty_Promo/-->
+            </depends>
+        </Halox_DynamicSku>
+    </modules>
+</config>

@@ -1,0 +1,216 @@
+<?php
+/**
+ * New template for for rendering bundle product options as a matrix(tabular format)
+ */
+
+?>
+
+<?php /* @var $this Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Grid */ ?>
+<?php $_option = $this->getOption() ?>
+<?php $_selections = $_option->getSelections() ?>
+<?php $isEditMode = $this->getAction()->getFullActionName() == 'checkout_cart_configure';?>
+<?php
+$catalogResource = Mage::getSingleton('catalog/product')->getResource();
+if($this->getProduct()->hasPreconfiguredValues()){
+    $selectedQtys = $this->getProduct()->getPreconfiguredValues()
+        ->getData('bundle_option_qty/' .  $_option->getId());
+
+    if($isEditMode){
+        $configureId = $this->getRequest()->getParam('id');
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        $childQuoteItems = Mage::getResourceModel('sales/quote_item_collection')
+            ->addFieldToSelect(array('qty', 'product_id', 'parent_item_id'))
+            ->setQuote($quote)
+            ->addFieldToFilter('parent_item_id', array('eq' => $configureId));
+    }
+    
+} 
+?>
+<div id="grid-dialog">&nbsp;</div>
+<div class="scrolltable_base">
+    <table class="hardware-bulk-order-form data-table scrolltable">
+    <thead>
+        <tr>
+            <th class="option-heading no-padding" colspan="6">
+            <label title="<?php echo $this->escapeHtml($_option->getTitle()) ?>" id="bundle-option-label-<?php echo $_option->getId()?>" <?php if ($_option->getRequired()) echo ' class="required"'; ?>>
+                <?php echo $this->escapeHtml($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<em>*</em>' ?>
+            </label>
+            <?php if($_option->getSubProductDescription()):?>
+                <span class="details-toggle btn-arrow-icon" id="option-toggle-<?php echo $_option->getId()?>"><?php echo $this->__('Details')?></span>
+            <?php endif?>
+            <?php if($_option->getSubProductDescription()):?>
+                <div class="option-section" id="option-details-<?php echo $_option->getId()?>" style="display:none;">
+                        <?php echo $_option->getSubProductDescription(); ?>
+                </div>
+                <script type="text/javascript">
+                    jQuery("#option-toggle-<?php echo $_option->getId()?>").click(function(){
+                        instance = this;
+                        jQuery("#option-details-<?php echo $_option->getId()?>").slideToggle('slow', function(){
+                                jQuery(instance).toggleClass('up');
+                        });
+                    });
+                </script>           
+            <?php endif?>
+            </th>
+        </tr>
+        <tr class="immediate">
+            <th><?php echo $this->__('Image')?></th>
+            <th><?php echo $this->__('Name')?></th>
+            <th><?php echo $this->__('Price')?></th>
+            <th><?php echo $this->__('MSRP')?></th>
+            <th><?php echo $this->__('Qty')?></th>
+            <th><?php echo $this->__('Total')?></th>
+        </tr>
+    </thead>
+        <tbody>
+            <?php foreach($_selections as $_selection):?>
+                <?php 
+                $_canChangeQty = $_selection->getSelectionCanChangeQty();
+                $_hasPreConfiguredQty = false;
+                
+                if($this->getProduct()->hasPreconfiguredValues()){
+
+                    $_defaultQty = '';    
+                    
+                    //override pre-configured qty with cart item qty
+                    if($isEditMode){
+
+                        $_hasPreConfiguredQty = true;
+                        foreach($childQuoteItems as $childQuoteItem){
+
+                            $quoteItemSelection = $childQuoteItem->getOptionByCode('selection_id');
+                            if($childQuoteItem->getProductId() == $_selection->getProductId()
+                                && $quoteItemSelection->getValue() == $_selection->getSelectionId()){
+                                
+                                $_defaultQty = $childQuoteItem->getQty();
+                                break;
+                            }
+                        }
+                    }else{
+                        
+                        $_hasPreConfiguredQty = isset($selectedQtys[$_selection->getSelectionId()]) 
+                        && $selectedQtys[$_selection->getSelectionId()];    
+
+                        $_defaultQty = $selectedQtys[$_selection->getSelectionId()];
+                    }
+
+                    
+                }else{
+                    $_defaultQty = $_selection->getSelectionQty() * 1;
+                    if($_defaultQty == 0){
+                        $_defaultQty = '';
+                    }
+                }
+                
+                $msrp = $catalogResource->getAttributeRawValue($_selection->getProductId(), 'msrp', $_selection->getStoreId());
+
+                ?>
+                <tr>
+                    <td><img src="<?php echo $this->helper('catalog/image')->init($_selection, 'thumbnail')->resize(50)?>" style="max-height:50px;" alt="<?php echo $_selection->getName()?>"/></td>
+                    <td><?php echo $this->__($_selection->getName())?></td>
+                    <td><?php echo $this->helper('core')->currency($_selection->getFinalPrice(), true, false);?></td>
+                    <td>
+                    <?php if($msrp):?>
+                        <?php echo $this->helper('core')->currency($msrp, true, false);?>
+                    <?php endif?>
+                    </td>
+                    <td>
+                        <input type="hidden" class="bundle-option-<?php echo $_option->getId() ?>" id="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>" name="bundle_option[<?php echo $_option->getId()?>][]" value="<?php if($_hasPreConfiguredQty && $_defaultQty){ echo $_selection->getSelectionId();}?>">
+                        <input <?php if (!$_canChangeQty) echo ' disabled="disabled"' ?> data-selection="<?php echo $_selection->getSelectionId()?>" id="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>-qty-input" class="qty <?php if (!$_canChangeQty):?> qty-disabled<?php endif?>" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>][<?php echo $_selection->getSelectionId() ?>]" value="<?php echo $_defaultQty ?>" />
+                        <script type="text/javascript">
+
+                            var bundleDialog = jQuery('<div>').dialog({
+                                autoOpen: false,
+                                modal: true,
+                                appendTo: '#grid-dialog',
+                                resizable: false,
+                                width: 500,
+                                dialogClass: 'center',
+                                closeOnEscape: true,
+                                'title': 'Validation Error'
+                            });
+
+                            
+                            //allow zero in qty box in case of cart configure
+                            bundle.isEditMode = '<?php echo $isEditMode ? 1 : 0?>';
+
+                            function showDialog(result){
+                                bundleDialog.html('<p>' + result.msg + '</p>');
+                                bundleDialog.dialog('open');
+                            }
+
+                            function handleValidationResult(element, result){
+                                
+                                if(result.status != 'SUCCESS'){
+                                    $(element.id).setStyle({
+                                        'border-color': 'red'
+                                    });
+
+                                    showDialog(result);
+
+                                    return;
+
+                                }
+
+                                $(element.id).setStyle({
+                                    'border-color' : '#ccc'
+                                });  
+                            }
+                            
+                            /**
+                             * set selection id to hidden fields as its value when someone enter a value in 
+                             * the qty box greater than 0. This is to replicate the checkbox functionality for 
+                             * a default bundle product.
+                             * @purpose only those items will be added which have more than 0 qty 
+                             */
+                            Event.observe('bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>-qty-input', 'change', function(event){
+                                
+                                var selectionId = this.id.replace('-qty-input', '');
+                                
+                                var result = bundle.validateSelectionStock(this);
+                                
+                                handleValidationResult(this, result);
+
+                                if(parseInt(this.value) > 0){
+                                    $(selectionId).value = $(this.id).readAttribute('data-selection');
+                                }else{
+                                    $(selectionId).value = '';
+                                }
+
+                                bundle.changeOptionQty(this, event);
+                                bundle.changeSelection($(selectionId));
+                                
+                            });
+
+                            /**
+                             * initialize prices if default qtys have been provided from backend
+                             */
+                            document.observe('dom:loaded', function(){
+                                
+                                var selectionId = 'bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>';
+                                var defaultQty = $(selectionId + '-qty-input');
+                                
+                                if(defaultQty.value > 0){
+                                    
+                                    $(selectionId).value = '<?php echo $_selection->getSelectionId()?>';
+                                    
+                                    bundle.changeSelection($(selectionId));
+                                    //bundle.changeOptionQty(this, event);
+                                }
+                            });
+
+                            </script>
+                    </td>
+                    <td>
+                        <span class="row-total" id="selection-row-total-<?php echo $_option->getId()?>-<?php echo $_selection->getSelectionId()?>">
+                        <strong>$0.00</strong>
+                        </span>
+                    </td>
+                </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+</div>
+
+
+

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<config>
+
+    <modules>
+        <Halox_Groupdisplay>
+            <version>1.0.0</version>
+        </Halox_Groupdisplay>
+    </modules>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Halox_Groupdisplay before="Mage_Adminhtml">Halox_Groupdisplay_Adminhtml</Halox_Groupdisplay>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <frontend>
+        <layout>
+            <updates>
+                <halox_groupdisplay>
+                    <file>halox/groupdisplay.xml</file>
+                </halox_groupdisplay>
+            </updates>
+        </layout>
+    </frontend>    
+    <global>
+        <models>
+            <halox_groupdisplay>
+                <class>Halox_Groupdisplay_Model</class>
+                <resourceModel>halox_groupdisplay_resource</resourceModel>
+            </halox_groupdisplay>
+            <halox_groupdisplay_resource>
+                <class>Halox_Groupdisplay_Model_Resource</class>
+                <entities>
+                    <mapping>
+                        <table>halox_group_display_mapping</table>
+                    </mapping>                 
+                </entities>
+            </halox_groupdisplay_resource>
+        </models>
+        
+        <resources>
+            <halox_groupdisplay_setup>
+                <setup>
+                    <module>Halox_Groupdisplay</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </halox_groupdisplay_setup>
+        </resources>
+        
+        <helpers>
+            <halox_groupdisplay>
+                <class>Halox_Groupdisplay_Helper</class>
+            </halox_groupdisplay>
+        </helpers>
+
+        <blocks>
+            <halox_groupdisplay>
+                <class>Halox_Groupdisplay_Block</class>
+            </halox_groupdisplay>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_attribute_set_grid>Halox_Groupdisplay_Block_Adminhtml_Catalog_Product_Attribute_Set_Grid</catalog_product_attribute_set_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+    </global>
+</config>

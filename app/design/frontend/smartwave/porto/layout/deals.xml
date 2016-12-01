@@ -1,0 +1,52 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">   
+       <remove name="breadcrumbs" /> 
+        
+  <deals_index_index>
+ 
+     
+        <remove name="footer_links" />
+        <remove name="chat_zopim_default" />
+ 
+<reference name="header">
+    <block type="page/header" name="header" as="newheader">
+     <!--<action method="setImgSrc"><src>images/header.png</src></action>
+            <action method="setImgAlt" translate="alt" module="deals"><alt>The Halocigs</alt></action>
+            <action method="setLinkUrl"><url>your/path</url></action>-->
+        <action method="setTemplate"><template>deals/header.phtml</template></action>
+    </block>
+</reference>
+
+     <reference name="head">
+      <!--<action method="addItem"><type>skin_js</type><name>js/deals.js</name></action>-->
+       <action method="addCss"><stylesheet>css/deals.css</stylesheet></action>
+    </reference>  
+    <reference name="root">   
+      <action method="setTemplate"><template>page/1column.phtml</template></action>   
+    </reference>   
+    <reference name="content"> 
+      
+      <block type="deals/index" name="deals_index" template="deals/index.phtml"/>
+      
+      <!--  <action method="addJs"><script>deals.js</script></action> -->
+     <!-- </block>  --> 
+    </reference>   
+  </deals_index_index>  
+  <deals_index_step1>   
+    <reference name="root">   
+      <action method="setTemplate"><template>page/1column.phtml</template></action>   
+    </reference>   
+    <reference name="content">   
+      <block type="deals/index" name="deals_index_deal1" template="deals/step2.phtml"/>   
+    </reference>   
+  </deals_index_step1>   
+   <deals_index_thankyou>   
+    <reference name="root">   
+      <action method="setTemplate"><template>page/1column.phtml</template></action>   
+    </reference>   
+    <reference name="content">   
+      <block type="deals/index" name="deals_index_thankyou" template="deals/thankyou.phtml"/>   
+    </reference>   
+  </deals_index_thankyou>   
+</layout>   
+	

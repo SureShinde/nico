@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Halox_Payment>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Halox_Payment>
+    </modules>
+</config>

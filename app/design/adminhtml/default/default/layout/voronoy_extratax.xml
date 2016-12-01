@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <voronoy_extratax_rule_add_order_total>
+        <reference name="order_totals">
+            <block type="voronoy_extratax/sales_order_totals_rule" name="extra_tax_rule_totals" />
+        </reference>
+    </voronoy_extratax_rule_add_order_total>
+
+    <voronoy_extratax_rule_add_invoice_total>
+        <reference name="invoice_totals">
+            <block type="voronoy_extratax/sales_order_totals_rule" name="extra_tax_rule_totals" />
+        </reference>
+    </voronoy_extratax_rule_add_invoice_total>
+
+    <adminhtml_sales_order_view>
+        <update handle="voronoy_extratax_rule_add_order_total" />
+    </adminhtml_sales_order_view>
+
+    <adminhtml_sales_order_invoice_new>
+        <update handle="voronoy_extratax_rule_add_invoice_total" />
+    </adminhtml_sales_order_invoice_new>
+    <adminhtml_sales_order_invoice_updateqty>
+        <update handle="voronoy_extratax_rule_add_invoice_total" />
+    </adminhtml_sales_order_invoice_updateqty>
+    <adminhtml_sales_order_invoice_view>
+        <update handle="voronoy_extratax_rule_add_invoice_total" />
+    </adminhtml_sales_order_invoice_view>
+</layout>

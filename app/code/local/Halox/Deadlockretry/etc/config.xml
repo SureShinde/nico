@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Halox_Deadlockretry>
+            <version>0.1.0</version>
+        </Halox_Deadlockretry>
+    </modules> 
+    <global>	
+    <helpers>
+            <halox_deadlockretry>
+                <class>Halox_Deadlockretry_Helper</class>
+            </halox_deadlockretry>
+    </helpers> 
+	<events>
+- <controller_front_init_before>
+- <observers>
+- <halox_deadlockretry>
+  <class>Halox_Deadlockretry_Model_Observer</class> 
+  <method>setup</method> 
+  </halox_deadlockretry>
+  </observers>
+  </controller_front_init_before>
+  </events>
+
+    </global>	
+	<adminhtml>
+	 <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <deadlock_retry translate="title">
+                                        <title>Deadlock Retry </title>
+                                        <sort_order>98</sort_order>
+                                    </deadlock_retry>
+								</children>
+                            </config>
+                        </children>
+                    </system>
+                 </children>
+            </admin>
+        </resources>
+    </acl>                   
+	</adminhtml>
+    <default>
+        <deadlock_retry>
+            <enable>
+                <max_retry>2</max_retry>
+            </enable>
+        </deadlock_retry>
+    </default>	
+</config>

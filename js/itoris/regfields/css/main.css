@@ -1,0 +1,53 @@
+.form-list .float-none {
+	float: none;
+	margin-left: 5px;
+}
+.form-list .note {
+	font-size: 11px;
+}
+.form-list .reload-captcha {
+	height: 16px;
+	width: 16px;
+	background-image: url(../images/refresh.gif);
+	cursor: pointer;
+	float: left;
+}
+
+.form-list textarea {
+	height: auto !important;
+}
+
+.form-list .link-wishlist {
+	cursor: pointer;
+	margin-left: 7px;
+	text-decoration: underline;
+	font-weight: normal;
+}
+
+.form-list .empty-field {
+	height: 20px;
+}
+
+#form-validate .field {
+	clear: none;
+	float: left;
+	width: 280px;
+}
+
+#form-validate .field .input-text {
+	width: 254px;
+}
+
+#form-validate .field .input-text.date {
+	width: 234px;
+}
+
+#form-validate .field .date-trig {
+	vertical-align: middle;
+	cursor: pointer;
+	margin-left: 2px;
+}
+
+#form-validate .field label {
+	width: auto;
+}

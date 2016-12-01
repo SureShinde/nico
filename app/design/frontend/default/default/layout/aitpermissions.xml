@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <customer_account_login>
+        <reference name="before_body_end">
+            <block type="core/template" name="aitpermissions_login_footer" template='aitpermissions/lfooter.phtml' after="-"/>
+        </reference>
+    </customer_account_login>
+</layout>
+<!--
+/**
+ * Advanced Permissions
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aitpermissions
+ * @version      2.9.2
+ * @license:     QvHpbEc0oOzK3qo2hlmyDcWVqjqnkaNA9m9UogV4wV
+ * @copyright:   Copyright (c) 2015 AITOC, Inc. (http://www.aitoc.com)
+ */
+-->

@@ -1,0 +1,25 @@
+<?php
+/**
+ * js to be rendered before body end tag
+ * 
+ */
+?>
+
+
+<!--show TROOP ID.ME section opened by default starts-->
+<script type="text/javascript">
+                (function($){
+                                $(document).ready(function(){
+                                                var idmeBlock = $('.idme-connect');
+                                                console.log(idmeBlock.length);
+                                                if(idmeBlock.length > 0){
+                                                                idmeBlock.children('h2').addClass('opened');
+                                                                idmeBlock.children('.discount-form').css({
+                                                                                "display":"block"
+                                                                });
+                                                }
+                                });           
+
+                })(jQuery);
+</script>
+<!--show TROOP ID.ME section opened by default ends-->

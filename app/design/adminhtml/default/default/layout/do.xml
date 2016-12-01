@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_attribute_set_index>
+        <referense name="head">
+            <action method="setTitle" translate="title">
+                <title>Attribute Sets</title>
+            </action>
+        </referense>
+        <reference name="content">
+            <block type="sereban_do_admin/attribute_set" name="attribute_set_list">
+                <block type="sereban_do_admin/attribute_set_grid" name="grid"/> <!--DEPRECATED-->
+            </block>
+        </reference>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>sereban_do/attribute_set</menupath>
+            </action>
+        </reference>
+    </adminhtml_attribute_set_index>
+
+    <adminhtml_attribute_set_edit>
+        <reference name="content">
+            <block type="sereban_do_admin/attribute_set_form_container" name="attribute_set_single_container"/>
+        </reference>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>do/mapping.js</name></action>
+        </reference>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>sereban_do/attribute_set</menupath>
+            </action>
+        </reference>
+    </adminhtml_attribute_set_edit>
+
+    <adminhtml_event_rule_index>
+        <referense name="head">
+            <action method="setTitle" translate="title">
+                <title>Event Rules</title>
+            </action>
+        </referense>
+        <reference name="content">
+            <block type="sereban_do_admin/event_rule" name="event_rule"/>
+        </reference>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>sereban_do/event_rules</menupath>
+            </action>
+        </reference>
+    </adminhtml_event_rule_index>
+
+    <adminhtml_event_rule_edit>
+        <reference name="content">
+            <block type="sereban_do_admin/event_rule_form_container" name="attribute_set_single_container"/>
+        </reference>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>sereban_do/event_rules</menupath>
+            </action>
+        </reference>
+    </adminhtml_event_rule_edit>
+
+
+</layout>

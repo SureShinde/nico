@@ -1,0 +1,65 @@
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->__('Other Transactions Related To Order'); ?></h4>
+    </div>
+    <div class="fieldset fieldset-wide">
+        
+       <?php
+       $data= Halo_CustomGrid_Block_Adminhtml_Sales_Order_View_Tabs::getUsaepaydata();
+     //  print_r($data);exit;
+        ?>
+        <div class="grid">
+    <div class="hor-scroll">
+   <table cellspacing="0" id="points_table" class="data">
+   <colgroup>
+      <col width="36">
+      <col width="130">
+      <col width="70">
+      <col width="130">
+      <col width="180">
+      <col width="40">
+      <col width="100">
+      <col width="80">
+      <col width="80">
+      <col width="300">
+      <col width="50">
+   </colgroup>
+   
+   <?php  if(count($data)>0){   ?>
+   <thead>
+      <tr class="headings">
+         <th><span class="nobr"><a class="not-sort" title="asc" name="transfer_id" href="#"><span class="sort-title">ID</span></a></span></th>
+         <th><span class="nobr"><a class="not-sort" title="asc" name="points" href="#"><span class="sort-title">Date</span></a></span></th>
+         <th><span class="nobr"><a class="not-sort" title="asc" name="reason" href="#"><span class="sort-title">Invoice</span></a></span></th>
+         <th><span class="nobr"><a class="not-sort" title="asc" name="comments" href="#"><span class="sort-title">Card Holder</span></a></span></th>
+         <th><span class="nobr"><a class="not-sort" title="asc" name="status" href="#"><span class="sort-title">Description</span></a></span></th>
+         <th><span class="nobr"><a class="not-sort" title="asc" name="status" href="#"><span class="sort-title">Card Type</span></a></span></th>
+         <th><span class="nobr"><a class="not-sort" title="asc" name="status" href="#"><span class="sort-title">Card Number</span></a></span></th>
+         <th><span class="nobr"><a class="not-sort" title="asc" name="status" href="#"><span class="sort-title">Amount</span></a></span></th>
+         <th><span class="nobr"><a class="not-sort" title="asc" name="status" href="#"><span class="sort-title">Auth Code</span></a></span></th>
+         <th><span class="nobr"><a class="not-sort" title="asc" name="status" href="#"><span class="sort-title">Error Message</span></a></span></th>         
+         <th><span class="nobr"><a class="not-sort" title="asc" name="status" href="#"><span class="sort-title">Trans ID</span></a></span></th>
+      </tr>
+   </thead>
+   <tbody>
+      <?php $i = 1; foreach ($data as $obj) {?> 
+      <tr title="#" class="even pointer">
+      <td class="a-left "><?php  echo $i;?></td>
+      <td class="a-left "><?php  echo $obj['datetime'];?></td>
+      <td class="a-left "><?php  echo $obj['invoice'];?></td>
+      <td class="a-left "><?php  echo $obj['card_holder'];?></td>
+      <td class="a-left "><?php  echo $obj['description'];?></td>
+      <td class="a-left "><?php  echo $obj['card_type'];?></td>
+      <td class="a-left "><?php  echo str_repeat("x", (strlen($obj['card_number']) - 4)) . substr($obj['card_number'],-4,4); //substr($obj['card_number'], 0, 4) . str_repeat("X", strlen($obj['card_number']) - 8) . substr($obj['card_number'], -4);;?></td>
+      <td class="a-left "><?php  echo $obj['amount'];?></td>
+      <td class="a-left "><?php  echo $obj['auth_code'];?></td>
+      <td class="a-left "><?php  echo $obj['error_message'];?></td>
+      <td class="a-left "><?php  echo $obj['trans_id'];?></td>  
+      </tr>
+      <?php $i++; } }else{ echo "No Data Found.";}?>  
+</tbody>
+</table>
+    </div>
+</div>
+    </div>
+</div>

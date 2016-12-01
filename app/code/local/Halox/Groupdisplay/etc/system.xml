@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <groupdisplay translate="label" module="halox_groupdisplay">
+            <label>Attribute Group Settings</label>
+            <tab>halox_settings</tab>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+ 
+            <groups>
+                <show_frontend translate="label" module="halox_groupdisplay">
+                    <label>Frontend Display Template</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+ 
+                    <fields>
+                        <groupdisplay_template translate="label">
+                            <label>Choose Template</label>
+                            <comment>Select a template to use on product detail page to show groups</comment>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>halox_groupdisplay/system_config_source_template</source_model>
+                        </groupdisplay_template>
+                    </fields>
+                </show_frontend>
+            </groups>
+        </groupdisplay>
+    </sections>
+</config>

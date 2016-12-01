@@ -1,0 +1,103 @@
+<?php
+/**
+ * sort order items in natural order to show on sales order view page
+ */
+?>
+<?php  $_order = $this->getOrder() ?>
+<table class="data-table" id="my-orders-table" summary="<?php echo Mage::helper('core')->quoteEscape($this->__('Items Ordered')) ?>">
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th><?php echo $this->__('Product Name') ?></th>
+            <th><?php echo $this->__('SKU') ?></th>
+            <th class="a-right"><?php echo $this->__('Price') ?></th>
+            <th class="a-center"><?php echo $this->__('Qty') ?></th>
+            <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <?php echo $this->getChildHtml('order_totals') ?>
+    </tfoot>
+    <?php 
+    $_items = array();
+    $_itemsCollection = $_order->getItemsCollection(); 
+    foreach ($_itemsCollection as $item) {
+        if ($item->getOrderItem()) {
+            $itemType = $item->getOrderItem()->getProductType();
+        } else {
+            $itemType = $item->getProductType();
+        }
+        if($parentItem = $item->getParentItem()){
+            if ($parentItem->getOrderItem()) {
+                $parentType = $parentItem->getOrderItem()->getProductType();
+            } else {
+                $parentType = $parentItem->getProductType();
+            }
+            if($parentType == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+                $_items[] = $item;
+            }
+        }elseif($itemType != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+            $_items[] = $item;
+        }
+    }
+
+    //sort cart items in natural order(CASE-INSENSITIVE)
+    usort($_items, function($a, $b){
+        return strnatcasecmp($a->getName(),$b->getName());
+    });
+
+    ?>
+    <?php $_index = 0; ?>
+    <?php $_count = count($_items); ?>
+    <?php foreach ($_items as $_item): ?>
+    <tbody>
+        <?php 
+
+        if ($_item->getOrderItem()) {
+            $type = $_item->getOrderItem()->getProductType();
+        } else {
+            $type = $_item->getProductType();
+        }
+
+        $renderer = $this->getItemRenderer($type);
+        
+        //if cart item is child of a bundle item use bundle item renderer 
+        //instead of default one
+        if($parentItem = $_item->getParentItem()){
+            if ($parentItem->getOrderItem()) {
+                $parentType = $parentItem->getOrderItem()->getProductType();
+            } else {
+                $parentType = $parentItem->getProductType();
+            }
+            
+            if($parentType == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE){
+                $renderer = $this->getItemRenderer(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
+            }
+        }
+
+        $renderer->setItem($_item);
+        ?>
+
+        <?php echo $renderer->toHtml()?>
+
+        <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
+        <tr class="border<?php echo ($_index++ > $_count ?' last':'') ?>" id="order-item-gift-message-<?php echo $_item->getId() ?>" style="display:none;">
+            <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item); ?>
+            <td class="gift-message-row" colspan="7">
+                <a href="#" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Close')) ?>" onclick="return giftMessageToogle('<?php echo $_item->getId() ?>');" class="btn-close"><?php echo $this->__('Close') ?></a>
+                <dl class="gift-message">
+                    <dt><strong><?php echo $this->__('From:') ?></strong> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?></dt>
+                    <dt><strong><?php echo $this->__('To:') ?></strong> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?></dt>
+                    <dd><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_item) ?></dd>
+                </dl>
+            </td>
+        </tr>
+        <?php endif ?>
+    </tbody>
+    <?php endforeach; ?>
+</table>
+<script type="text/javascript">decorateTable('my-orders-table', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>

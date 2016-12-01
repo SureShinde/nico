@@ -1,0 +1,54 @@
+<?php
+   
+
+$payment_type = $this->getData('order')->getPayment()->getMethodInstance()->getCode();
+
+$mybaseUrl = Mage::getBaseUrl();
+
+If(isset($payment_type) && !empty($payment_type)){
+	
+if($payment_type=='checkmo'){
+	$checkMOUrl = $mybaseUrl.'wholesale-check-money-order';
+	echo"<p style='color:#8c8c8c; margin:0;'>Thank you for placing your order with Nicopure Labs, we appreciate your business. Please send your check payment to:</p><br/>
+	<p style='color:#8c8c8c; margin:0;'>Nicopure Labs, LLC</p>
+	<p style='color:#8c8c8c; margin:0;'>Attn: Accounts Receivable</p>
+	<p style='color:#8c8c8c; margin:0;'>7916 Evolutions Way Suite 200</p>
+	<p style='color:#8c8c8c; margin:0;'>Trinity, Florida 34655</p><br/>
+	<p style='color:#8c8c8c; margin:0;'><a href='$checkMOUrl' style='text-decoration: none;'>Click here</a> for detailed Check Payment instructions</p><br/>
+	<p style='color:#8c8c8c; margin:0;'>Once check payment has cleared, you will receive a copy of your paid invoice and this order will be released to the shipping department for fulfillment.</p>
+	";
+	
+	
+}elseif($payment_type=='authnetcim'){
+	echo"<p style='color:#8c8c8c; margin:0;'>Thank you for placing your order with Nicopure Labs, we appreciate your business. Once your credit card has been charged, you will receive a copy of your paid invoice and this order will be released to the shipping department for fulfillment.</p>";
+	
+}elseif($payment_type=='banktransfer'){
+	$achUrl = $mybaseUrl.'wholesale-ach-payment';
+	$wireUrl = $mybaseUrl.'wholesale-wire-transfer';
+	echo"<p style='color:#8c8c8c; margin:0;'>Thank you for placing your order with Nicopure Labs, we appreciate your business. Please use the links below for detailed instructions on sending your payment:</p><br>
+	<p style='color:#8c8c8c; margin:0;'><a href='$wireUrl'>Click here</a> for detailed Wire Transfer instructions</p><br>
+	<p style='color:#8c8c8c; margin:0;'>Once payment has been received, you will receive a copy of your paid invoice and this order will be released to the shipping department for fulfillment.</p>
+	";
+}elseif($payment_type=='purchaseorder'){
+	echo"<p style='color:#8c8c8c; margin:0;'>Thank you for placing your order with Nicopure Labs, we appreciate your business. Your order is currently being reviewed by the Nicopure team. Should there be any concerns regarding your credit terms, a Nicopure team member will be in touch within 24 hours. Once approved you will receive a follow-up email confirming your order has been released to the shipping department for fulfillment. </p>";
+
+        
+}elseif($payment_type=='achdebit'){
+        $achdebitpdf = $mybaseUrl.'media/wholesale/Nicopure_ACH.pdf';
+	$achUrl = $mybaseUrl.'wholesale-ach-payment';
+	echo"<p style='color:#8c8c8c; margin:0;'>Thank you for placing your order with Nicopure Labs, we appreciate your business.</p>
+	<p>If you have already completed the <a href='$achdebitpdf'>Authorization Agreement</a> in order to process your ACH payment, you will receive a copy of your paid invoice and this order will be released to the shipping department for fulfillment.	</p>
+	<p style='color:#8c8c8c; margin:0;'>If this is your first time paying with ACH Debit, please complete <a href='$achdebitpdf'>this form</a> and submit it to, <a href='invoicing@nicopure.com'>invoicing@nicopure.com</a>. This information will be saved for future purchases.</p><br>
+	<p style='color:#8c8c8c; margin:0;'><a href='$achUrl'>Click here</a> for additional ACH payment instructions.</p>
+	";
+
+}elseif($payment_type=='achcredit'){
+	$achUrl = $mybaseUrl.'wholesale-ach-payment';
+	echo"<p style='color:#8c8c8c; margin:0;'>Thank you for placing your order with Nicopure Labs, we appreciate your business. Please use the links below for detailed instructions on sending your payment:</p><br>
+	<p style='color:#8c8c8c; margin:0;'><a href='$achUrl'>Click here</a> for detailed ACH payment instructions</p><br>
+	<p style='color:#8c8c8c; margin:0;'>Once payment has been received, you will receive a copy of your paid invoice and this order will be released to the shipping department for fulfillment.</p>
+	";
+}
+
+}
+?>

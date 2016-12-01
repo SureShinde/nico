@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<config>
+    <acl>
+        <resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+			<admin>
+				<children>
+				    <system>
+				        <children>
+				            <config>
+				                <children>
+				                    <halox_bundlegrid translate="title" module="halox_bundleGrid">
+				                        <title>Bundle Grid Order Form</title>
+				                        <sort_order>70</sort_order>
+				                    </halox_bundlegrid>
+				                </children>
+				            </config>
+				        </children>
+				    </system>
+				</children>
+			</admin>
+        </resources>
+    </acl>
+</config>

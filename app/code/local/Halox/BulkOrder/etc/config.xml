@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<config>
+	
+	<modules>
+		<Halox_BulkOrder>
+			<version>1.0.0</version>
+		</Halox_BulkOrder>
+	</modules>
+
+	<global>
+		
+		<blocks>
+			<halox_bulkorder>
+				<class>Halox_BulkOrder_Block</class>
+			</halox_bulkorder>
+		</blocks>
+
+		<helpers>
+			<halox_bulkorder>
+				<class>Halox_BulkOrder_Helper</class>
+			</halox_bulkorder>
+		</helpers>
+
+		<models>
+			<halox_bulkorder>
+				<class>Halox_BulkOrder_Model</class>
+			</halox_bulkorder>
+		</models>
+
+	</global>
+
+	<frontend>
+		
+		<routers>
+            <halox_bulkorder>
+                <use>standard</use>
+                <args>
+                    <module>Halox_BulkOrder</module>
+                    <frontName>bulkorder</frontName>
+                </args>
+            </halox_bulkorder>
+        </routers>
+
+		<layout>
+			<updates>
+				<halox_bulkOrder module="Halox_BulkOrder">
+					<file>halox/bulkorder.xml</file>	
+				</halox_bulkOrder>
+			</updates>
+		</layout>
+
+		<events>
+			<controller_action_layout_load_before>
+				<observers>
+					<halox_bulkorder_category_layout_load_before>
+						<class>halox_bulkorder/observer</class>
+						<method>injectBulkOrderFormHandle</method>
+					</halox_bulkorder_category_layout_load_before>
+				</observers>
+			</controller_action_layout_load_before>
+			<controller_action_predispatch_checkout_cart_configure>
+				<observers>
+					<halox_bulkorder_checkout_cart_configure>
+						<class>halox_bulkorder/observer</class>
+						<method>onCheckoutCartConfigure</method>
+					</halox_bulkorder_checkout_cart_configure>
+				</observers>
+			</controller_action_predispatch_checkout_cart_configure>
+		</events>
+
+	</frontend>
+
+</config>

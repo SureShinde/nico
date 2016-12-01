@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<config>
+	<menu>
+		<plumrocket>
+			<title>Plumrocket</title>
+			<sort_order>80</sort_order>
+			<children>
+				<urlmanager module="urlmanager" translate="title">
+					<title>Url Manager</title>
+					<sort_order>110</sort_order>
+					<children>
+						<manage_list module="urlmanager" translate="title">
+							<title>Manage Url Rules</title>
+							<sort_order>10</sort_order>
+							<action>adminhtml/urlmanager_index/index</action>
+						</manage_list>
+						<config module="urlmanager" translate="title">
+							<title>Configuration</title>
+							<sort_order>20</sort_order>
+							<action>adminhtml/system_config/edit/section/urlmanager</action>
+						</config>
+					</children>
+				</urlmanager>
+			</children>
+		</plumrocket>
+	</menu>
+	<acl>
+		<resources>
+			<all>
+			    <title>Allow Everything</title>
+			</all>
+			<admin>
+				<children>
+					<plumrocket>
+						<title>Plumrocket</title>
+						<sort_order>80</sort_order>
+						<children>
+							<urlmanager translate="title" module="urlmanager">
+								<title>Url Manager</title>
+								<sort_order>110</sort_order>
+								<children>
+									<manage_list translate="title">
+										<title>Manage Url Rules</title>
+										<sort_order>1</sort_order>
+									</manage_list>
+									<config>
+										<title>Configuration</title>
+										<sort_order>3</sort_order>
+									</config>
+									<edit translate="title">
+										<title>Edit Rules</title>
+										<sort_order>4</sort_order>
+									</edit>
+									<save translate="title">
+										<title>Save Rules</title>
+										<sort_order>5</sort_order>
+									</save>
+									<delete translate="title">
+										<title>Delete Rules</title>
+										<sort_order>6</sort_order>
+									</delete>
+								</children>
+							</urlmanager>
+						</children>
+					</plumrocket>
+					<system>
+						<children>
+							<config>
+								<children>
+									<urlmanager translate="title" module="urlmanager">
+										<title>Url Manager Settings</title>
+									</urlmanager>
+								</children>
+							</config>
+						</children>
+					</system>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

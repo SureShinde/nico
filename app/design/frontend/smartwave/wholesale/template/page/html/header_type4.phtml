@@ -1,0 +1,65 @@
+
+<?php echo $this->getChildHtml('sticky.nav'); ?>
+
+<?php
+$store = Mage::app()->getStore();
+$code = $store->getCode();
+$custom_block = Mage::getStoreConfig('porto_settings/header/static_block', $code);
+?>
+<div class="header-container type4">
+    <div class="top-links-container">
+        <div class="top-links container">
+            <?php
+            $store_currency = $this->getChildHtml('store_currency');
+            $store_language = $this->getChildHtml('store_language');
+            $compare_link = $this->getChildHtml('compare_link');
+            ?>
+            <?php echo $store_currency; ?>
+            <?php if ($store_currency && $store_language): ?>
+                <span class="split"></span>
+            <?php endif; ?>
+            <?php echo $store_language; ?>
+            <?php if (($store_currency || $store_language) && $compare_link): ?>
+                <span class="split"></span>
+            <?php endif; ?>
+            <?php echo $compare_link; ?>
+            
+            <div class="clearer"></div>
+            
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default my-nav ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="<?php echo $this->getUrl(''); ?>"><img title="<?php echo $this->getLogoAlt() ?>" src="<?php echo $this->getLogoSrc() ?>" class="img-responsive" alt="Wholesale"/></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right menubar">
+                    <li>
+                        <?php echo $this->getChildHtml('topLinks'); ?>
+                    </li>
+                    <li>
+                        <?php echo $this->getChildHtml('minicart')?>
+                    </li>
+                </ul>
+                
+                <ul class="nav navbar-nav">
+                    <div class="menu-icon">
+                        <a href="javascript:void(0)" title="<?php echo $this->__('Menu'); ?>"><i class="fa fa-bars"></i></a>
+                    </div>
+
+                    <?php echo $this->getChildHtml('topMenu') ?>
+                </ul>
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+
+    <?php echo $this->getChildHtml('mobile.nav') ?>
+    
+

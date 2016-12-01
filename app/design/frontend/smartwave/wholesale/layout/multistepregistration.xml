@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+          <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/build/custom-registration.js</name>
+            </action> 
+        </reference>
+    </default>
+    <registration_account_create>
+        <reference name="content">
+            <block type="registration/form_register" name="registration_form_register" template="registration/form/register.phtml"></block>
+        </reference>
+        <reference name="registration_form_register"> 
+            <action method="setShowAddressFields">
+                <param>true</param>
+            </action> 
+        </reference>
+        <remove name="header" />
+        <remove name="footer" />
+        
+    </registration_account_create>
+    
+    <registration_account_success>     
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="success" template="registration/success.phtml"/>
+        </reference>
+        <remove name="header" />
+        <remove name="footer" />
+    </registration_account_success>
+    
+    
+    <customer_account_login>
+        
+        <reference name="head">
+            <action method="removeItem">
+                <type>skin_css</type>
+                <name>css/local.css</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_css</type>
+                <name>css/halo-custom.css</name>
+            </action>
+            
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar.js</name>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+            </action>
+
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>
+
+        <reference name="customer_form_login">
+            <block type="customer/form_login" name="customer_form_login" template="registration/customer/form/login.phtml">
+                <block type="registration/form_register" name="registration_on_login" template="registration/form/register.phtml">
+                    <action method="setShowAddressFields">
+                        <param>true</param>
+                    </action>
+                </block>
+            </block>
+        </reference>
+        <remove name="header" />
+        <remove name="footer" />
+    </customer_account_login>
+</layout>

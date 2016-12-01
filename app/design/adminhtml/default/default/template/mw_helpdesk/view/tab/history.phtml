@@ -1,0 +1,279 @@
+<script type="text/javascript" src="<?php echo $this->getJsUrl('tiny_mce/tiny_mce_src.js') ?>"></script>
+
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Response') ?></h4>
+    </div>
+    <div class="fieldset ">
+        <div class="hor-scroll">
+            <table cellspacing="0" class="form-list">
+                <tbody>
+                	<tr>
+                        <td class="label"><label for="response"><?php echo $this->__('Select Response Folder') ?></label></td>
+                        <td>
+                            <select id="id_category" name="id_category" style="float:left;margin-right: 10px;">
+                                <option value="" selected="selected"><?php echo $this->__('-- Plesase Select Folder --') ?></option>
+                                <?php 
+                                $categories = unserialize(Mage::getStoreConfig('helpdesk/config/category_response'));
+						      	foreach ($categories as $cate):
+                                ?>
+                                    <option value="<?php echo $cate['id_category'] ?>" <?php if($cate['id_category']=="default") echo 'selected="selected"'; ?>><?php echo $cate['name_category'] ?></option>
+                                <?php endforeach ?>
+                            </select>
+							<div id="loading-mask2"></div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label"><label for="response"><?php echo $this->__('Use Response Template') ?></label></td>
+                        <td>
+                            <select id="template" name="template" style="float:left;margin-right: 10px;">
+                                <option value="" selected="selected"><?php echo $this->__('-- Select Template --') ?></option>
+                                <?php foreach ($this->getTemplateData() as $template): ?>
+                                    <option value="<?php echo $template->getId() ?>"><?php echo $template->getTitle() ?></option>
+                                <?php endforeach ?>
+                            </select>
+							<div id="loading-mask2"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="recontent"><?php echo $this->__('Content') ?></label></td>
+                        <td class="value"><textarea class="textarea" cols="15" rows="2" style="width: 700px; height: 200px;" title="recontent" name="recontent" id="recontent"></textarea></td>
+						<style>
+
+							#loading-mask2 {
+							    color: #D85909;
+							    font-size: 1.1em;
+							    font-weight: bold;
+							    opacity: 0.8;
+							    position: absolute;
+							    text-align: center;
+							    z-index: 500;
+							}
+							#loading-mask2 .loader2 {
+							    background: none repeat scroll 0 0 #FFF4E9;
+							    border: 2px solid #F1AF73;
+							    color: #D85909;
+							    font-weight: bold;
+							    left: 50%;
+							    margin-left: -105px;
+							    padding: 15px 30px;
+							    position: fixed;
+							    text-align: center;
+							    top: 45%;
+							    width: 150px;
+							    z-index: 1000;
+							}
+						</style>
+
+                        <script type="text/javascript">
+							function update_process_bar_staff(){	//update cac news = ajax
+							document.getElementById('loading-mask').innerHTML = '';
+							document.getElementById('loading-mask2').innerHTML = '';
+							var url='<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/hdadmin_ticket/update');//Mage::getUrl('helpdesk/test/update')?>';	//url controller
+							new Ajax.Request(url,{encoding:'UTF-8',method: 'post', 
+								parameters:{
+									isajax: '<?php echo $this->getTicketId()?>'		//truyen tham so' cho request
+								},
+								//onComplete: showResponse
+								onSuccess: function(resp){	//resp chua du lieu tra ve cua reques
+									//document.getElementById('loading-mask').style.display = 'none';
+								}		
+								});
+							}
+							setInterval("update_process_bar_staff()",60000);	//tuan tu 10s chay lai ham updatenews()
+						</script>
+							<?php //} ?>
+						<script type="text/javascript">
+                            //<![CDATA[
+                            wysiwygrecontent = new tinyMceWysiwygSetup('recontent', <?php echo Zend_Json::encode(Mage::getSingleton('helpdesk/wysiwyg_config')->getConfig()); ?>);
+                            Event.observe(window, "load", wysiwygrecontent.setup.bind(wysiwygrecontent, "exact"));
+                            //]]>
+                        </script>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="no_change_status"><?php echo $this->__('Notify customer without changing ticket status') ?></label></td>
+                        <td class="value"><input type="checkbox" value="1" id="no_change_status" name="no_change_status"></td>
+                    </tr>
+
+                    <?php echo Mage::helper('helpdesk')->getBackendUploaderContainer('file_attachment');?></td>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<?php if ($this->getTicketHistories() != false): ?>
+    <?php $i = count($this->getTicketHistories()) - 1;
+    foreach ($this->getTicketHistories() as $ticketHistories): ?>
+        <div class="entry-edit">
+            <div class="entry-edit-head"><h4 class="icon-head head-customer-view"><?php echo Mage::helper('helpdesk')->locale_time_format(Mage::getModel('core/date')->timestamp($ticketHistories->getCreatedTime()),Mage_Core_Model_Locale::FORMAT_TYPE_FULL,"H:i:s"); //date('F jS, Y, h:i A', Mage::getModel('core/date')->timestamp($ticketHistories->getCreatedTime())); ?> -- 
+                    <?php echo $ticketHistories->getName(); ?> &lt;<?php echo $ticketHistories->getSender(); ?>&gt;</h4></div>
+        </div>       
+        <div id="statific_form" class="fieldset " <?php if ($i % 2)
+                echo 'style="background:none repeat scroll 0 0 #EEEEEE;"'; ?>>
+            <div class="hor-scroll">
+                <ul>
+                    <?php if(preg_match('/<\/?([a-zA-Z0-9]*)\b[^>]*>/',$ticketHistories->getContent())) 
+                            echo $ticketHistories->getContent();
+                        else
+                            echo nl2br($ticketHistories->getContent());?>
+                    <?php //echo nl2br($ticketHistories->getContent()); ?>
+                </ul>
+            </div>
+            <ul class="note-list">
+                <?php if ($ticketHistories->getFileAttachment() != ''): ?>
+                    <?php $file_attachments = explode(";", $ticketHistories->getFileAttachment()); ?>
+                    <li>
+                        <strong>File attachment : </strong>
+                        <?php foreach ($file_attachments as $file_attachment):?>
+                        <a href="<?php 
+						//echo Mage::getUrl('helpdesk/account/download',array('file'=>$file_attachment)); 
+						echo Mage::getBaseUrl('media') .'ticket' . DS. $file_attachment;
+						?>" onclick="this.target='blank'"><?php echo $file_attachment ?></a>
+                            <span class="separator">|</span>
+                        <?php endforeach; ?>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+        <?php $i--;
+    endforeach; ?>
+<?php endif; ?>
+
+<?php $ticket = $this->getTicket() ?>
+<div class="entry-edit">
+    <div class="entry-edit-head"><h4 class="icon-head head-customer-view"><?php echo Mage::helper('helpdesk')->locale_time_format(Mage::getModel('core/date')->timestamp($ticket->getCreatedTime()),Mage_Core_Model_Locale::FORMAT_TYPE_FULL,"H:i:s"); //date('F jS, Y, h:i A', Mage::getModel('core/date')->timestamp($ticket->getCreatedTime())); ?> -- 
+            <?php echo $ticket->getName(); ?> &lt;<?php echo $ticket->getSender(); ?>&gt;</h4></div>
+</div>       
+<div id="statific_form" class="fieldset " style="background:none repeat scroll 0 0 #EEEEEE;">
+    <div class="hor-scroll">
+        <ul>
+            <?php //echo nl2br($ticket->getContent()); ?>
+            <?php if(preg_match('/<\/?([a-zA-Z0-9]*)\b[^>]*>/',$ticket->getContent())) 
+                    echo $ticket->getContent();
+                  else
+                    echo nl2br($ticket->getContent());?>
+        </ul>
+    </div>
+    <ul class="note-list">
+        <?php if ($ticket->getFileAttachment() != ''): ?>
+            <?php $file_attachments = explode(";", $ticket->getFileAttachment()); ?>
+            <li>
+                <strong>File attachment : </strong>
+                <?php foreach ($file_attachments as $file_attachment): ?>
+                <a href="<?php 
+				//echo Mage::getUrl('helpdesk/account/download',array('file'=>$file_attachment));
+				echo Mage::getBaseUrl('media') .'ticket' . DS. $file_attachment;
+				?>" onclick="this.target='blank'"><?php echo $file_attachment ?></a>
+                    <span class="separator">|</span>
+                <?php endforeach; ?>
+            </li>
+        <?php endif; ?>
+    </ul>
+</div>
+
+<?php 
+	$base_url_category = Mage::helper('adminhtml')->getUrl('adminhtml/hdadmin_ticket/categoryresponse');
+	$base_url_template = Mage::helper('adminhtml')->getUrl('adminhtml/hdadmin_ticket/template');
+?>
+
+<script type="text/javascript">
+    //<![CDATA[]
+		var categoryarr=[];
+
+		function getTemplateFromCatetory(category_id){
+			<?php
+				/*
+				$helper = Mage::helper('helpdesk/data');
+				if(Mage::getStoreConfig('web/url/use_store') == 1){
+					$base_url = $helper->_getDefaultBaseUrl(). 'helpdesk/viewticket/categoryresponse';
+				}
+				else{
+					$base_url = $this->getUrl('helpdesk/viewticket/categoryresponse');
+				}
+				*/
+				$base_url = Mage::helper('adminhtml')->getUrl('adminhtml/hdadmin_ticket/categoryresponse');
+			?>
+	        new Ajax.Request('<?php echo $base_url_category; //$this->getUrl('helpdesk/viewticket/template');?>', {
+	            method: 'get',
+	            parameters : {id_cate: category_id},
+	            onSuccess: function(response){
+					//document.getElementById('loading-mask2').innerHTML ="";	 
+					categoryarr=eval('('+response.responseText+')');
+	
+					var elSel = document.getElementById('template');
+					var i;
+					for (i = elSel.length - 1; i>=1; i--) {
+					     elSel.remove(i);
+					}
+	
+					var m = document.getElementById('template');
+					var select = document.createElement('select');
+					select.id = 'template';
+					select.name = 'template';
+	
+					for(var i=0;i<categoryarr.length;i++){
+					    var option = document.createElement("option");
+					    //alert(categoryarr[i]['title']);
+					    option.value=categoryarr[i]['template_id'];
+					    var newText = document.createTextNode(categoryarr[i]['title']);
+					    option.appendChild(newText);
+					    m.appendChild(option);
+					}
+	    	}});
+		}
+		
+		$('id_category').observe('change', function(){
+			getTemplateFromCatetory(this.getValue());
+		});
+
+		document.observe('dom:loaded', function() {
+			getTemplateFromCatetory($('id_category').getValue());
+		});
+
+    $('template').observe('change', function(){
+        if(parseInt(this.getValue()) > 0){
+        	document.getElementById('loading-mask2').innerHTML ='<p id="loading_mask_loader3" class="loader2"></p>';
+        	document.getElementById('loading-mask2').innerHTML = '<p id="loading_mask_loader2" class="loader2"><img alt="Loading..." src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/mw_helpdesk/images/ajax-loader-tr.gif';?>"><br>Please wait...</p>';
+			<?php
+			/*
+				$helper = Mage::helper('helpdesk/data');
+				if(Mage::getStoreConfig('web/url/use_store') == 1){
+					$base_url = $helper->_getDefaultBaseUrl(). 'helpdesk/viewticket/template';
+				}
+				else{
+					$base_url = $this->getUrl('helpdesk/viewticket/template');
+				}
+			*/
+			?>
+            new Ajax.Request('<?php echo $base_url_template; //$this->getUrl('helpdesk/viewticket/template');?>', {
+                method: 'get',
+                parameters : {id: this.getValue()},
+                onSuccess: function(response){
+					document.getElementById('loading-mask2').innerHTML ="";	 
+					tinyMCE.execInstanceCommand("recontent","mceInsertContent",false,response.responseText);
+                    //$('recontent').update(response.responseText);
+                }
+            });
+        }
+        ;
+    });
+//    $j_mw(function() {	
+//        $j_mw("#template").change(function(){
+//            var id = $j_mw("select#template").val();
+//            var loadUrl = '<?php //echo $this->getUrl('helpdesk/viewticket/template') ?>';
+//            $j_mw.get(loadUrl,
+//            {id: id},
+//            function(responseText){
+//                $j_mw("textarea#recontent").text(responseText);
+//            },
+//            "html"
+//        );
+//        });
+//
+//    });
+
+    //]]>
+</script>

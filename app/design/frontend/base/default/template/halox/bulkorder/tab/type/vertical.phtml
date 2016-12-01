@@ -1,0 +1,11 @@
+<?php
+/**
+ * render grid for the vertical tabs
+ */
+?>
+
+<input type="hidden" name="horizontal_active_id" value="<?php echo $this->getCurrentParent()->getId()?>"/>
+<input type="hidden" name="vertical_active_id" value="<?php echo $this->getCurrentEntity()->getId()?>"/>
+<?php 
+echo $this->getProductGridHtml($this->getCurrentParent(), $this->getCurrentEntity());
+?>

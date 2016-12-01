@@ -1,0 +1,150 @@
+<?php
+/**
+ * Advanced Permissions
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aitpermissions
+ * @version      2.9.2
+ * @license:     QvHpbEc0oOzK3qo2hlmyDcWVqjqnkaNA9m9UogV4wV
+ * @copyright:   Copyright (c) 2015 AITOC, Inc. (http://www.aitoc.com)
+ */
+$myBlock = $this->getLayout()->getBlock('productEditorAttribute');?>
+<script type="text/javascript">
+<!--
+
+<?php if( is_object($myBlock) && $myBlock->getJsObjectName() ): ?>
+    var checkBoxesEnable = $H(<?php echo $myBlock->_getAllowAttribute(true) ?>);
+    var checkBoxesDisable = $H(<?php echo $myBlock->_getDisableAttribute(true) ?>);
+    var checkBoxesDefault = $H();
+    var warning = false;
+    if (checkBoxesEnable.size() > 0) {
+        warning = true;
+    }
+    $('is_allow_ids').value = checkBoxesEnable.toQueryString();
+
+    if (checkBoxesDisable.size() > 0) {
+        warning = true;
+    }
+    $('is_disable_ids').value = checkBoxesDisable.toQueryString();
+
+    function registerAttributeRole(grid, element, checked)
+    {
+        fireEvent(element,'change');
+    }
+
+    function onchangeCheckboxAttribute(event)
+    {
+        var checkbox = event.target;
+
+        if(checkbox.value == 1)
+        {
+            var checkBoxes = checkBoxesEnable;
+        }
+        else if(checkbox.value === '')
+        {
+            var checkBoxes = checkBoxesDefault;
+        }
+        else
+        {
+            var checkBoxes = checkBoxesDisable;
+        }
+
+        if (checkbox.checked) {
+            uncheckedAttribute(checkbox);
+            checkBoxes.set(checkbox.getAttribute('rawid'), 0);
+        } else {
+            checkBoxes.unset(checkbox.getAttribute('rawid'));
+        }
+        idsName = <?php echo $myBlock->getJsObjectName() ?>.getIdsName(checkbox.value);
+        $(idsName).value = checkBoxes.toQueryString();
+        <?php echo $myBlock->getJsObjectName() ?>.reloadParams[idsName+'[]'] = checkBoxes.keys();
+    }
+
+    function uncheckedAttribute(checkbox)
+    {
+        uncheck = $$('input[name='+checkbox.name+'][value!='+checkbox.value+']').each(function(chec){
+            //uncheck.checked = false
+            fireEvent(chec,'change');
+        });
+    }
+
+    function roleAttributeRowInit(grid, row)
+    {
+        checkboxAttributeInit($(row).getElementsByClassName('radio')[0],checkBoxesEnable, grid);
+        checkboxAttributeInit($(row).getElementsByClassName('radio')[1],checkBoxesDisable, grid);
+        checkboxAttributeInit($(row).getElementsByClassName('radio')[2],checkBoxesDefault, grid);
+    }
+
+    function checkboxAttributeInit(checkbox, checkBoxes, grid)
+    {
+        if (checkbox) {
+            if (checkbox.checked) {
+                checkBoxes.set(checkbox.getAttribute('rawid'), checkbox.checked);
+            } else {
+                checkBoxes.unset(checkbox.getAttribute('rawid'));
+            }
+
+            idsName = grid.getIdsName(checkbox.value);
+            $(idsName).value = checkBoxes.toQueryString();
+            //idsName = idsName+'[]';
+            grid.reloadParams[idsName+'[]'] = checkBoxes.keys();
+            checkbox.observe('change', onchangeCheckboxAttribute);
+        }
+    }
+
+<?php echo $myBlock->getJsObjectName() ?>.getIdsName = function(isAllow){
+    if(isAllow == 1)
+    {
+        return 'is_allow_ids';
+    }
+    else if(isAllow === '')
+    {
+        return 'default_ids';
+    }
+    else
+    {
+        return 'is_disable_ids';
+    }
+}
+
+<?php echo $myBlock->getJsObjectName() ?>.checkCheckboxes = function(element){
+    elements = Element.select($(this.containerId), 'input[name^="'+element.name+'"][value='+element.value+']');
+    for(var i=0; i<elements.length;i++){
+        this.setCheckboxChecked(elements[i], element.checked);
+    }
+}
+
+<?php echo $myBlock->getJsObjectName() ?>.reloadParams = {};
+<?php echo $myBlock->getJsObjectName() ?>.initRowCallback = roleAttributeRowInit;
+<?php echo $myBlock->getJsObjectName() ?>.checkboxCheckCallback = registerAttributeRole;
+<?php echo $myBlock->getJsObjectName() ?>.rows.each(function(row){roleAttributeRowInit(<?php echo $myBlock->getJsObjectName() ?>, row)});
+    $('is_allow_ids_old').value = $('is_allow_ids').value;
+    $('is_disable_ids_old').value = $('is_disable_ids').value;
+
+/*    $$('input[name=access_scope]').each(function(input){
+        input.observe('change', function(event){
+            <?php echo $myBlock->getJsObjectName() ?>.reloadParams['scope']=this.value;
+        });
+    })
+
+    $('allowupdateglobalattrs').observe('change', function(event){
+        <?php echo $myBlock->getJsObjectName() ?>.reloadParams['can_edit_global']=this.checked;
+    });
+*/
+    function onclickProductEditorTab(event)
+    {
+        <?php echo $myBlock->getJsObjectName() ?>.reloadParams['scope'] = $$('input[name=access_scope]:checked')[0].value;
+        if($('allowupdateglobalattrs').checked)
+        {
+            <?php echo $myBlock->getJsObjectName() ?>.reloadParams['can_edit_global']=1;
+        }
+        else
+        {
+            <?php echo $myBlock->getJsObjectName() ?>.reloadParams['can_edit_global']=0;
+        }
+        <?php echo $myBlock->getJsObjectName() ?>.doFilter();
+    }
+    $('role_info_tabs_product_editor').observe('click', onclickProductEditorTab);
+<?php endif; ?>
+//-->
+</script>

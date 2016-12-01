@@ -1,0 +1,59 @@
+<?php
+/**
+ * @overwritten view.phtml for category page
+ * template for the Bulk Order Form   
+ */
+?>
+<?php
+/**
+ * Category view template
+ *
+ * @see Mage_Catalog_Block_Category_View
+ */
+?>
+<?php
+    $_helper    = $this->helper('catalog/output');
+    $_category  = $this->getCurrentCategory();
+    $_imgHtml   = '';
+    if ($_imgUrl = $_category->getImageUrl()) {
+        $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->escapeHtml($_category->getName()).'" title="'.$this->escapeHtml($_category->getName()).'" /></p>';
+        $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
+    }
+?>
+
+<?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('category-view-learn-more-modal-' . $_category->getId())->toHtml()?>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<div class="product-view">
+    <div class="product-essential container-fluid">
+            <div class="col-main">
+                <div class="product-img-box col-sm-7">
+                    <?php if($_imgUrl): ?>
+                        <?php echo $_imgHtml ?>
+                    <?php endif; ?>
+                </div>
+                <div class="product-shop col-sm-5">
+                    <div class="product-name">
+                        <h1><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>
+                    </div>
+                    <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
+                    <div class="short-description">
+                        <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
+                    </div>
+                    <!-- Category learn more button section start-->
+                    <!--  <button type="button" class="button btn-learn-more" data-target="#category-view-learn-more-modal-<?php //echo $_category->getId()?>">
+                        <span><span><?php //echo $this->__('Learn More')?></span></span>
+                    </button>-->
+                    <!-- Category learn more button section end-->
+                    <?php endif?>
+                    <div class="product-info">
+                    <!--show any other content here-->    
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="product-collateral container">
+        <div class="col-main">
+            <?php echo $this->getChildHtml('bulk.order.form')?>
+        </div>
+    </div>
+</div>

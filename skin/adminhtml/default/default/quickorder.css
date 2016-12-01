@@ -1,0 +1,45 @@
+.adminhtml-attributes-index #quickorder_form label{
+	display: inline-block;
+    width: 120px;
+}
+
+.adminhtml-attributes-index .form-list td.value select{
+	width:150px;
+}
+
+.adminhtml-attributes-index table.form-list tr.spacer > td{
+	padding-bottom: 30px;
+}
+
+.adminhtml-attributes-index .form-list td.value{
+	padding-right: 50px !important;
+}
+
+.adminhtml-attributes-index .head td.value{
+	width: 215px;
+}
+
+.adminhtml-attributes-index .head td.one{
+	width: 328px;
+}
+
+.quickorder-contentwrap h2{
+	font-size:13px;
+	padding: 10px 0 4px;
+}
+
+.quickorder-contentwrap .version h2, .quickorder-contentwrap .compatibility h2{
+	float: left;
+	width: 200px;
+}
+
+.quickorder-contentwrap .installation{
+	padding-bottom:20px;
+}
+.quickorder-contentwrap div{
+	padding-bottom:15px;
+}
+
+.quickorder-contentwrap div.paragraph{
+	padding: 11px 0 4px;	
+}

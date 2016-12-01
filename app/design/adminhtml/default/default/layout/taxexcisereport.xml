@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_taxexcisereport_index>
+	   <reference name="head">
+	       <action method="removeItem"><type>js</type><name>js/grid.js</name></action>
+           <action method="addJs"><script>taxexcisereport/grid.js</script></action>
+       </reference>
+        <reference name="content">
+            <block type="taxexcisereport/adminhtml_myfilter" name="myfilter" />
+			<block type="taxexcisereport/adminhtml_taxexcisereport" name="taxexcisereport" />
+        </reference>
+    </adminhtml_taxexcisereport_index>
+</layout>

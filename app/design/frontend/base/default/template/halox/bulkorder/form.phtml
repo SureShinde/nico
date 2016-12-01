@@ -1,0 +1,86 @@
+<?php
+/**
+ * bulk order form template
+ */
+?>
+
+<?php 
+$columns = array("name", "image");
+$_category = $this->getCurrentCategory();
+
+$firstStepTabs = $this->getHorizontalTabs($columns);
+$stepCount = count($firstStepTabs);
+$stepWidth = 100 / $stepCount . '%'; 
+$firsStepTitle = '<p>' . $this->__('<strong>Step 1:</strong> Click to select your e-liquid type below.') . '</p>';
+?>
+<?php if($_category->hasChildren()):?>
+	<form action="<?php echo $this->getSubmitGridUrl()?>" method="post" id="bulkorder-form">
+		<div id="bulkordergrid-dialog" title="<?php echo $this->__('E-Liquid Order Form')?>"></div>
+		<input type="hidden" name="base_category_id" value="<?php echo $_category->getId()?>" />
+		<!--bulkorder tabs widget section starts-->
+		<div id="bulkorder-widget">
+			<div id="horizontal-tabs" class="tabs-section ui-tabs">
+				<?php if($stepCount > 1):?>
+				<p><strong><?php echo $this->__('Step 1:')?></strong> <?php echo $this->__('Click to select your e-liquid type below.')?></p>
+				<?php endif?>	
+				<ul class="ui-tabs-nav ui-widget-header <?php if($stepCount <= 1):?>none<?php endif?>">
+					<?php foreach($firstStepTabs as $tabId => $tabData):?>
+						<li id="tab-item-<?php echo $tabId?>" data-tab-index="<?php echo $tabData['tab_index']?>" style="width:<?php echo $stepWidth?>">
+							<div class="tab-item-wrapper">
+								<?php 
+								$tabParams = array(
+									'id' => $tabId, 
+									'base_id' => $_category->getId(), 
+									'type' => Halox_BulkOrder_Helper_Data::GRID_TAB_TYPE_HORIZONTAL,
+									'is_multi_step' => ($stepCount > 1) ? 1 : 0
+								);
+								if($this->getActiveQuoteItem()){
+									$tabParams['configure_id'] = $this->getActiveQuoteItem()->getId();
+								}
+								?>
+								<a class="ui-tabs-anchor" href="<?php echo $this->getTabContentLoadUrl($tabParams)?>">
+									<img alt="<?php echo $tabData['name']?>" src="<?php echo $this->getCategoryImageUrlPrefix() . $tabData['image']?>">
+								</a>
+							</div>
+							<div class="category-name"><?php echo $tabData['name']?></div>
+						</li>
+					<?php endforeach?>	
+				</ul>
+			</div>
+		</div>
+		<!--bulkorder tabs widget section ends-->
+		<div class="clearer"></div>
+		<div class="product-options-bottom">
+			<?php if( ! $this->getActiveQuoteItem()):?>
+				<button type="submit" title="<?php echo $this->__('Add to Cart')?>" class="button btn-cart">
+					<span><span><?php echo $this->__('Add to Cart')?></span></span>
+				</button>
+			<?php else:?>
+				<button type="submit" title="<?php echo $this->__('Update Cart')?>" class="button btn-cart">
+					<span><span><?php echo $this->__('Update Cart')?></span></span>
+				</button>
+			<?php endif?>	
+		</div>
+	</form>
+	<script type="text/javascript">
+		
+		var bulkordertabs = jQuery('#bulkorder-widget').bulkOrderGrid({
+			baseCategoryId : '<?php echo $_category->getId()?>',
+			formId : 'bulkorder-form',
+			isMultiStep : <?php echo ($stepCount > 1) ? 1 : 0?>,
+			disableSubmitOnEnter : 1,
+			cartUrl: '<?php echo $this->getCartUrl();?>',
+			checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
+			loaderImageUrl: '<?php echo $this->getLoaderImageUrl();?>',
+			updateSectionsAfterAddToCart: {toplink : ['.header-container .cart_total_price']},
+			currencySymbol: '<?php echo $this->helper('halox_bulkorder')->getStoreCurrencySymbol();?>',
+			configureId: '<?php if($this->getActiveQuoteItem()){ echo $this->getActiveQuoteItem()->getId();}?>',
+			preConfiguredData: <?php echo $this->getPreConfiguredDataAsJSON()?>
+		});
+
+	</script>
+
+<?php else: ?>
+	<p class="note"><?php echo $this->__('No child categories found.');?></p>
+<?php endif?>
+<!--dialog to show various bulkorder grid alerts-->

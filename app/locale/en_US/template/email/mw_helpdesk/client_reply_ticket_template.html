@@ -1,0 +1,23 @@
+<!--@subject {{var subject}}@-->
+
+========= Please enter your reply ABOVE this line =========
+<p>Hello <i>{{var operator_name}}</i>,</p>
+The customer has replied. Please review and reply as soon as possible.</p>
+
+<p>Replied From: <i>{{var customer_name}}</i><br>
+-------------------------------<br>
+{{var message}} <br>
+------------------------------- </p>
+
+{{if note}} 
+<p><i>Internal note:</i><br>
+-------------------------------<br>
+{{var note}} <br>
+-------------------------------</p>
+{{/if}}
+
+<p>To reply to this ticket, you can simply reply to this email. <br>
+Anytime you wish to manage this ticket online, please click the link below:<br>
+<a href="{{var operator_direct_link}}">{{var operator_direct_link}}</a> </p>
+
+<p>This message was sent by the {{var department_name}} department - {{var store_name}} helpdesk.</p>

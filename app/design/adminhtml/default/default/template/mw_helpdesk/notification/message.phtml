@@ -1,0 +1,30 @@
+<?php
+/**
+ * @seeMW_HelpDesk_Block_Adminhtml_Ticket_Notification_Message
+ */
+?>
+<?php $msgStats = $this->getMessageStatus();?>
+<?php if($msgStats):?>
+<div id="messages">
+	<ul class="messages">
+		<li id="survey_notification" class="notice-msg">
+			<?php echo $msgStats. ' ' .$this->__('message(s) were not solved',$this->getUrl('adminhtml/notification'));?>
+			<span class="f-right"><?php echo $this->helper('adminhtml')->__('<a href="#" onclick="surveyAction(\'no\'); return false;">Remove this notification</a>') ?></span>
+		</li>
+	</ul>
+</div>
+<script type="text/javascript">
+	function surveyAction(decision) {
+    	new Ajax.Request("<?php echo $this->getUrl('adminhtml/notification', array('_current' => true)); ?>", {
+        	method: 'post',
+           	params: {decision:decision},
+            onComplete: function(transport) {
+                if (200 == transport.status) {
+                	if ($('survey_notification'))
+                    	$('survey_notification').remove();
+            	}
+        	}
+    	});
+	}
+</script>
+<?php endif;?>

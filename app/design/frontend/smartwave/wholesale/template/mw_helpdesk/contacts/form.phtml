@@ -1,0 +1,25 @@
+<script type="text/javascript" src="<?php echo $this->getJsUrl('tiny_mce/tiny_mce.js') ?>"></script>
+<div class="cms-page">
+    <div class="page-header">
+        <div class="middle">
+            <h3>Email Halo</h3>
+            <p class="email_desc">Halo strives to make your experience with our company as enjoyable as possible.Please use the contact form below for all questions and comments.</p>
+         
+        </div>
+    </div>
+</div>
+<div class="contact container">
+    <div class="cat-contact">
+        <div class="top"></div>
+       <p class="warning"><b>Important:</b> Please submit your question only once to the appropriate department. Submitting the same question to multiple departments will delay your response time significantly.</p>
+    </div>
+
+    <?php
+    echo $this->getLayout()->createBlock('helpdesk/supportinfo')->toHtml();
+
+    $static_blok = Mage::getStoreConfig('helpdesk/support_contact/static_block');
+    if ($static_blok != '')
+        echo $this->getLayout()->createBlock('cms/block')->setBlockId($static_blok)->toHtml();
+    echo $this->getLayout()->createBlock('helpdesk/ticketcontainer')->toHtml();
+    ?>
+</div>

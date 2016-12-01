@@ -1,0 +1,66 @@
+<config>
+    <tabs>
+        <sunovisio translate="label" module="customerflag">
+            <label>Sunovisio</label>
+            <sort_order>99999</sort_order>
+        </sunovisio>
+    </tabs>
+    <sections>
+        <customerflag translate="label" module="customerflag">
+            <label>Customer Flag Extension</label>
+            <tab>sunovisio</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store> 
+            <groups>
+                <sunovisio_information translate="label">
+                    <label>Sunovisio help</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment><![CDATA[<h2 style="text-align: center;"><img src="http://www.sunovisio.com/wp-content/themes/awake/images/logo.png" alt="Sunovisio" /></h2><h3>Get help when you need it</h3><p>Contact us via email <strong><a target="_blank" href="mailto:contact@sunovisio.com">contact@sunovisio.com</a></strong> and make sure to follow <strong><a target="_blank" title="Sunovisio on Twitter" href="http://twitter.com/sunovisio">@sunovisio</a></strong> on Twitter and on <strong><a target="_BLANK" href="http://facebook.com/sunovisio">Facebook</a></strong> to not miss out on important product updates, news, and tips! </p> <h3>Check our other extensions</h3> <p>The <strong><a target="_blank" title="Sunovisio extension shop" href="http://ecommerce.sunovisio.com">Sunovisio extension shop</a></strong> will offer you all extensions you need to increase your sales.</p><h3>Integration of your shop</h3><p>Visit our website to follow our previous integration and get a great idea of our abilities <strong><a target="_BLANK" href="http://sunovisio.com">http://www.sunovisio.com</a></strong></p>]]>
+                    </comment>
+                </sunovisio_information>
+                <params translate="label">
+                    <label>Parameters</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled>
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+			<default_flag>
+                            <label>Default Customer Flag</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>customerflag/flags</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                You need at least to add one flag before being able to setup this field.
+                            </comment>
+                            <validate>required-entry</validate>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </default_flag>
+                    </fields>
+                </params>
+            </groups>
+        </customerflag>
+    </sections> 
+</config>

@@ -1,0 +1,108 @@
+<div class="account-login login-container">
+    <div id="login_box" class="login_box">
+        <div class="c-logo">
+            <img src="<?php echo $this->getSkinUrl('images/logo.png'); ?>" alt=""/>
+        </div>
+        <div class="login">
+            <div class="page-title">
+                <p class="welcome"><?php echo $this->__('WELCOME TO OUR WHOLESALE PORTAL') ?></p>
+                <p><?php echo $this->__('Sign in or Register for access.') ?></p>
+            </div>
+            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+            <form action="<?php echo $this->getUrl('registration/account/loginpost'); ?>" method="post" id="login-form" class="loginformm">
+                <?php echo $this->getBlockHtml('formkey'); ?>
+
+                <div class="registered-users">
+                    <div class="content">
+                        <ul class="form-list">
+                            <li>
+                                <div class="text-left input-field email">
+                                    <label for="email" class="required"><em>*</em><?php echo $this->__('Email') ?></label>
+                                    <div class="input-box">
+                                        <input type="text" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="text-left input-field pwd">
+                                    <label for="pass" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                                    <div class="input-box">
+                                        <input type="password" name="login[password]" class="input-text required-entry validate-password" id="pass" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');"  title="<?php echo $this->__('Password') ?>" />
+                                    </div>
+                                </div>
+                            </li>
+                            <?php echo $this->getChildHtml('form.additional.info'); ?>
+                            <?php echo $this->getChildHtml('persistent.remember.me'); ?>
+                        </ul>
+                        <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
+                        <p class="required none"><?php echo $this->__('* Required Fields') ?></p>
+                    </div>
+                    <div class="buttons-set">
+                        <button type="submit" class="btn btn-login" title="<?php echo $this->__('Login') ?>" name="send" id="send2"><span><?php echo $this->__('Login') ?></span></button>
+
+                        <a href="javascript:void(0);" class="btn-text" id="forgot-password-link"><?php echo $this->__('Forgot Your Password?') ?></a>
+
+                    </div>
+                </div>
+                <?php if (Mage::helper('checkout')->isContextCheckout()): ?>
+                    <input name="context" type="hidden" value="checkout" />
+                <?php endif; ?>
+            </form>
+            <script type="text/javascript">
+                //<![CDATA[
+                var dataForm = new VarienForm('login-form', true);
+                //]]>
+            </script>
+        </div>
+        <div class="buttons-set registerbtn">
+            <button type="button" title="<?php echo $this->__('Register') ?>" class="btn btn-register" id="show_register"><span><?php echo $this->__('Register') ?></span></button>
+            <div class="btn-text"><?php echo $this->__('Become a Wholesaler') ?></div>
+        </div>
+
+    </div>
+    <!-- registration form start -->
+    <div id="registration_box" class="padding-top none">
+        <div class="page-title">
+            <p class="welcome"><?php echo $this->__('WHOLESALE REGISTRATION') ?></p>
+        </div>
+        <?php echo $this->getChildHtml('registration_on_login'); ?>
+    </div>
+    <!--- registration form close --->
+
+
+    <div id="tab-forgot-password" class="padding-top none">
+        <div class="page-title">
+            <p class="welcome"><?php echo $this->__('RETRIEVE YOUR PASSWORD HERE') ?></p>
+            <p><?php echo $this->__('Please enter your email address below. You will receive a link to reset your password.') ?></p>
+        </div>
+        <form action="<?php echo $this->getUrl('*/*/forgotpasswordpost') ?>" method="post" id="forgot-password" class="forgot-password">
+            <div class="registered-users">
+                <div class="content">
+                    <ul class="form-list gray-bg padding-top">
+                        <li>
+                            <div class="text-left input-field email">
+                                <label for="email" class="required"><em>*</em><?php echo $this->__('Email') ?></label>
+                                <div class="input-box">
+                                    <input type="text" name="email" value="<?php echo $this->escapeHtml($this->getEmailValue()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="btm-btn clearfix">
+                    <a href="javascript:void(0);" class="pull-left btn-back" id="go_back_login">&lt; Back</a>
+                    <button type="submit" class="btn btn-success pull-right" title="<?php echo $this->__('SUBMIT') ?>" name="send_password" id="send_password"><span><?php echo $this->__('SUBMIT') ?></span></button>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            //<![CDATA[
+            var dataForm = new VarienForm('forgot-password', true);
+            //]]>
+        </script>
+    </div>
+</div>
+
+

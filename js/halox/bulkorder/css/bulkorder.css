@@ -1,0 +1,96 @@
+/**
+ * bulkorder grid and tabs css
+ * @module Halox_Bulkorder
+ */
+.loader-overlap{width: 100%;height: 100%;position: fixed;top: 0px;left: -9999px; z-index: -1; opacity: 0.3;background:#aaa;}
+.loader{margin: 0px auto;width: 220px;top: 40%;position: relative;}
+
+#bulkorder-widget .ui-widget-content{border:0; padding:0; text-align: center;}
+#horizontal-tabs .ui-tabs-nav{padding:0; margin:0px auto;}
+#horizontal-tabs .ui-widget-header{background: none; border:0;font-weight: normal;}
+#horizontal-tabs .ui-widget-header li {
+	background:none; margin:0px;
+	border-radius: 0px;
+	border-bottom-width: 1px;
+	display: inline-block;
+	padding:5px;
+	text-transform: uppercase;
+}
+#horizontal-tabs  .vertical-tabs-container{overflow: hidden;}
+#horizontal-tabs  .vertical-tabs-container .ui-widget-header li{
+	padding:0px;
+}
+#horizontal-tabs .vertical-tabs-container .ui-widget-header li {
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+}
+#horizontal-tabs .vertical-tabs-container .ui-widget-header li:first-child {
+    border-left:0px;
+}
+#horizontal-tabs .vertical-tabs-container .ui-widget-header li:lastchild {
+    border-right:0px;
+}
+#horizontal-tabs .ui-tabs-nav li.ui-tabs-active{padding-bottom: 0; margin-bottom: 0; border-color: #3fae2b}
+#horizontal-tabs p.notice{margin-top:30px;}
+#horizontal-tabs > ul > li a{ display: block; padding:0px; width: 100%;}
+#horizontal-tabs > ul > li a img{width:100%;}
+#horizontal-tabs > ul > li div.category-name{width:100%; float:left;padding:5px;text-transform: uppercase;}
+#horizontal-tabs > ul > li.ui-tabs-active div.category-name{color:#3fae2b;}
+
+#horizontal-tabs > ul > li div.tab-item-wrapper{float:left; width:100%; border: 1px solid #ccc; overflow: hidden;}
+#horizontal-tabs > ul > li:hover div.tab-item-wrapper, #horizontal-tabs > ul > li:focus div.tab-item-wrapper{
+	border:1px solid #3fae2a;
+}
+#horizontal-tabs > ul > li:hover .category-name{
+	color: #3fae2a;
+}
+#horizontal-tabs > ul > li.ui-tabs-active .tab-item-wrapper {border:1px solid #3fae2b;}
+
+.vertical-tabs-container{border:0px; padding:0px;margin-top: 15px;}
+.vertical-tabs .ui-widget-header li{border-color: #fff; background: #d0d1d3 !important;}
+.vertical-tabs .ui-tabs-nav li.ui-tabs-active{background: #3fae2b !important; border-color: #fff !important;}
+.vertical-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor span{color: #fff;}
+
+.vertical-tabs .ui-tabs-nav li:hover{background: #3fae2b !important; border-color: #fff !important;}
+.vertical-tabs .ui-tabs-nav li:hover .ui-tabs-anchor span{color: #fff;}
+
+.vertical-tabs .ui-tabs-nav li .ui-tabs-anchor{display: inline-block;width:100%;}
+.vertical-tabs .ui-tabs-nav li .ui-tabs-anchor span{text-align: center;}
+
+
+
+#bulkorder-grid{border:1px solid #ccc; margin-top:15px;}
+#bulkorder-grid th{background: #4f4f51;color:#fff; font-weight: bold; text-align: center;border: 1px solid #dcdcdc}
+#bulkorder-grid th:first-child{text-align: left;}
+
+#bulkorder-grid td{background: #f3f3f5; text-align: center;}
+#bulkorder-grid td:first-child{text-align: left; min-width:190px;}
+#bulkorder-grid td:last-child{text-align: right;}
+
+#bulkorder-grid th:first-child{font-weight: 700;}
+#bulkorder-grid .qty{padding:2px; text-align: center;}
+#bulkorder-grid .qty-passed{border-color:#3fae2b;}
+#bulkorder-grid .has-error{border-color:red;}
+#horizontal-tabs .step-title{width:100%; display: inline-block; margin-top:10px;}
+.step-title{ padding:0px;}
+#horizontal-tabs .step-title span{float:left;}
+#horizontal-tabs .step-title button{float: right;}
+
+#horizontal-tabs > ul > li.ui-tabs-active .tab-item-wrapper {
+    border: 1px solid #3fae2b;
+    -webkit-box-shadow: 0px 0px 17px -4px rgba(0,0,0,0.84);
+    -moz-box-shadow: 0px 0px 17px -4px rgba(0,0,0,0.84);
+    box-shadow: 0px 0px 17px -4px #313131;
+}
+
+
+#bulkorder-grid .row-subtotal .subtotal-label{text-align: right}
+#bulkorder-grid .data-table .base-Y-label{cursor: pointer;}
+#bulkorder-grid tr:nth-child(n) td .base-Y-label strong:before{
+    content:url(../../../../../../../../skin/frontend/smartwave/wholesale/images/info-icon-wholesale.png);
+    padding-right: 5px;
+    top: 3px;
+    position:relative;
+}
+
+tr.row-subtotal:first-child > td{ box-shadow: 1px -5px 12px -6px rgba(0, 0, 0, 0.36); }

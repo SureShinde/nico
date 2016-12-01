@@ -1,0 +1,39 @@
+<div class="page-title">
+    <h1><?php echo $this->__('My Tickets') ?></h1>
+</div>
+<?php if( $this->getCollection() && $this->count()): ?>
+	<?php echo $this->getToolbarHtml() ?>
+		<table class="data-table" id="my-credits-table">
+            <col width="1" />
+            <col width="1" />
+            <col width="260" />
+            <col width="1" />
+            <col width="1" />
+		    <thead>
+		        <tr>
+		        	<th><?php echo $this->__('Ticket Id') ?></th>
+					<th style="text-align: center;"><?php echo $this->__('Date') ?></th>
+		            <th><?php echo $this->__('Subject') ?></th>
+		            <th><?php echo $this->__('Department') ?></th>
+					<th><?php echo $this->__('Status') ?></th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <?php foreach ($this->getCollection() as $ticket): ?>
+		            <tr style="text-align:left">
+		            	<td><?php echo $ticket->getCodeId();?></td>
+						<td style="text-align: center;"><span class="nobr"><?php echo Mage::helper('helpdesk')->locale_time_format(Mage::getModel('core/date')->timestamp($ticket->getCreatedTime()),Mage_Core_Model_Locale::FORMAT_TYPE_SHORT); //date('F jS, Y', Mage::getModel('core/date')->timestamp($ticket->getCreatedTime())) ?></span></td>
+						<td style="text-align: justify;">
+							<a href="<?php echo $this->getUrl('helpdesk/account/history', array('id'=>$ticket->getTicketId())) ?>" class="link-reorder"><?php echo $ticket->getSubject() ?></a>&nbsp;
+						</td>
+						<td><?php echo $this->getDepartment($ticket->getDepartmentId());?></td>
+		            	<td class="a-center"><em><?php echo $this->getStatus($ticket->getStatus());?></em></td>
+		            </tr>
+		        <?php endforeach; ?>
+		    </tbody>
+		</table>
+		<script type="text/javascript">decorateTable('my-credits-table')</script>
+	<?php //echo $this->getToolbarHtml() ?>
+<?php else: ?>
+    <p><?php echo $this->__('You currently have no ticket') ?></p>
+<?php endif; ?>

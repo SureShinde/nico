@@ -1,0 +1,58 @@
+<?php
+/**
+ Made by Smartwave.
+ */
+?>
+<?php
+    $store = Mage::app()->getStore();
+    $code  = $store->getCode();
+    $footer = Mage::getStoreConfig('porto_settings/footer',$code);
+?>
+<div class="block block-subscribe">
+    <div class="block-title">
+        <strong><span><?php echo $footer['footer_newsletter_title']; ?></span></strong>
+    </div>
+   <!-- <form action="<?php //echo $this->getFormActionUrl() ?>" method="post" id="footer-newsletter-validate-detail" onsubmit="setNewsletterCookie()">
+        <div class="block-content">
+            <p><?php //echo $footer['footer_newsletter']; ?></p>
+            <div class="input-box">
+                <input type="text" name="email" id="newsletter_footer" title="<?php //echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry validate-email" />
+                <button type="submit" title="<?php //echo $this->__('Submit') ?>" class="button"><span><span><?php //echo $this->__('Submit') ?></span></span></button>
+                <div class="clearer"></div>
+            </div>
+        </div>
+    </form>-->
+<!--<script src="//app-sjn.marketo.com/js/forms2/js/forms2.min.js"></script>-->
+<p><?php echo $footer['footer_newsletter']; ?></p>
+<!--<div id="successAndErrorMessages"></div>-->
+<!--<form id="mktoForm_1445"></form>-->
+
+<!--<script>MktoForms2.loadForm("//app-sjn.marketo.com", "956-AAZ-685", 1445);</script>-->
+
+<!--<script>
+MktoForms2.whenReady(function (form) {
+    form.onSuccess(function(values, followUpUrl) {
+        form.getFormElem().hide();
+document.getElementById("successAndErrorMessages").innerHTML="Success! You're now on our list."; 
+        return false;
+    });
+});
+
+</script>-->
+    <script type="text/javascript">
+    //<![CDATA[
+        //var footernewsletterSubscriberFormDetail = new VarienForm('footer-newsletter-validate-detail');
+    //]]>
+    </script>
+</div>
+<div class="social-icons">
+<div class="block-title">
+        <strong><span>Follow Us</span></strong>
+    </div>
+<a href="https://www.facebook.com/halocigs" style="background-position:-60px 0; width:30px; height:30px;" class="icon1-class" title="Facebook" target="_blank">&nbsp;</a>
+<a href="https://twitter.com/HaloCigs" style="background-position:0 0; width:30px; height:30px;" class="icon2-class" title="Twitter" target="_blank">&nbsp;</a>
+<a href="https://plus.google.com/+Halocigs/" style="background-position:-180px 0px; width:30px; height:30px;" class="icon4-class" title="Google+" target="_blank">&nbsp;</a>
+<a target="_blank" title="YouTube" class="icon3-class" style="background-position:-327px -25px; width:30px; height:30px;" href="https://www.youtube.com/user/haloecig">&nbsp;</a>
+<a target="_blank" title="Instagram" class="icon5-class" style="width: 30px; height: 30px; background-position: -145px -85px;" href="https://instagram.com/haloecigs/">&nbsp;</a>
+<a target="_blank" title="Pinterest" class="icon6-class" style="background-position:-56px -25px; width:30px; height:30px;" href="https://www.pinterest.com/halocigs">&nbsp;</a>
+</div>

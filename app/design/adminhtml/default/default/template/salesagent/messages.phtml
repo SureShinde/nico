@@ -1,0 +1,178 @@
+<h1 style='text-align:center; background: #eee; padding:5px;'>Messages</h1>
+
+<!----***************Message Section Starts Here***************------->
+<?php
+//$collection = $this->getMessages();
+$collection = $this->getLastMessages();
+//$totalMsg = $collection->getSize();
+$totalMsg = count($collection);
+$firstCustomer = '';
+$firstMessage = '';
+$cid = Mage::app()->getRequest()->getParam('cid');
+
+//$this->getLastMessages();
+if ($totalMsg > 0) {
+    ?>
+    <div style="width:20%;float:left;padding:5px 10px; box-sizing: border-box;">
+        <h2>Inbox(<?php echo $totalMsg; ?>)</h2>
+        <ul class="list-group" style="max-height: 558px; overflow-y: auto;">
+            <?php
+            $cspanClass = 'customerReplied';
+            $i = 1;
+            foreach ($collection as $message) {
+                $selectedChat = '';
+                $customerId = $message['customer_id'];
+                $customer = $this->getCustomerDetail($customerId);
+                if ($customerId == $cid || $i == 1) {
+                    $selectedChat = 'selected-chat';
+                    $firstCustomer = $customer->getId();
+                }
+                
+                ?>
+                <li class="list-group-item <?php echo $selectedChat; ?>" id="<?php echo $customerId;?>"> 
+                    <?php
+                    if ($message['sent_by'] == 'agent') {
+                        $cspanClass = 'agentReplied';
+                    } else {
+                        $cspanClass = 'customerReplied';
+                    }
+                    if ($message['sent_by']) {
+                        $seenClass = 'glyphicon-arrow-up';
+                        if ($message['seen'] == 1) {
+                            $seenClass = 'glyphicon-saved';
+                        }
+
+
+                        $i++;
+                        ?>  
+                        <a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/customer/edit/id/" . $customerId) ?>">
+                            <span>
+                                <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>profile_image/default/profile.jpg" style="height:30px;width:30px;">
+                            </span> 
+                        </a>
+                        <b><?php echo ucfirst($customer->getFirstname()); ?></b> : 
+                        <span <?php echo $firstMessage; ?> class="topChat <?php echo $cspanClass; ?>" onclick="loadChat('<?php echo $customerId; ?>');" customer-id="<?php echo $customerId; ?>" >
+                            <?php //echo substr($message['message'],0 , 50); ?>
+                            <?php echo Mage::helper('halox_salesagent')->formatMessage($message['message'], 50); ?>
+                        </span>
+
+                    <?php } ?>
+                    <div style="width:100px;float:right;text-align:right;" ><span class="glyphicon <?php echo $seenClass; ?>"></span></div>
+                </li>
+                <?php
+            }
+            ?>
+        </ul>
+    </div>
+    <div id='chatList' style="width:80%; float:left; padding:5px 10px; border-left:1px solid #ececec; box-sizing: border-box;">
+    </div>
+    <?php
+} else {
+    ?>
+    <p style="color:green">No Record Found.</p>
+    <?php
+}
+$agentId = $this->getRequest()->getParam('id');
+$agent = Mage::getModel('halox_salesagent/agent')->load($agentId);
+?>
+<!----***************Message Section Ends Here***************------->
+<!--Add check if agent came to reply the message--->
+<?php
+if (!empty($cid)) {
+    $firstCustomer = $cid;
+}
+?>
+<!-----END of reply check----->
+<script type="text/javascript">
+    var myProfileImage = "<img src='<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>profile_image/<?php echo $agent->getImage(); ?>' style='height:30px;width:30px;'>";
+    var myName = "You";
+    var cid = "<?php echo $cid; ?>";
+    var agentId = "<?php echo $agentId ?>";
+    function loadChat(id) {
+        //$('li').removeClassName('selected-chat');
+        var elm = document.getElementsByTagName('li');
+        var length = elm.length;
+        for (var i = 0; i < length; i++) {
+          elm[i].className = 'list-group-item';
+        }
+        $(id).addClassName('selected-chat');
+        new Ajax.Request('<?php echo $this->getUrl('adminhtml/salesagent_salesagent/loadChat'); ?>?cid=' + id + '&agentId=' + agentId,
+                {
+                    method: 'get',
+                    onSuccess: function (transport) {
+                        var response = transport.responseText || " No Response Found.";
+                        $('chatList').innerHTML = response;
+                        if(cid != ''){
+                        document.getElementById("salesagent_form_salesagent1").click();
+                        }
+                    },
+                    onFailure: function () {
+                        alert('Something went wrong...')
+                    }
+                });
+    }
+
+    function textMsg(id)
+    {
+
+        var msg = $('chatText').getValue();  
+        if(msg == ''){
+         alert("Please Enter Some Text."); 
+         return false;
+        }
+        new Ajax.Request('<?php echo $this->getUrl('adminhtml/salesagent_salesagent/sendMessage'); ?>?cid=' + id + '&agentId=' + agentId,
+                {
+                    method: 'post',
+                    parameters: {message: msg},
+                    onSuccess: function (transport) {
+                        var response = transport.responseText || " No Response Found.";
+                        var res = JSON.parse(response);
+                        if (res.result == '1') {
+                            $('chatText').value = "";
+                            Element.insert('chatListBox', {bottom: '<li class="list-group-item"><span>' + myProfileImage + '</span><b> ' + myName + '</b> : <span style="color:#333;font-size:11px;">' + msg + '</span></a></li>'});
+                            //s$('chatListBox')
+                            gotoBottom('chatListBox');
+                            $('chatText').removeClassName('focus-reply');
+                        } else {
+                            alert('Some Error Occurred.');
+                        }
+                    },
+                    onFailure: function () {
+                        alert('Something went wrong...')
+                    }
+                });
+    }
+    function gotoBottom(id) {
+        var div = document.getElementById(id);
+        div.scrollTop = div.scrollHeight - div.clientHeight;
+    }
+    function sendOnEnter(e, id) {
+        if (e.keyCode == 13) {
+
+            var check = document.getElementById("sendenter").checked;
+            if (check) {
+                textMsg(id);
+            }
+        }
+    }
+    window.onload = function () {
+        loadChat('<?php echo $firstCustomer; ?>');
+    }
+    
+</script>
+<style type="text/css">
+    .topChat{
+        color:#333;font-size:11px;
+        cursor:pointer;
+    }
+    .agentReplied{
+        font-style:italic;
+        color:#999;
+    }
+    .selected-chat{
+        background:#fffada;
+        padding:2px;
+        border:1px solid #ececec;
+    }
+
+</style>

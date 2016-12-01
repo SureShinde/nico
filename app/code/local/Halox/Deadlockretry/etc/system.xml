@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+    <tabs>
+        <halox_settings translate="label" module="halox_deadlockretry">
+            <label>Halox Deadlock Retry Settings</label>
+            <sort_order>0</sort_order>
+        </halox_settings>
+    </tabs>
+    <sections>
+        <deadlock_retry module="halox_deadlockretry" translate="label">
+            <tab>halox_settings</tab>
+            <label>Halox Deadlock Retry Settings</label>
+            <sort_order>1</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <tab>halox_settings</tab>
+            <groups>
+                <enable translate="label">
+                    <label>Halox Deadlock Retry Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <retry translate="label comment">
+                            <label>Enable Deadlock Retry</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Enable Deadlock Retry.</comment>
+                        </retry>
+						<log translate="label comment">
+                            <label>Enable Log </label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Enable/Disable Log for Deadlock Retry.</comment>
+                        </log>
+						<max_retry translate="label comment">
+                            <label>Enter Number Of Times You want to Retry.</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Number of max retry Retry in case of Deadlock.</comment>
+                        </max_retry>
+                    </fields>
+                </enable>
+            </groups>
+        </deadlock_retry>
+    </sections>
+</config>

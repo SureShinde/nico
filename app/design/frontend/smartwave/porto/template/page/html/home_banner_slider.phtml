@@ -1,0 +1,337 @@
+<?php 
+/**
+ * Show banners on Home Page based on current day and time
+ */
+?>
+
+<style type="text/css">
+.owl-wrapper-outer{height:auto !important;}
+.soon-flip-inner{padding-bottom:3px;}
+.soon-flip-face{background-color:#1d1d1d;}
+#my-soon-counter .soon-reflection {opacity:.6;}
+#my-soon-counter {
+/* IE10+ */ 
+background-image: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(255,255,255,0)), color-stop(100, rgba(0,0,0,1)));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);
+
+/* W3C Markup */ 
+background-image: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(0,0,0,0.0) 100%);
+}
+
+#my-soon-counter .soon-reflection {background-color:#040000;background-image:linear-gradient(#040000 25%,rgba(4,0,0,0));}
+#my-soon-counter {background-position:bottom;}
+#my-soon-counter {color:#ffffff;}
+.soon[data-layout*=group][data-layout*=label-above] .soon-group-sub{padding-top:36px;}
+</style>
+
+<?php 
+$mediaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+
+$currentStoreTimezone = new DateTimeZone(Mage::getStoreConfig('general/locale/timezone'));
+$currentStoreDateTime = new DateTime(
+    Mage::getModel('core/date')->date('m/d/Y H:i:s'), 
+    $currentStoreTimezone
+);
+
+?>
+
+<!--SLIDES  USE CSS CLASS hidden TO HIDE A SLIDE-->
+<div class="slider-container">
+    <div id="halo-banner-slider" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel" style="opacity: 1; display: block;" data-interval="8000">
+        <?php 
+        $fromSlideShowTime = new DateTime('11/21/2016 00:01', $currentStoreTimezone);
+        $toSlideShowTime = new DateTime('11/23/2016 12:00', $currentStoreTimezone);
+        ?>
+        <?php if($currentStoreDateTime >= $fromSlideShowTime && $currentStoreDateTime <= $toSlideShowTime):?>
+            <!--BLACK FRIDAY SLIDE-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl . 'wysiwyg/sliders/Black_Friday_Slider-bg.jpg'?>) center center no-repeat;">
+                <div class="slide-content">
+                    <img src="<?php echo $mediaUrl . 'wysiwyg/sliders/Black_Friday_Slider-top.png'?>" alt="">
+                    <div style="height:auto;">
+                        <div class="soon" id="my-soon-counter"
+                             data-due="2016-11-25T00:00"
+                             data-layout="group tight label-uppercase label-above"
+                             data-scale-max="xl"
+                             data-format="d,h,m,s"
+                             data-reflect="true"
+                             data-face="flip shadow-soft" style="max-width:1000px;margin:0 auto;padding:0px;">
+                        </div>
+                    </div>
+                    <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>promotions/black-friday/"> 
+                        <img src="<?php echo $mediaUrl . 'wysiwyg/sliders/Black_Friday_Slider-bottom.png'?>" alt="">
+                    </a>
+                </div>
+            </div> 
+            <!-- BLACK FRIDAY SLIDE END-->
+            <!--ID ME SLIDE POSITION 2-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl.'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_BACK-min.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="https://www.halocigs.com/veterans-day-2016/">
+                        <img alt="2016 VETERANS DAY DISCOUNT REGISTER" src="<?php echo $mediaUrl . 'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_TOP_V2.png'?>" />
+                    </a>
+                </div>
+            </div> 
+            <!--ID ME SLIDE POSITION 2-->
+        <?php endif?> 
+        <?php 
+        $fromSlideShowTime = new DateTime('11/24/2016 00:01', $currentStoreTimezone);
+        $toSlideShowTime = new DateTime('11/25/2016 12:00', $currentStoreTimezone);
+        ?>
+        <?php if($currentStoreDateTime >= $fromSlideShowTime && $currentStoreDateTime <= $toSlideShowTime):?>
+            <!--BLACK FRIDAY SLIDE-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl . 'wysiwyg/sliders/Black_Friday_Slider-bg.jpg'?>) center center no-repeat;">
+                <div class="slide-content">
+                    <img src="<?php echo $mediaUrl . 'wysiwyg/sliders/Black_Friday_Slider-top.png'?>" alt="">
+                    <div style="height:auto;">
+                        <div class="soon" id="my-soon-counter"
+                            data-due="2016-11-25T00:00"
+                            data-layout="group tight label-uppercase label-above"
+                            data-scale-max="xl"
+                            data-format="d,h,m,s"
+                            data-reflect="true"
+                            data-face="flip shadow-soft" style="max-width:1000px;margin:0 auto;padding:0px;">
+                        </div>
+                    </div>
+
+                    <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>triton/"> 
+                        <img src="<?php echo $mediaUrl . 'wysiwyg/sliders/Black_Friday_Slider-bottom.png'?>" alt="">
+                    </a>
+                </div>
+            </div> 
+            <!-- BLACK FRIDAY SLIDE END-->
+            <!--THANKSGIVING SLIDE POSITION 2-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl.'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_BACK-min.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="https://www.halocigs.com/veterans-day-2016/">
+                        <img alt="2016 VETERANS DAY DISCOUNT REGISTER" src="<?php echo $mediaUrl . 'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_TOP_V2.png'?>" />
+                    </a>
+                </div>
+            </div> 
+            <!--THANKSGIVING SLIDE POSITION 2-->
+            <!--ID ME SLIDE POSITION 3-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl.'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_BACK-min.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="https://www.halocigs.com/veterans-day-2016/">
+                        <img alt="2016 VETERANS DAY DISCOUNT REGISTER" src="<?php echo $mediaUrl . 'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_TOP_V2.png'?>" />
+                    </a>
+                </div>
+            </div> 
+            <!--ID ME SLIDE POSITION 3-->
+        <?php endif?> 
+        <?php 
+        $fromSlideShowTime = new DateTime('11/25/2016 00:01', $currentStoreTimezone);
+        $toSlideShowTime = new DateTime('11/27/2016 12:00', $currentStoreTimezone);
+        ?>
+        <?php if($currentStoreDateTime >= $fromSlideShowTime && $currentStoreDateTime <= $toSlideShowTime):?>
+            <!--BLACK FRIDAY ALTERNATE SLIDE-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl.'wysiwyg/sliders/HA_PR_000046_SL_BlackFridayP2_BACK_1700x500.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="https://www.halocigs.com/promotions/black-friday/">
+                        <img alt="2016 BLACK FRIDAY" src="<?php echo $mediaUrl . 'wysiwyg/sliders/HA_PR_000046_SL_BlackFridayP2_TOP_1700x500.png'?>" />
+                    </a>
+                </div>
+            </div>  
+            <!-- BLACK FRIDAY ALTERNATE SLIDE END-->
+            <!--7ML SAMPLE SLIDE POSITION 2-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl.'wysiwyg/sliders/xxxxxxxx.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="https://www.halocigs.com">
+                        <img alt="2016 THANKSGIVING DAY" src="<?php echo $mediaUrl . 'wysiwyg/sliders/xxxxxxxx.png'?>" />
+                    </a>
+                </div>
+            </div> 
+            <!--7ML SAMPLE SLIDE POSITION 2-->
+            <!--ID ME SLIDE POSITION 3-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl.'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_BACK-min.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="https://www.halocigs.com/veterans-day-2016/">
+                        <img alt="2016 VETERANS DAY DISCOUNT REGISTER" src="<?php echo $mediaUrl . 'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_TOP_V2.png'?>" />
+                    </a>
+                </div>
+            </div> 
+            <!--ID ME SLIDE POSITION 3-->
+        <?php endif?> 
+        
+        <?php 
+        $fromSlideShowTime = new DateTime('11/28/2016 00:01', $currentStoreTimezone);
+        $toSlideShowTime = new DateTime('11/29/2016 12:00', $currentStoreTimezone);
+        ?>
+        <?php if($currentStoreDateTime >= $fromSlideShowTime && $currentStoreDateTime <= $toSlideShowTime):?>
+            <!--CYBER MONDAY SLIDE POSITION 2-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl.'wysiwyg/sliders/HE_PR_000046_SL_CyberMonday_1750x500.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="https://www.halocigs.com">
+                        <img alt="2016 THANKSGIVING DAY" src="<?php echo $mediaUrl . 'wysiwyg/sliders/HE_PR_000046_SL_CyberMonday_1000x500.png'?>" />
+                    </a>
+                </div>
+            </div> 
+            <!--CYBER MONDAY SLIDE POSITION 2-->
+            <!--ID ME SLIDE POSITION 3-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl.'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_BACK-min.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="https://www.halocigs.com/veterans-day-2016/">
+                        <img alt="2016 VETERANS DAY DISCOUNT REGISTER" src="<?php echo $mediaUrl . 'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_TOP_V2.png'?>" />
+                    </a>
+                </div>
+            </div> 
+            <!--ID ME SLIDE POSITION 3-->
+        <?php endif?> 
+
+        <?php 
+        $fromSlideShowTime = new DateTime('11/29/2016 00:01', $currentStoreTimezone);
+        $toSlideShowTime = new DateTime('12/2/2016 12:00', $currentStoreTimezone);
+        ?>
+        <?php if($currentStoreDateTime >= $fromSlideShowTime && $currentStoreDateTime <= $toSlideShowTime):?>
+            <!-- HALO FF SLIDE START-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl . 'wysiwyg/sliders/000037-slider-1700x500-halo.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>prime15-eliquid/">
+                    <img alt="2016 New Halo E-Liquids" src="<?php echo $mediaUrl . 'wysiwyg/sliders/000037-slider-1000x500-halo.png'?>" /> </a>
+                </div>
+            </div>
+            <!-- HALO FF SLIDE END--> 
+            <!-- EVO FF SLIDE START-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl . 'wysiwyg/sliders/EV_FF_WS_INSOMNIA_BK_slider.png'?>) center;">
+                <div class="slide-content">
+                    <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>insomnia-e-liquid/">
+                    <img alt="Flavor Friday - EVO's Insomnia E-liquid" src="<?php echo $mediaUrl . 'wysiwyg/sliders/EV_FF_WS_INSOMNIA_TOP_slider.png'?>" /> </a>
+                </div>
+            </div> 
+            <!-- EVO FF SLIDE END--> 
+            <!-- JAG 6SLIDE START-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl . 'wysiwyg/sliders/JAG6_Promo_hp_slider_BACK.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>jag6-tank/">
+                    <img alt="2016 New Halo E-Liquids" src="<?php echo $mediaUrl . 'wysiwyg/sliders/JAG6_Promo_hp_slider_TOP.png'?>" /> </a>
+                </div>
+            </div>
+            <!-- JAG 6 SLIDE END--> 
+            <!--ID ME SLIDE POSITION 3-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl.'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_BACK-min.jpg'?>) center;">
+                <div class="slide-content">
+                    <a href="https://www.halocigs.com/veterans-day-2016/">
+                        <img alt="2016 VETERANS DAY DISCOUNT REGISTER" src="<?php echo $mediaUrl . 'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_TOP_V2.png'?>" />
+                    </a>
+                </div>
+            </div> 
+            <!--ID ME SLIDE POSITION 3-->
+            <!-- NEW DEVICES SLIDE START-->
+            <div class="item halo-slide" style="background: url(<?php echo $mediaUrl . 'wysiwyg/TritonII_Back_in_Stock_BK.jpg'?>) center no-repeat;">
+                <div class="slide-content">
+                    <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>devices/"> <img alt="2016 New Halo E-Liquids" src="<?php echo $mediaUrl . 'wysiwyg/new-hardware-slider-images-1000x500-v2_1.png'?>" /> </a></div>
+            </div> 
+            <!-- NEW DEVICES SLIDE END-->
+            <!-- EVO  SLIDE START-->
+           <div class="item halo-slide" style="background: url(<?php echo $mediaUrl . 'wysiwyg/sliders/eVo_flvr_frdy_CRYPTIC_hp_slider_Under.jpg'?>)">
+                <div class="slide-content">
+                    <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>e-liquid/premium-flavors/?eliquid_brand=1159&eliquid_ratio_filter=1152">
+                    <img alt="2016 New Halo E-Liquids" src="<?php echo $mediaUrl . 'wysiwyg/sliders/Cryptic_Evo_Family_Slider_Top_1000.png'?>" /> </a>
+                </div>
+            </div>
+            <!-- EVO SLIDE END--> 
+        <?php endif?> 
+
+
+
+        <!-- HALO FF SLIDE START-->
+        <!-- <div class="item halo-slide" style="background: url(<?php //echo $mediaUrl . 'wysiwyg/sliders/000037-slider-1700x500-halo.jpg'?>) center;">
+            <div class="slide-content">
+                <a href="<?php //echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>prime15-eliquid/">
+                <img alt="2016 New Halo E-Liquids" src="<?php //echo $mediaUrl . 'wysiwyg/sliders/000037-slider-1000x500-halo.png'?>" /> </a>
+            </div>
+        </div>  -->
+        <!-- HALO FF SLIDE END--> 
+        <!-- EVO FF SLIDE START-->
+        <!-- <div class="item halo-slide" style="background: url(<?php //echo $mediaUrl . 'wysiwyg/sliders/EV_FF_WS_INSOMNIA_BK_slider.png'?>) center;">
+            <div class="slide-content">
+                <a href="<?php //echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>insomnia-e-liquid/">
+                <img alt="Flavor Friday - EVO's Insomnia E-liquid" src="<?php //echo $mediaUrl . 'wysiwyg/sliders/EV_FF_WS_INSOMNIA_TOP_slider.png'?>" /> </a>
+            </div>
+        </div> -->
+        <!-- EVO FF SLIDE END--> 
+        <!-- JAG 6SLIDE START-->
+        <!-- <div class="item halo-slide" style="background: url(<?php //echo $mediaUrl . 'wysiwyg/sliders/JAG6_Promo_hp_slider_BACK.jpg'?>) center;">
+            <div class="slide-content">
+                <a href="<?php //echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>jag6-tank/">
+                <img alt="2016 New Halo E-Liquids" src="<?php //echo $mediaUrl . 'wysiwyg/sliders/JAG6_Promo_hp_slider_TOP.png'?>" /> </a>
+            </div>
+        </div> -->
+        <!-- JAG 6 SLIDE END--> 
+        <!-- VETERANS DAY SLIDE START-->
+        <!-- <div class="item halo-slide" style="background: url(<?php //echo $mediaUrl . 'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_BACK-min.jpg'?>) center;">
+            <div class="slide-content">
+               <a href="https://www.halocigs.com/veterans-day-2016/">
+               <img alt="2016 VETERANS DAY DISCOUNT REGISTER" src="<?php //echo $mediaUrl . 'wysiwyg/sliders/2016_Veterans_Day_Promo_hp_slider_TOP_V2.png'?>" />
+                </a>
+            </div>
+        </div> -->
+        <!-- VETERANS DAY SLIDE END--> 
+        <!-- NEW DEVICES SLIDE START-->
+        <!-- <div class="item halo-slide" style="background: url(<?php //echo $mediaUrl . 'wysiwyg/TritonII_Back_in_Stock_BK.jpg'?>) center no-repeat;">
+            <div class="slide-content">
+                <a href="<?php //echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>devices/"> <img alt="2016 New Halo E-Liquids" src="<?php //echo $mediaUrl . 'wysiwyg/new-hardware-slider-images-1000x500-v2_1.png'?>" /> </a></div>
+        </div> -->
+        <!-- NEW DEVICES SLIDE END-->
+        <!-- EVO  SLIDE START-->
+        <!-- <div class="item halo-slide" style="background: url(<?php //echo $mediaUrl . 'wysiwyg/sliders/eVo_flvr_frdy_CRYPTIC_hp_slider_Under.jpg'?>)">
+            <div class="slide-content">
+                <a href="<?php //echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>e-liquid/premium-flavors/?eliquid_brand=1159&eliquid_ratio_filter=1152">
+                <img alt="2016 New Halo E-Liquids" src="<?php //echo $mediaUrl . 'wysiwyg/sliders/Cryptic_Evo_Family_Slider_Top_1000.png'?>" /> </a>
+            </div>
+        </div> -->
+        <!-- EVO SLIDE END--> 
+        <!--TRITON II STOCK SLIDE START-->
+        <!-- <div class="item halo-slide" style="background: url(<?php //echo $mediaUrl . 'wysiwyg/TritonII_Back_in_Stock_BK.jpg'?>) center no-repeat;">
+            <div class="slide-content">
+                <a href="<?php //echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>triton-ii/"> <img alt="eVo 60% OFF" src="<?php //echo $mediaUrl . 'wysiwyg/TritonII_Back_in_Stock_slider.png'?>" /> </a>
+            </div>
+        </div> -->
+        <!-- TRITON II STOCK SLIDE END-->
+        <!-- EVO SLIDE START-->
+        <!-- <div class="item halo-slide-two" style="background: url(<?php //echo $mediaUrl . 'wysiwyg/sliders/evo_new_flavor_website_slider_bg.jpg'?>) center no-repeat;">
+            <div class="slide-content">
+                <a href="<?php //echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>e-liquid/premium-flavors/?aid=577290&eliquid_brand=1159&oid=416911&source=sas"> 
+                <img alt="2016 New Hardware" src="<?php //echo $mediaUrl . 'wysiwyg/sliders/evo_new_flavor_website_slider_v02_1.png'?>" /> </a>
+            </div>
+        </div> -->
+        <!-- EVO SLIDE END-->
+
+    </div>
+    <div class="hide owl-controls clickable">&nbsp;</div>
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+    jQuery(function($){
+        $("#halo-banner-slider").owlCarousel({
+            interval: 8000,
+            autoPlay:true,
+            lazyLoad:true,
+            stopOnHover: true,
+            pagination: false, 
+            autoPlay: true,
+            autoPlay : 8000,
+            navigation: true,
+            navigationText:["<i class='icon-chevron-left'></i>","<i class='icon-chevron-right'></i>"],
+            slideSpeed : 1500,
+            autoHeight: true,
+            paginationSpeed : 1000,
+            items : 1,
+            singleItem:true,
+            transitionStyle : "fade"
+        });
+    });
+// ]]>
+</script>
+<!--FEATURED SLIDER BLOCK END-->

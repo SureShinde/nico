@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<config>
+    <acl>
+        <resources>
+              <all>
+                <title>Allow Everything</title>
+              </all>
+              <admin>
+                <children>
+                    <halox_groupdisplay translate="title" module="halox_groupdisplay">
+                      <title>Attribute Group Display Module</title>
+                      <sort_order>1000</sort_order>
+                        <children>
+                            <groupdisplay_settings translate="title">
+                                <title>Attribute Group Display Settings</title>
+                                <sort_order>0</sort_order>
+                            </groupdisplay_settings>
+                        </children>
+                    </halox_groupdisplay>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <groupdisplay>
+                                        <title>Halox Settings</title>
+                                    </groupdisplay>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+              </admin>
+        </resources>
+    </acl>
+</config>

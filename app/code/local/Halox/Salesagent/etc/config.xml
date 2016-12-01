@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Halox_Salesagent extension
+ * 
+ * @category       Halox
+ * @package        Halox_Salesagent
+ * @copyright      Copyright (c) 2016
+ */
+-->
+<config>
+    <modules>
+        <Halox_Salesagent>
+            <version>0.1.2</version>
+        </Halox_Salesagent>
+    </modules>
+    <global>    
+        
+        <resources>
+            <halox_salesagent_setup>
+                <setup>
+                    <module>Halox_Salesagent</module>
+                    <class>Halox_Salesagent_Model_Resource_Setup</class>
+                </setup>
+            </halox_salesagent_setup>            
+        </resources>
+        <blocks>
+            <halox_salesagent>
+                <class>Halox_Salesagent_Block</class>
+            </halox_salesagent>	
+            <adminhtml>
+                <rewrite>
+                    <customer_grid>Halox_Salesagent_Block_Adminhtml_Customer_Grid</customer_grid>
+                </rewrite>
+            </adminhtml>			
+        </blocks>
+			
+        <helpers>
+            <halox_salesagent>
+                <class>Halox_Salesagent_Helper</class>
+            </halox_salesagent>
+        </helpers> 
+        <models>
+            <halox_salesagent>
+                <class>Halox_Salesagent_Model</class>
+                <resourceModel>halox_salesagent_resource</resourceModel>
+            </halox_salesagent>
+            <halox_salesagent_resource>
+                <class>Halox_Salesagent_Model_Resource</class>
+                <entities>
+                    <agent>
+                        <table>halox_sales_agents</table>
+                    </agent>  
+                    <message>
+                        <table>halox_agents_message</table>
+                    </message>  					
+                </entities>
+            </halox_salesagent_resource>  
+			<sales>
+                <rewrite>
+                    <order_invoice>Halox_Salesagent_Model_Sales_Invoice</order_invoice>
+                    <order_creditmemo>Halox_Salesagent_Model_Sales_Creditmemo</order_creditmemo>
+                </rewrite>
+            </sales> 
+        </models>
+        <template>
+    		<email>
+    			<agent_contact module="halox_salesagent">
+    				<label>SalesAgent Custom Email Template - Agent</label>
+    				<file>agent_contact.html</file>
+    				<type>html</type>
+    			</agent_contact>
+                <agent_reply module="halox_salesagent">
+                    <label>SalesAgent Custom Email Template - Customer</label>
+                    <file>agent_reply.html</file>
+                    <type>html</type>
+                </agent_reply>
+				<notify_agent module="halox_salesagent">
+                    <label>Notify Salesrep on Wholesale Customer Login</label>
+                    <file>notify_agent.html</file>
+                    <type>html</type>
+                </notify_agent>
+    		</email>
+    	</template>
+		<events>
+            <admin_session_user_login_success>
+                <observers>
+                    <Halox_Salesagent_Model_Observer>
+                        <class>Halox_Salesagent_Model_Observer</class>
+                        <method>redirectAdminToCustomPage</method>
+                        <type>singleton</type>
+                    </Halox_Salesagent_Model_Observer>
+                </observers>
+            </admin_session_user_login_success>
+            <customer_login>
+                        <observers>
+                          <Halox_Salesagent_Model_Observer>
+                            <class>Halox_Salesagent_Model_Observer</class>
+                            <method>redirectCustomerToCustomPage</method>
+                            <type>singleton</type>
+                          </Halox_Salesagent_Model_Observer>
+                        </observers>
+            </customer_login>
+        </events>
+    </global>
+    <adminhtml>
+       <layout>
+            <updates>
+                <halox_salesagent>
+                    <file>halox_salesagent.xml</file>
+                </halox_salesagent>
+            </updates>
+        </layout>
+		 <menu>
+            <customer> 
+                <children>                        
+                    <halox_salesagent>
+                        <title>Sales Agent</title>
+                        <sort_order>5001</sort_order>
+                        <action>adminhtml/salesagent_salesagent</action>
+                    </halox_salesagent>
+                </children>
+            </customer>
+         </menu>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Halox_Salesagent before="Mage_Adminhtml">Halox_Salesagent_Adminhtml</Halox_Salesagent>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+	<default>
+        <salesagent>
+            <role_permissions>
+                <block_list>Wholesale Sales Rep,Wholesale Sales Representative</block_list>
+				<block_action>Add,Edit,Delete,Reset,Back,Massaction</block_action>
+            </role_permissions>
+        </salesagent>
+    </default>
+	<frontend>       
+         <layout>
+            <updates>
+                <halox_salesagent>
+                    <file>salesagent.xml</file>
+                </halox_salesagent>
+            </updates>
+        </layout>
+		<routers>
+			<salesagent>
+				<use>standard</use>
+				<args>
+					<module>Halox_Salesagent</module>
+					<frontName>salesagent</frontName>
+				</args>
+			</salesagent>
+        </routers>
+    </frontend>
+    
+</config>

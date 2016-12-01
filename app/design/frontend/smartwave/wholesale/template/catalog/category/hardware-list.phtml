@@ -1,0 +1,51 @@
+<?php 
+/**
+ * listing for child categories hardware landing page like
+ */
+?>
+<?php 
+$items = $this->getChildItems();
+$_helper = $this->helper('catalog/output');
+?>
+<?php if($items->count() > 0):?>
+<div class="category-products container">
+	<ul class="products-list">
+	<?php foreach($items as $item):?>
+		
+		<li class="item">
+			<div class="item-area">
+				<div class="product-image-area">
+					<a href="<?php echo $item->getUrl()?>" title="<?php echo $item->getName()?>" class="product-image">
+						<?php 
+						$_imgHtml   = '';
+					    if ($_imgUrl = $this->getThumbnailImageUrl($item)) {
+					        $_imgHtml = '<img src="'.$_imgUrl.'" alt="'.$this->escapeHtml($item->getName()).'" title="'.$this->escapeHtml($item->getName()).'" />';
+					        $_imgHtml = $_helper->categoryAttribute($item, $_imgHtml, 'thumbnail');
+						}
+						?>
+						<?php echo $_imgHtml?>
+					</a>
+				</div>	
+				<div class="details-area">
+					<h2 class="product-name">
+						<a href="<?php echo $item->getUrl()?>" title="<?php echo $_helper->categoryAttribute($item, $item->getName(), 'name') ?>">
+							<?php echo $_helper->categoryAttribute($item, $item->getName(), 'name') ?>
+						</a>
+					</h2>
+					<?php if($metaTitle = $item->getMetaTitle()):?>
+						<div class="subtitle"><?php echo $_helper->categoryAttribute($item, $metaTitle, 'meta_title')?></div>
+					<?php endif?>	
+					<div class="short-desc"><?php echo $_helper->categoryAttribute($item, $item->getDescription(), 'description')?></div>
+					<div class="actions">
+						<a class="addtocart" href="<?php echo $item->getUrl()?>"><span><?php echo $this->__('Learn More')?></span></a>
+					</div>
+				</div>
+			</div>
+		</li>	
+	
+	<?php endforeach;?>	
+	</ul>
+</div>
+<?php else:?>
+	<p class="note"><?php echo $this->__('Child categories are not available.')?></p>
+<?php endif?>	

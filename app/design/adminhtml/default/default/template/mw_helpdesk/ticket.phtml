@@ -1,0 +1,64 @@
+<?php
+/**
+ * @see MW_Helpdesk_Block_Adminhtml_Ticket
+ */
+ 
+?>
+
+<?php //if ($this->canShow()): ?>
+<?php echo $this->getChildHtml('message');?>
+<?php //endif; ?>
+
+<div class="content-header">
+<table cellspacing="0">
+    <tr>
+        <td style="width:50%;"><h3 class="icon-head head-customer"><?php echo Mage::helper('helpdesk')->__('Help Desk - Manage Tickets') ?></h3></td>
+        <td class="a-right">
+        	<button class="scalable add" type="button" id="refesh"><span>Refesh</span></button>		
+			<?php echo $this->getButtonsHtml() ?>
+		</td>
+    </tr>
+</table>
+</div>
+<div>
+    <?php echo $this->getGridHtml() ?>
+</div>
+<?php /*
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <div style="float: right;"><?php echo $this->getAddButtonHtml() ?></div>
+        <h4 class="fieldset-legend"><?php echo $this->__('Notify Ticket') ?></h4>
+    </div>
+    <?php echo $this->getChildHtml('notice') ?>
+</div>
+<script type="text/javascript">
+var noticeGridElement = $('<?php echo $this->getChild('notice')->getId() ?>');
+noticeGridElement.hide();
+$('notice_grid_button').observe('click', function (event) {
+    var element = event.element();
+    noticeGridElement.visible() ? noticeGridElement.hide() : noticeGridElement.show();
+});
+</script>
+*/ ?>
+<script type="text/javascript">
+    $('refesh').observe('click', function(){
+        var loadUrl 	= '<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/hdadmin_gateway/refesh');?>';
+        location.assign(loadUrl);
+    });
+//$j_mw(document).ready(function() {
+//	$j_mw('#refesh').click(function() { 
+//  			var loadUrl 	= '<?php //echo Mage::helper('adminhtml')->getUrl('helpdesk/gateway/refesh');?>';
+//			var nothing 	= ''; 
+//			
+//			$j_mw.get(loadUrl,
+//  					{nothing: nothing},
+//  					function(responseText){
+//  	  					location.reload();
+//  					},
+//  					"html"
+//  			);
+//	});
+//});
+
+
+</script>

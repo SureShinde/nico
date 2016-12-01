@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Halo_CustomGrid>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Halo_CustomGrid>
+    </modules>
+</config>

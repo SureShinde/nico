@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<config>
+    <acl>
+        <resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+			<admin>
+				<children>
+				    <system>
+				        <children>
+				            <config>
+				                <children>
+				                    <halox_cartitemnames translate="title" module="halox_cartitemnames">
+				                        <title>Halox Override Cart Item Names</title>
+				                        <sort_order>72</sort_order>
+				                    </halox_cartitemnames>
+				                </children>
+				            </config>
+				        </children>
+				    </system>
+				</children>
+			</admin>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,24 @@
+<?php
+/**
+ * GoogleTagManager plugin for Magento
+ *
+ * @package     Yireo_GoogleTagManager
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright (c) 2016 Yireo (https://www.yireo.com/)
+ * @license     Open Software License
+ */
+
+if($this->isEnabled()) {
+    $customer = $this->getCustomer();
+    $customerGroup = $this->getCustomerGroup();
+
+    if (!empty($customer) && $customer->getId() > 0) {
+        $this->addAttribute('customerLoggedIn', 1);
+        $this->addAttribute('customerId', $customer->getId());
+    } else {
+        $this->addAttribute('customerLoggedIn', 0);
+        $this->addAttribute('customerId', 0);
+    }
+    $this->addAttribute('customerGroupId', $customerGroup->getId());
+    $this->addAttribute('customerGroupCode', strtoupper($customerGroup->getCustomerGroupCode()));
+}

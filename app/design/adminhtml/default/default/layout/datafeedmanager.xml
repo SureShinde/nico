@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    
+     
+    
+    <adminhtml_datafeedmanager_datafeedmanager_index>
+        <reference name="content">
+            <block type="datafeedmanager/adminhtml_datafeedmanager" name="datafeedmanager" />
+        </reference>
+       
+    		
+    </adminhtml_datafeedmanager_datafeedmanager_index>
+    <adminhtml_datafeedmanager_datafeedmanager_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>datafeedmanager/datafeedmanager.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>datafeedmanager/datafeedmanager.css</name>
+            </action>
+            
+             <action method="addItem">
+                <type>skin_css</type>
+                <name>CodeMirror2/lib/codemirror.css</name>
+            </action>
+              <action method="addItem">
+                <type>skin_css</type>
+                <name>CodeMirror2/theme/default.css</name>
+            </action>
+             <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/lib/codemirror.js</name>
+            </action>
+             <action method="addItem">
+                <type>skin_js</type>
+                <name>CodeMirror2/mode/xml/xml.js</name>
+            </action>
+        </reference>
+    </adminhtml_datafeedmanager_datafeedmanager_edit>
+</layout>

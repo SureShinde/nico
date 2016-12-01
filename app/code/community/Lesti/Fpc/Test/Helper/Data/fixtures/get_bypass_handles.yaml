@@ -1,0 +1,6 @@
+config:
+    default/system/fpc/bypass_handles: >
+     some_handle,
+     logged_in, CATEGORY_25
+      , some_handle
+

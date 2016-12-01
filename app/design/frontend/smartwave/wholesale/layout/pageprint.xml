@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <pageprint_index_index>
+        <update handle="checkout_cart_index"/>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/printpage.css</name>
+            </action>
+        </reference>
+        <reference name="checkout.cart">
+            <action method="setCartTemplate"><value>pageprint/page/cartprint.phtml</value></action>
+            <action method="chooseTemplate"/>
+        </reference>
+        <remove name="header"/>
+        <remove name="footer"/>
+    </pageprint_index_index>   
+</layout> 
